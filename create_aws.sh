@@ -1,5 +1,9 @@
 #!/bin/bash
 
+### Cloud Formation using the free tier - quick setup to tear down and test out configs ###
+### Caution: version 1.0 - no real error checking - works well starting a blank VPC
+### Modify to taste
+
 set -ue
 
 AZ1=us-west-2a
