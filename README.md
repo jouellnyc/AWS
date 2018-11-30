@@ -1,5 +1,9 @@
 # Create AWS VPC- AWS quick setup script 
-Create a non-default VPC, 2 Subnets, Routes, Internet Gateway, tie them all togehther, then expose 2 EC2 instances publicly on the internet to only your IP address to save the time in manually provisioning and keep costs lower during testing.
+- Create a non-default VPC with 2 Subnets, 2 Routes, Routing Table and Internet Gateway
+- Tie them all togehther
+- Expose 2 EC2 instances on the internet to only your IP address on port 22 and 80
+- Install Apache and set it to start using user-data
+- Save the time in manually provisioning and keep costs lower during testing.
 
 ### Prerequisites
 [Create an AWS account](https://aws.amazon.com)
