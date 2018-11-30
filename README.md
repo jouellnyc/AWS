@@ -16,6 +16,11 @@ pip install awscli --upgrade --user
 git clone https://github.com/jouellnyc/AWS
 ```
 
+### Usage
+Edit create_aws.sh to suit your needs (Availability Zones and CIDR blocks)
+chmod +x create_aws.sh 
+./create_aws.sh
+
 ## Authors
 * **John Ouellette** - *Initial work* - [jouellnyc](https://github.com/jouellnyc)
 
@@ -24,4 +29,3 @@ This project is licensed under the MIT License
 
 ## Acknowledgments
 *Thanks AWS!
-
