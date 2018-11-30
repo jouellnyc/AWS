@@ -10,6 +10,10 @@ Create: a non-default VPC, 2 Subnets, Routes, Internet Gateway, tie them all tog
 ```
 pip install awscli --upgrade --user
 ```
+[Config aws cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
+```
+aws configure (set your KEYS/ETC)
+```
 
 ### Installing
 ```
