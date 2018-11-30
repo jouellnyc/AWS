@@ -28,6 +28,9 @@ chmod +x create_aws.sh
 ./create_aws.sh 
 ```
 
+### Example 
+[example](example.txt)
+
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
 
