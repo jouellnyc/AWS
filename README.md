@@ -1,4 +1,4 @@
-# Create_AWS - 'Cloud Formation' - AWS quick setup script 
+# Create AWS VPC- 'Cloud Formation' - AWS quick setup script 
 Create: a non-default VPC, 2 Subnets, Routes, Internet Gateway, tie them all togehther, then expose 2 EC2 instances publicly on the internet  to save the time in manually provisioning.
 
 ### Prerequisites
