@@ -31,4 +31,4 @@ chmod +x create_aws.sh
 This project is licensed under the MIT License
 
 ## Acknowledgments
-*Thanks AWS!
+*Thanks AWS!*
