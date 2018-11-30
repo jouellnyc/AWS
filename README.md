@@ -1,4 +1,4 @@
-# Create AWS VPC- AWS quick setup script 
+# Create AWS VPC and Deploy Apache Instances 
 - Create a non-default VPC with 2 Subnets, 2 Routes, Routing Table and Internet Gateway
 - Tie them all togehther
 - Install Apache and set it to start using user-data
