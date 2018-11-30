@@ -37,6 +37,7 @@ chmod +x create_aws.sh
 
 ### Example 
 [Example output](example.txt)
+[Example verbose output](example_verbose.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
