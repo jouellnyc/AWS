@@ -18,7 +18,9 @@ git clone https://github.com/jouellnyc/AWS
 
 ### Usage
 Edit create_aws.sh to suit your needs (Availability Zones and CIDR blocks)
+
 chmod +x create_aws.sh 
+
 ./create_aws.sh
 
 ## Authors
