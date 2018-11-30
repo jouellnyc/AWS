@@ -1,8 +1,15 @@
 #!/bin/bash
 
-### Cloud Formation using the free tier - quick setup to tear down and test out configs ###
+### What: Create a non-default VPC, 2 Subnets, Routes, Internet Gateway
+### and tie it all togehther, then expose 2 EC2 instances publicly on the internet
+### to save the time in manually provisioning.
+### I.E. 'Cloud Formation' AWS quick setup script to test out configs
+
 ### Caution: version 1.0 - no real error checking - works well starting a blank VPC
-### Modify to taste
+### This is more along the lines of 'vagrant up' to setup a dev staging area.
+
+### TBD: productionalize, adding error checking, maybe use Python - or leave it alone
+### TBD: Add some of the user-data below for apache and then auto create an ELB.
 
 set -ue
 
@@ -22,6 +29,7 @@ aws ec2 create-subnet --vpc-id $VPCID --cidr-block $SNCIDR1 --availability-zone 
 aws ec2 create-subnet --vpc-id $VPCID --cidr-block $SNCIDR2 --availability-zone  $AZ1
 
 sleep 2
+
 SUBNET1=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR1" --query 'Subnets[*].{ID:SubnetId}' --output text)
 SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR2" --query 'Subnets[*].{ID:SubnetId}' --output text)
 aws ec2 create-tags --resources $SUBNET1  --tags Key=Name,Value=subnet-"${AZ1}"
