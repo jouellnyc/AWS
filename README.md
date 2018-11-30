@@ -25,7 +25,7 @@ chmod +x create_aws.sh
 ```
 
 ## Authors
-[jouellnyc@gmail.com](https://github.com/jouellnyc)
+[https://github.com/jouellnyc](jouellnyc@gmail.com)
 
 ## License
 This project is licensed under the MIT License
