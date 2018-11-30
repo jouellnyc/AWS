@@ -1,3 +1,5 @@
+#Running Example of a Successful Run
+
 bash -x create_aws_vpc.sh 
 
 + set -ue
