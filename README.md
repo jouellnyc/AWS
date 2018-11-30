@@ -6,7 +6,7 @@ Create: a non-default VPC, 2 Subnets, Routes, Internet Gateway, tie them all tog
 
 [Create an IAM user and setup Access Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_cliwpsapi)
 
-[Install AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+[Install AWS cli:](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
 ```
 pip install awscli --upgrade --user
 ```
