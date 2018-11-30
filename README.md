@@ -34,11 +34,16 @@ Edit create_aws.sh to suit your needs (Availability Zones and CIDR blocks)
 ```
 chmod +x create_aws.sh 
 ./create_aws.sh 
+<snip>
+== Wait 2 mintutes and then check: ==
+http://52.42.177.159/
+http://34.211.156.125/
+
 ```
 
 ### Example 
-- [Example output](example.txt)
-- [Example verbose output](example_verbose.txt)
+- [Example full output](example.txt)
+- [Example full verbose output](example_verbose.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
