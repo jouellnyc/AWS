@@ -33,7 +33,7 @@ Edit create_aws.sh to suit your needs (Availability Zones and CIDR blocks)
  <br />
 ```
 chmod +x create_aws.sh 
-./create_aws.sh 
+./create_aws_vpc.sh 
 <snip>
 == Wait 2 mintutes and then check: ==
 http://52.42.177.159/
