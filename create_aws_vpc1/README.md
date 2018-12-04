@@ -1,5 +1,5 @@
 ## Create AWS VPC and Deploy Apache Instances  - Scenario 1
-- This architechure is similar to [Amazon Scenario 1](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)
+- This architecture is similar to [Amazon Scenario 1](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)
 - Create a non-default VPC with 2 public Subnets, 2 Routes, Routing Table and Internet Gateway
 - Launch 2 EC2 instances with Apache user-data (index.html serves $(hostname))
 - Apply Security Groups to expose EC2 instances to the internet to only your IP address on port 22 and 80
