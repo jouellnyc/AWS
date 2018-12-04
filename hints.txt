@@ -1,0 +1,8 @@
+HTTP errors when you try to hit the Load Balancer:
+
+-504 - Probably security groups - allow access to the port 80 of the instances
+-503 - Probably the wrong target group setup
+-502 - Apache probably not running b/c it’s not installed because there's no nat gw
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
+
