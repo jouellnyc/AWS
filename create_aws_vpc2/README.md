@@ -1,5 +1,6 @@
 ## Create AWS VPC and Deploy Apache Instances in Private Subnets - Scenario 2
 - Create a non-default VPC with 2 public Subnets, 2 Private Subnets, 3 Routing Tables, Internet Gateway and NAT Gateways
+- This architechure is [Amazon Scenario 2](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)
 - Launch 2 EC2 instances with Apache user-data not directly exposed to the Internet (index.html serves $(hostname))
 - Apply Security Groups to expose EC2 instances to the internet to only your IP address on port 22 and 80
 - Save the time in manually provisioning and keep costs lower during testing.
