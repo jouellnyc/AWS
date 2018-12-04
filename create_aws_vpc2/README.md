@@ -4,6 +4,7 @@
 - Launch 2 EC2 instances with Apache user-data not directly exposed to the Internet (index.html serves $(hostname))
 - Apply Security Groups to expose EC2 instances to the internet to only your IP address on port 22 and 80
 - Save the time in manually provisioning and keep costs lower during testing.
+- This is the first step; the second step is to [Create the Application Load Balancer](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb)
 
 ### Prerequisites
 [Create an AWS account](https://aws.amazon.com)
