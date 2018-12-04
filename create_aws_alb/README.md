@@ -1,5 +1,5 @@
 ## Create AWS Elastic Load Balancer for use with  Scenario 2
-- This load balancer supports the architechure from [Amazon Scenario 2](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)
+- This load balancer supports a architechure similar to [Amazon Scenario 2](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html).
 
 ### Prerequisites
 [Create an AWS account](https://aws.amazon.com)
