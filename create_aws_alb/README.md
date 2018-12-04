@@ -26,7 +26,7 @@ git clone https://github.com/jouellnyc/AWS
 Edit the script to suit your needs (Availability Zones and CIDR blocks) 
  <br />
 ```
-create_aws_elbv2.sh
+./create_aws_elbv2.sh
 ```
 
 ### Example 
