@@ -6,4 +6,4 @@
 #### create_aws_elbv2
 - Create Application Load balancer for Scenario 2
 #### delete_vpc2 
-- Helper Script to Deletd Scenario 2 VPC
+- Helper Script to delete Scenario 2 VPC
