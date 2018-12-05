@@ -39,11 +39,11 @@ git clone https://github.com/jouellnyc/AWS
 Edit the script to suit your needs (Availability Zones and CIDR blocks) 
  <br />
 ```
-./create_aws_vpc2.sh 
+source create_aws_vpc2.sh 
 ```
 
 ### Example 
-TBD
+- [Example full output](example.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
