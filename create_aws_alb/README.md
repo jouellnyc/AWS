@@ -30,7 +30,7 @@ Edit the script to suit your needs (Availability Zones and CIDR blocks)
 ```
 
 ### Example 
-TBD
+- [Example output](example.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
