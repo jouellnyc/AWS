@@ -11,7 +11,7 @@ export AZ1="us-west-2a"
 export AZ2="us-west-2b"
 
 #VPC
-export VPCLABEL="PROD-VPC110"
+export VPCLABEL="PROD-VPC2"
 export VPCCIDR="10.0.0.0/16"
 export VPCID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text  | grep -ioE "vpc-[A-Za-z0-9]{10,25}")
 aws ec2 create-tags --resources $VPCID --tags Key=Name,Value=$VPCLABEL
@@ -86,6 +86,8 @@ export ELIP2AID=$(aws ec2 describe-addresses --query 'Addresses[?PublicIp==`'$EL
 # Associate with the Public Subnets
 export NATGW1=$(aws ec2 create-nat-gateway --subnet-id $SUBNET1 --allocation-id $ELIP1AID | grep -i NatGatewayId | grep -ioE "nat-[0-9A-Za-z]{2,30}")
 export NATGW2=$(aws ec2 create-nat-gateway --subnet-id $SUBNET2 --allocation-id $ELIP2AID | grep -i NatGatewayId | grep -ioE "nat-[0-9A-Za-z]{2,30}")
+aws ec2 create-tags --resources $NATGW1 --tags Key=Name,Value="NATGW-${AZ1}"
+aws ec2 create-tags --resources $NATGW2 --tags Key=Name,Value="NATGW-${AZ2}"
 
 sleep $NATGWSLEEP #NAT Gw take a bit to spin up
 
@@ -115,7 +117,7 @@ aws ec2 create-tags --resources $EC2FROMLB  --tags Key=Name,Value="EC2FROMLB"
 ###EC2 INSTANCES
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
-export USERDATA="user_data.http.sh"
+export USERDATA="../user_data.http.sh"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; } 
 
 aws ec2 run-instances --image-id $AMI  --count 1 --instance-type $TYPE --key-name $KEYPAIR \
