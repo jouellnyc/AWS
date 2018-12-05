@@ -24,6 +24,9 @@ aws configure (set your KEYS/ETC)
 This architecture uses NAT Gateways, which are not free, even when used with the free tier:
 [AWS Pricing](https://aws.amazon.com/vpc/pricing/)
 
+### Expectations
+NAT Gatways can take time to start and be ready to allocate.
+A sleep of 120 seconds is used - a reasonable value but can be changed.
 
 ### Installing
 ```
