@@ -5,3 +5,5 @@
 - Create VPC with 2 public and  private Subnets, 2 Nat Gateways, 2 Apache servers in Private Subnets - Scenario 2
 #### create_aws_elbv2
 - Create Application Load balancer for Scenario 2
+#### delete_vpc2 
+- Helpler Script to Deletd Scenario 2 VPC
