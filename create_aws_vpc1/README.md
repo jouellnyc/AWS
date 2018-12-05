@@ -30,17 +30,16 @@ git clone https://github.com/jouellnyc/AWS
 ```
 
 ### Usage
-Edit create_aws.sh to suit your needs (Availability Zones and CIDR blocks) 
+Edit script to suit your needs (Availability Zones and CIDR blocks) 
  <br />
 ```
-./create_aws_vpc.sh 
+source create_aws_vpc1.sh 
 <snip>
 == Wait 2 mintutes and then check: ==
 http://52.42.177.159/
 http://34.211.156.125/
 ssh -i PROD-VPC100-key.pem ec2-user@52.42.177.159
 ssh -i PROD-VPC100-key.pem ec2-user@34.211.156.125
-
 
 ```
 
