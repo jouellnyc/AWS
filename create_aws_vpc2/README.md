@@ -20,6 +20,11 @@ pip install awscli --upgrade --user
 aws configure (set your KEYS/ETC)
 ```
 
+### A note on Costs
+This architecture uses NAT Gateways, which are not free, even when used with the free tier:
+[AWS Priving](https://aws.amazon.com/vpc/pricing/)
+
+
 ### Installing
 ```
 git clone https://github.com/jouellnyc/AWS
