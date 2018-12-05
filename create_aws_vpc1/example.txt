@@ -1,4 +1,4 @@
-$ ./create_aws_vpc.sh  
+source ./create_aws_vpc.sh  
 {
     "Subnet": {
         "AvailabilityZone": "us-west-2a",
