@@ -1,0 +1,99 @@
+./create_aws_elbv2.sh 
+{
+    "LoadBalancers": [
+        {
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:loadbalancer/app/My-Web-load-balancer/642ac5acd2354731",
+            "DNSName": "My-Web-load-balancer-669824307.us-west-2.elb.amazonaws.com",
+            "CanonicalHostedZoneId": "Z1H1FL5HABSF5",
+            "CreatedTime": "2018-12-05T02:02:15.970Z",
+            "LoadBalancerName": "My-Web-load-balancer",
+            "Scheme": "internet-facing",
+            "VpcId": "vpc-01142a7762d19401e",
+            "State": {
+                "Code": "provisioning"
+            },
+            "Type": "application",
+            "AvailabilityZones": [
+                {
+                    "ZoneName": "us-west-2a",
+                    "SubnetId": "subnet-0416dcfaae94e0bcc"
+                },
+                {
+                    "ZoneName": "us-west-2b",
+                    "SubnetId": "subnet-0b3b5d047cee2f911"
+                }
+            ],
+            "SecurityGroups": [
+                "sg-053206122f0d70e50"
+            ],
+            "IpAddressType": "ipv4"
+        }
+    ]
+}
+{
+    "TargetGroups": [
+        {
+            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:targetgroup/My-Web-targets/c4c63070b0460be8",
+            "TargetGroupName": "My-Web-targets",
+            "Protocol": "HTTP",
+            "Port": 80,
+            "VpcId": "vpc-01142a7762d19401e",
+            "HealthCheckProtocol": "HTTP",
+            "HealthCheckPort": "traffic-port",
+            "HealthCheckEnabled": true,
+            "HealthCheckIntervalSeconds": 30,
+            "HealthCheckTimeoutSeconds": 5,
+            "HealthyThresholdCount": 5,
+            "UnhealthyThresholdCount": 2,
+            "HealthCheckPath": "/",
+            "Matcher": {
+                "HttpCode": "200"
+            },
+            "TargetType": "instance"
+        }
+    ]
+}
+{
+    "Listeners": [
+        {
+            "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:listener/app/My-Web-load-balancer/642ac5acd2354731/8676ccdad891b379",
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:loadbalancer/app/My-Web-load-balancer/642ac5acd2354731",
+            "Port": 80,
+            "Protocol": "HTTP",
+            "DefaultActions": [
+                {
+                    "Type": "forward",
+                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:targetgroup/My-Web-targets/c4c63070b0460be8"
+                }
+            ]
+        }
+    ]
+}
+{
+    "TargetHealthDescriptions": [
+        {
+            "Target": {
+                "Id": "i-06c500184fa61d588",
+                "Port": 80
+            },
+            "HealthCheckPort": "80",
+            "TargetHealth": {
+                "State": "initial",
+                "Reason": "Elb.RegistrationInProgress",
+                "Description": "Target registration is in progress"
+            }
+        },
+        {
+            "Target": {
+                "Id": "i-04e2abdfc09293b7a",
+                "Port": 80
+            },
+            "HealthCheckPort": "80",
+            "TargetHealth": {
+                "State": "initial",
+                "Reason": "Elb.RegistrationInProgress",
+                "Description": "Target registration is in progress"
+            }
+        }
+    ]
+}
