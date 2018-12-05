@@ -1,5 +1,3 @@
-#Running Example of a Successful Run
-
 $ ./create_aws_vpc.sh  
 {
     "Subnet": {
