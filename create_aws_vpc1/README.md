@@ -26,7 +26,7 @@ It will be best to start without a detached Internet Gateway or Routes
 ### Installing
 ```
 git clone https://github.com/jouellnyc/AWS
-NOTE: user_data.http.sh is under the main repo: /AWS
+#NOTE: user_data.http.sh is under the main repo: /AWS
 ```
 
 ### Usage
