@@ -44,8 +44,8 @@ ssh -i PROD-VPC100-key.pem ec2-user@34.211.156.125
 ```
 
 ### Example 
-- [Example full output](example.txt)
-- [Example full verbose output](example_verbose.txt)
+- [Example output](example.txt)
+- [Example verbose output](example_verbose.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
