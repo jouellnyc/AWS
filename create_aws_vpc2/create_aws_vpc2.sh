@@ -7,8 +7,8 @@
 #set -ue
 
 #AVAIL ZONES
-export AZ1=us-west-2a
-export AZ2=us-west-2b
+export AZ1="us-west-2a"
+export AZ2="us-west-2b"
 
 #VPC
 export VPCLABEL="PROD-VPC110"
@@ -26,7 +26,7 @@ export SNCIDR4="10.0.4.0/24"
 
 #MYIP
 export MYIP="104.162.77.49"
-sleep 1
+export NATGWSLEEP="120"
 
 ############No Need to touch below ###########
 ###Subnets 
@@ -74,9 +74,6 @@ aws ec2 create-tags --resources $PVTRTID2 --tags Key=Name,Value="PrivateRouteTab
 aws ec2 associate-route-table  --subnet-id $SUBNET3 --route-table-id $PVTRTID1
 aws ec2 associate-route-table  --subnet-id $SUBNET4 --route-table-id $PVTRTID2
 
-#This does not seem to work:
-#$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPCID,Name=association.main,Values=false" --query "RouteTables[].RouteTableId[]" --output text)
-
 ###ELastic IPs
 # IP Address
 export ELIP1=$(aws ec2 allocate-address --output text   | awk {' print $3; '} | grep -ioE "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
@@ -90,7 +87,7 @@ export ELIP2AID=$(aws ec2 describe-addresses --query 'Addresses[?PublicIp==`'$EL
 export NATGW1=$(aws ec2 create-nat-gateway --subnet-id $SUBNET1 --allocation-id $ELIP1AID | grep -i NatGatewayId | grep -ioE "nat-[0-9A-Za-z]{2,30}")
 export NATGW2=$(aws ec2 create-nat-gateway --subnet-id $SUBNET2 --allocation-id $ELIP2AID | grep -i NatGatewayId | grep -ioE "nat-[0-9A-Za-z]{2,30}")
 
-sleep 120 #NAT Gw take a bit to spin up
+sleep $NATGWSLEEP #NAT Gw take a bit to spin up
 
 aws ec2 create-route --route-table-id $PVTRTID1  --destination-cidr-block 0.0.0.0/0 --nat-gateway-id  $NATGW1
 aws ec2 create-route --route-table-id $PVTRTID2  --destination-cidr-block 0.0.0.0/0 --nat-gateway-id  $NATGW2
