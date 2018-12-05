@@ -32,6 +32,7 @@ A sleep of 120 seconds is used - a reasonable value but can be changed.
 ### Installing
 ```
 git clone https://github.com/jouellnyc/AWS
+#NOTE: user_data.http.sh is under the main repo: /AWS
 ```
 
 ### Usage
