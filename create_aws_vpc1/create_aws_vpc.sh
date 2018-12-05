@@ -61,7 +61,7 @@ aws ec2 authorize-security-group-ingress --group-id $HTTP_SG --protocol tcp --po
 #EC2 INSTANCES
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
-export USERDATA="user_data.http.sh"
+export USERDATA="../user_data.http.sh"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; } 
 
 aws ec2 run-instances --image-id $AMI  --count 1 --instance-type $TYPE --key-name $KEYPAIR --security-group-ids $SSH_SG $HTTP_SG --subnet-id $SUBNET1 --user-data file://$USERDATA && \
