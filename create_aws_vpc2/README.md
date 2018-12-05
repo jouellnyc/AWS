@@ -43,7 +43,7 @@ source create_aws_vpc2.sh
 ```
 
 ### Example 
-- [Example full output](example.txt)
+- [Example output](example.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
