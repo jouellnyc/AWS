@@ -1,4 +1,4 @@
-./create_aws_elbv2.sh 
+source ./create_aws_elbv2.sh 
 {
     "LoadBalancers": [
         {
