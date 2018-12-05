@@ -6,7 +6,7 @@ git clone https://github.com/jouellnyc/AWS
 ```
 
 ### Usage
-If you've run the create scripts via 'source $script', your shell has all the variable needed to run:
+If you've run the create scripts via 'source $script', your shell has all the variables needed to run:
 ```
 ./delete_vpc.sh
 ```
