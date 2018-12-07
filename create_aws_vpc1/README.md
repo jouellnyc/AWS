@@ -21,7 +21,7 @@ aws configure (set your KEYS/ETC)
 ```
 
 ### Expectations 
-It will be best to start without a detached Internet Gateway or Routes
+It will be best to start from scratch with a new VPC.
 
 ### Installing
 ```
