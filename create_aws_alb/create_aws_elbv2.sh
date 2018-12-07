@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ue 
+#set -ue 
 
 export LB_NAME="My-Web-load-balancer"
 export LB_TGT_NAME="My-Web-targets"

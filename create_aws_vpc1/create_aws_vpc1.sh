@@ -4,14 +4,14 @@
 # create_aws_vpc.sh - https://github.com/jouellnyc/AWS #
 ########################################################
 
-set -ue
+#set -ue
 
 #AVAIL ZONES
 export AZ1=us-west-2a
 export AZ2=us-west-2b
 
 #VPC
-export VPCLABEL="PROD-VPC5"
+export VPCLABEL="PROD-VPC55"
 export VPCCIDR="10.0.0.0/16"
 export VPCID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text  | grep -ioE "vpc-[A-Za-z0-9]{10,25}")
 aws ec2 create-tags --resources $VPCID --tags Key=Name,Value=$VPCLABEL
