@@ -1,3 +1,4 @@
+
 HTTP errors when you try to hit the Load Balancer:
 
 -504 - Probably security groups - allow access to the port 80 of the instances
