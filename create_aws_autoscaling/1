@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+#Create an Auto Scaling Launch Configuation 
+export TYPE="t2.micro"
+export AMI="ami-01bbe152bf19d0289"
+export LC_NAME="Auto Scaling Launch Config"
+export USERDATA="../user_data.http.sh"
+[ -f $USERDATA ] || { echo "No user data"; exit 55; }
+
+aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \
+    --image-id $AMI --instance-type $TYPE --key-name $KEYPAIR --user-data file://$USERDATA
+
+#Create Target Group for Auto Scaling use
+export PORT="80"
+export PROTO="HTTP"
+export TG_NAME="Auto Scaling Target Group"
+aws elbv2 create-target-group  --name $TG_NAME --protocol $PROTO --port $PORT --vpc-id $VPCID
+export TG_ARN=$(aws elbv2  describe-target-groups --query 'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text)
+
+
