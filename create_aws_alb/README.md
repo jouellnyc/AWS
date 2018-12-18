@@ -15,9 +15,11 @@ pip install awscli --upgrade --user
 aws configure (set your KEYS/ETC)
 
 ```
-[Create with create_aws_vpc2)](https://github.com/jouellnyc/AWS/tree/master/create_aws_vpc2)
+[Create with create_aws_vpc2](https://github.com/jouellnyc/AWS/tree/master/create_aws_vpc2)
+
 OR
-[Create with create_aws_vpc3)](https://github.com/jouellnyc/AWS/tree/master/create_aws_vpc3)
+
+[Create with create_aws_vpc3](https://github.com/jouellnyc/AWS/tree/master/create_aws_vpc3)
 
 ### Installing
 ```
