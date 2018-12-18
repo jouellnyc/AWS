@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #Create an Auto Scaling Launch Configuation 
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
