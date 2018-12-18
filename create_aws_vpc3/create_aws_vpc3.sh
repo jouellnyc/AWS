@@ -89,6 +89,7 @@ export NATGW2=$(aws ec2 create-nat-gateway --subnet-id $SUBNET2 --allocation-id 
 aws ec2 create-tags --resources $NATGW1 --tags Key=Name,Value="NATGW-${AZ1}"
 aws ec2 create-tags --resources $NATGW2 --tags Key=Name,Value="NATGW-${AZ2}"
 
+echo "Waiting for NAT GW to start - $NATGWSLEEP seconds"
 sleep $NATGWSLEEP #NAT Gw take a bit to spin up
 
 aws ec2 create-route --route-table-id $PVTRTID1  --destination-cidr-block 0.0.0.0/0 --nat-gateway-id  $NATGW1
