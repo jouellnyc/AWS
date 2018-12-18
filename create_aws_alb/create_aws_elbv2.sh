@@ -2,8 +2,8 @@
 
 #set -ue 
 
-export LB_NAME="My-Web-load-balancer"
-export LB_TGT_NAME="My-Web-targets"
+export LB_NAME="My-Web-Load-Balancer"
+export LB_TGT_NAME="My-Web-Targets"
 aws elbv2 create-load-balancer --name $LB_NAME --subnets $SUBNET1 $SUBNET2  --security-groups  $LBFROMMYIP
 aws elbv2 create-target-group  --name $LB_TGT_NAME --protocol HTTP --port 80 --vpc-id $VPCID
 export LB_ARN=$(aws elbv2  describe-load-balancers --name $LB_NAME --query 'LoadBalancers[0].{Arn:LoadBalancerArn}' --output text)
