@@ -5,6 +5,8 @@
 - Create VPC with 2 public Subnets and 2 Apache servers but not live on the Internet  
 #### create_aws_vpc3 
 - Create VPC with 2 public and private Subnets, 2 NAT Gateways, 2 Apache servers both in Private Subnets - Amazon Scenario 2
+#### create_aws_vpc4_autoscaling
+- Just like vpc2, but with auto scaling groups for EC2
 #### create_aws_elbv2
 - Create Application Load balancer for vpc2 or vp3 
 #### delete_vpc3 
