@@ -1,15 +1,17 @@
 ## Create AWS VPC and Deploy Apache Instances 
+
 - This architecture is similar to [Amazon Scenario 1](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)
 - Goal is to save the time in manually provisioning and keep costs lower during testing.
 - Create a non-default VPC with 2 public Subnets, 2 Routes, Routing Table and Internet Gateway
 
 Then Either
 
-- Launch EC2 instances with Apache installed with public IPs, off the internet, ready to add to an Elastic Load Balancer using [create_aws_elb](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
+- Launch EC2 instances with Apache installed with public IPs, off the internet using X
+- Add to an Elastic Load Balancer using [create_aws_elb](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
 
 OR
 
-- Launch EC2 instances with Apache installed with public IPs, off the internet, using an autoscaling group (using %cpu as scaling trigger) and auto added to an Elastic Load Balancer using [create_ec2s_autoscaling_vpc2b.sh](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
+- Launch EC2 instances with Apache installed with public IPs, off the internet, using an autoscaling group (using %cpu as scaling trigger) and auto added to an Elastic Load Balancer using [create_ec2s_autoscaling_vpc2b.sh](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/create_ec2s_autoscaling_vpc2b.sh).
 
 
 ### Prerequisites
