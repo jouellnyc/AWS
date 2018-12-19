@@ -5,11 +5,12 @@
 
 Then Either
 
-- Launch 2 EC2 Apache instances with public IPs but off the internet and ready to [add on a load balancer](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
+- Launch EC2 instances with Apache installed with public IPs, off the internet, ready to add to an Elastic Load Balancer using [create_aws_elb](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
 
 OR
 
-- Laucn Apache instances using an autoscaling group using %cpu as scaling trigger.
+- Launch EC2 instances with Apache installed with public IPs, off the internet, using an autoscaling group (using %cpu as scaling trigger) and auto added to an Elastic Load Balancer using [create_ec2s_autoscaling_vpc2b.sh](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
+
 
 ### Prerequisites
 [Create an AWS account](https://aws.amazon.com)
