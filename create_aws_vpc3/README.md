@@ -39,7 +39,7 @@ git clone https://github.com/jouellnyc/AWS
 Edit the script to suit your needs (Availability Zones and CIDR blocks) 
  <br />
 ```
-source create_aws_vpc2.sh 
+source create_aws_vpc3.sh 
 ```
 
 ### Example 
