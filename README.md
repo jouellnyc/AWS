@@ -3,7 +3,7 @@
 - Create VPC with 2 public Subnets and 2 Apache servers live on the Internet  - Amazon Scenario 1
 #### create_aws_vpc2
 - Create VPC with 2 public Subnets and 2 Apache servers but not live on the Internet  
-- Choose to launch EC2 instances as 
+- Choose to launch EC2 instances:
     - a) Behind an ALB as part of a standard target group 
     - b) Behind an ALB as part of an autoscaling group 
 #### create_aws_vpc3 
