@@ -54,7 +54,7 @@ source create_ec2s_autoscaling_vpc2b.sh
 ```
 
 ### Example 
-[Example](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example.txt)
+[Example](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2a.txt)
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
