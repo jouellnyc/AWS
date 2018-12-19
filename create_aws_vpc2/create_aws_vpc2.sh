@@ -66,12 +66,8 @@ aws ec2 authorize-security-group-ingress --group-id $EC2FROMLB  --protocol tcp -
 aws ec2 create-tags --resources $LBFROMMYIP --tags Key=Name,Value="LBFROMMYIP"
 aws ec2 create-tags --resources $EC2FROMLB  --tags Key=Name,Value="EC2FROMLB"
 
-
 #EC2 INSTANCES
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
 export USERDATA="../user_data.http.sh"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; } 
-
-aws ec2 run-instances --image-id $AMI  --count 1 --instance-type $TYPE --key-name $KEYPAIR --security-group-ids $EC2FROMLB --subnet-id $SUBNET1 --user-data file://$USERDATA && \
-aws ec2 run-instances --image-id $AMI  --count 1 --instance-type $TYPE --key-name $KEYPAIR --security-group-ids $EC2FROMLB --subnet-id $SUBNET2 --user-data file://$USERDATA 
