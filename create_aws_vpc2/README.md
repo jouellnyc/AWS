@@ -41,13 +41,13 @@ git clone https://github.com/jouellnyc/AWS
 Edit script to suit your needs (Availability Zones and CIDR blocks) 
  <br />
 ```
-source create_aws_vpc2.sh 
-source create_ec2s_vpc2a.sh
+source create_aws_vpc2.sh && \ 
+source create_ec2s_vpc2a.sh && \
 source ../create_aws_alb/create_aws_elbv2.sh 
 
 OR
 
-source create_aws_vpc2.sh 
+source create_aws_vpc2.sh && \ 
 source create_ec2s_autoscaling_vpc2b.sh
 
 <snip>
