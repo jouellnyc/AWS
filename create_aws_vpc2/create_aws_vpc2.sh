@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 ########################################################
-# create_aws_vpc.sh - https://github.com/jouellnyc/AWS #
+# create_aws_vpc2.sh - https://github.com/jouellnyc/AWS#
 ########################################################
 
 #set -ue
