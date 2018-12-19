@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 ################################################################################
-# create_ec2s_elbv2_vpc2a.sh - https://github.com/jouellnyc/AWS 
+# create_ec2s_elbv2_vpc2a.sh - https://github.com/jouellnyc/AWS                # 
 ################################################################################
 
 ####EC2 INSTANCES
