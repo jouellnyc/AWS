@@ -1,7 +1,7 @@
 ## Create AWS VPC and Deploy Apache Instances 
 
 - This architecture is similar to [Amazon Scenario 1](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)
-- Goal is to save the time in manually provisioning and keep costs lower during testing.
+- Goal: save the time manually provisioning and keep costs lower for testing (NAT gateways are not free).
 - Create a non-default VPC with 2 public Subnets, 2 Routes, Routing Table and Internet Gateway
 
 Then Either
