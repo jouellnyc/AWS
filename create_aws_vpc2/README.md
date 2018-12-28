@@ -6,12 +6,12 @@
 
 Then Either
 
-- Launch EC2 instances with Apache installed with public IPs, off the internet using [create_ec2s_vpc2a.sh](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/create_ec2s_vpc2a.sh)
+- Launch EC2 instances with Apache installed with public IPs but not exposed to the internet using [create_ec2s_vpc2a.sh](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/create_ec2s_vpc2a.sh)
 - Add to an Elastic Load Balancer using [create_aws_elb](https://github.com/jouellnyc/AWS/tree/master/create_aws_alb).
 
 OR
 
-- Launch EC2 instances with Apache installed with public IPs, off the internet, using an autoscaling group (using %cpu as scaling trigger) and auto added to an Elastic Load Balancer using [create_ec2s_autoscaling_vpc2b.sh](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/create_ec2s_autoscaling_vpc2b.sh).
+- Launch EC2 instances with Apache installed with public IPs, not exposed to the internet, using an autoscaling group (using %cpu as scaling trigger) and auto added to an Elastic Load Balancer using [create_ec2s_autoscaling_vpc2b.sh](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/create_ec2s_autoscaling_vpc2b.sh).
 
 
 ### Prerequisites
