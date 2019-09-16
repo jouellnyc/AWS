@@ -38,7 +38,7 @@ git clone https://github.com/jouellnyc/AWS
 ```
 
 ### Usage
-Edit script to suit your needs (Availability Zones and CIDR blocks) 
+Edit script to suit your needs (Your IP address, Availability Zones and CIDR blocks) 
  <br />
 ```
 source create_aws_vpc2.sh && \ 
