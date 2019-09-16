@@ -6,6 +6,9 @@
 
 #set -ue
 
+#MYIP
+export MYIP="104.162.77.49"
+
 #AVAIL ZONES
 export AZ1=us-west-2a
 export AZ2=us-west-2b
@@ -21,9 +24,6 @@ export SNCIDR1="10.0.1.0/24"
 export SNCIDR2="10.0.2.0/24"
 aws ec2 create-subnet --vpc-id $VPCID --cidr-block $SNCIDR1 --availability-zone  $AZ1
 aws ec2 create-subnet --vpc-id $VPCID --cidr-block $SNCIDR2 --availability-zone  $AZ2
-
-#MYIP
-export MYIP="104.162.77.49"
 
 ############No Need to touch below ###########
 sleep 2
