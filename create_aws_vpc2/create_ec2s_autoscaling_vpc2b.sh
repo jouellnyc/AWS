@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 ################################################################################
 # create_ec2s_autoscaling_vpc2b.sh - https://github.com/jouellnyc/AWS          #
