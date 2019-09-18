@@ -14,7 +14,7 @@ export USERDATA="../user_data.http.sh"
 
 aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \
     --instance-type $TYPE --key-name $KEYPAIR --security-groups $EC2FROMLB       \
-    --user-data file://$USERDATA --image-id $AMI
+    --user-data file://$USERDATA --image-id $AMI && echo "Created AutoScaling Config OK"
 sleep 3
 
 #Create Target Group for Auto Scaling use
@@ -23,7 +23,8 @@ export PROTO="HTTP"
 export TG_NAME="Target-Group-for-Auto-Scaling"
 aws elbv2 create-target-group  --name "${TG_NAME}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
-    'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text)
+    'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text) && \
+    echo Create Target-Group-for-Auto-Scaling OK""
 sleep 3
 
 #Create Auto Scaling Group and attach Target Group
@@ -37,14 +38,16 @@ export SCALEJSON="cpu.json"
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME}" \
     --launch-configuration-name "${LC_NAME}" --target-group-arns $TG_ARN          \
     --min-size $MIN_SERVERS --max-size $MAX_SERVERS  --desired-capacity $DESIRED  \
-    --vpc-zone-identifier $SUBNET1,$SUBNET2 
+    --vpc-zone-identifier $SUBNET1,$SUBNET2 && \ 
 aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-name \
-    $ASG_NAME --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON
+    $ASG_NAME --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
+    echo "Created AutoScaling Group and Policies OK"
 sleep 3
 
 #Create Load Balancer and attach Auto Scaling Group
 export LB_NAME="My-Web-Load-Balancer"
-aws elbv2 create-load-balancer --name $LB_NAME --subnets $SUBNET1 $SUBNET2  --security-groups  $LBFROMMYIP
-export LB_ARN=$(aws elbv2  describe-load-balancers --name $LB_NAME --query 'LoadBalancers[0].{Arn:LoadBalancerArn}' --output text)
-aws elbv2 create-listener  --load-balancer-arn $LB_ARN --protocol $PROTO --port $PORT --default-actions Type=forward,TargetGroupArn=$TG_ARN
+aws elbv2 create-load-balancer --name $LB_NAME --subnets $SUBNET1 $SUBNET2  --security-groups  $LBFROMMYIP && \
+export LB_ARN=$(aws elbv2  describe-load-balancers --name $LB_NAME --query 'LoadBalancers[0].{Arn:LoadBalancerArn}' --output text) && \
+aws elbv2 create-listener  --load-balancer-arn $LB_ARN --protocol $PROTO --port $PORT --default-actions Type=forward,TargetGroupArn=$TG_ARN && \
+echo "Created LoadBalancer and Listener OK"
 
