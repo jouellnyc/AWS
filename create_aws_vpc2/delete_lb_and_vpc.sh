@@ -42,4 +42,4 @@ aws ec2 delete-key-pair --key-name $KEYPAIR
 #Cannot delete default routes specifically but can via the whole VPC
 #aws ec2 delete-route --route-table-id $RTID --destination-cidr-block $VPCCIDR 
 #aws ec2 delete-route-table --route-table-id $RTID 
-aws ec2 delete-vpc --vpc-id  $VPCID 
+aws ec2 delete-vpc --vpc-id  $VPCID  && echo "VPC deleted OK"
