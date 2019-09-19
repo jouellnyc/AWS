@@ -53,7 +53,9 @@ source create_ec2s_autoscaling_vpc2b.sh
 
 <snip>
 ```
-### Deletion
+### Deletion for 2b
+This will tear down all the resources created from source create_aws_vpc2.sh && source create_ec2s_autoscaling_vpc2b.sh
+
 ```
 delete_lb_and_vpc.sh
 ```
