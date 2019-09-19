@@ -9,8 +9,10 @@ for instance  in $(echo $INSTANCES); do
 done 
 
 aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
+aws elbv2 delete-target-group --target-group-arn $TG_ARN
+aws autoscaling delete-launch-configuration --launch-configuration-name $LC_NAME
 
-aws elbv2 delete-target-group --target-group-arn $TGT_ARN
+sleep 60 
 
 SUBNET1=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR1" --query 'Subnets[*].{ID:SubnetId}' --output text)
 SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR2" --query 'Subnets[*].{ID:SubnetId}' --output text)
@@ -20,21 +22,17 @@ aws ec2 delete-subnet --subnet-id  $SUBNET2
 
 RTID=$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPCID" --query "RouteTables[].RouteTableId[]" --output text)
 
-aws ec2 delete-route --route-table-id $RTID
-
 aws ec2 detach-internet-gateway --internet-gateway-id $IGWID --vpc-id $VPCID
-
 aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
-
-#aws ec2 delete-route-table --route-table-id $RTID 
 
 aws ec2 delete-security-group --group-id $LBFROMMYIP
 aws ec2 delete-security-group --group-id $EC2FROMLB 
+aws ec2 delete-security-group --group-id $LBFROMEC2S
+sleep 15
 
 aws ec2 delete-key-pair --key-name $KEYPAIR 
-
+sleep 30 
+#Cannot delete defaul routes specifically but can via the whole VPC
+#aws ec2 delete-route --route-table-id $RTID --destination-cidr-block 10.0.0.0/16 
+#aws ec2 delete-route-table --route-table-id $RTID 
 aws ec2 delete-vpc --vpc-id  $VPCID 
-
-
-
-

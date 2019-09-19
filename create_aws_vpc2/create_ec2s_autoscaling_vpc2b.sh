@@ -24,7 +24,7 @@ export TG_NAME="Target-Group-for-Auto-Scaling"
 aws elbv2 create-target-group  --name "${TG_NAME}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
     'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text) && \
-    echo Create Target-Group-for-Auto-Scaling OK""
+    echo "Create Target-Group-for-Auto-Scaling OK"
 sleep 3
 
 #Create Auto Scaling Group and attach Target Group
