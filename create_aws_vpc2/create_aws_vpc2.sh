@@ -4,8 +4,6 @@
 # create_aws_vpc2.sh - https://github.com/jouellnyc/AWS                        #
 ################################################################################
 
-#set -ue
-
 #MYIP
 export MYIP="104.162.77.49"
 
@@ -73,9 +71,9 @@ aws ec2 create-tags --resources $LBFROMMYIP --tags Key=Name,Value="LBFROMMYIP" &
 aws ec2 create-tags --resources $EC2FROMLB  --tags Key=Name,Value="EC2FROMLB"  && \
 echo "Security Groups setup and Tags created OK"
 
-
 #EC2 INSTANCES
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
 export USERDATA="../user_data.http.sh"
 [ -f $USERDATA ] && echo "Ami Data Ready for next Step"  || { echo "No user data"; echo exit 55; }  
+
