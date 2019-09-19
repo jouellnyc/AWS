@@ -53,7 +53,10 @@ source create_ec2s_autoscaling_vpc2b.sh
 
 <snip>
 ```
-
+### Deletion
+```
+delete_lb_and_vpc.sh
+```
 ### Example 
 [Example 2a](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2a.txt)
 
