@@ -25,14 +25,13 @@ SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=c
 
 aws ec2 delete-subnet --subnet-id  $SUBNET1
 aws ec2 delete-subnet --subnet-id  $SUBNET2
-echo "Waiting for Security Groups dependencies to be deleted 1 ..."
+echo "Waiting 30s for Security Groups dependencies to be deleted 1 ..."
 sleep 30
 
 aws ec2 detach-internet-gateway --internet-gateway-id $IGWID --vpc-id $VPCID
 aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
-echo "Waiting for Security Groups dependencies to be deleted 2 ..."
-sleep 30 
-
+echo "Waiting 60s for Security Groups dependencies to be deleted 2 ..."
+sleep 60  
 aws ec2 delete-security-group --group-id $LBFROMMYIP
 aws ec2 delete-security-group --group-id $EC2FROMLB 
 aws ec2 delete-security-group --group-id $LBFROMEC2S
