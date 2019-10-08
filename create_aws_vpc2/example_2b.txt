@@ -1,0 +1,145 @@
+$ source create_aws_vpc2.sh ; source create_ec2s_autoscaling_vpc2b.sh
+
+Creating VPC PROD-VPC
+VPC and Vpc Tags created OK
+{
+    "Subnet": {
+        "AvailabilityZone": "us-west-2a",
+        "AvailabilityZoneId": "usw2-az1",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.1.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "pending",
+        "SubnetId": "subnet-0bab88e296a226cf4",
+        "VpcId": "vpc-072a71aa0818f4a6c",
+        "OwnerId": "143875454031",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "SubnetArn": "arn:aws:ec2:us-west-2:143875454031:subnet/subnet-0bab88e296a226cf4"
+    }
+}
+Subnet 1 created OK
+{
+    "Subnet": {
+        "AvailabilityZone": "us-west-2b",
+        "AvailabilityZoneId": "usw2-az2",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.2.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "pending",
+        "SubnetId": "subnet-0703147159513657f",
+        "VpcId": "vpc-072a71aa0818f4a6c",
+        "OwnerId": "143875454031",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "SubnetArn": "arn:aws:ec2:us-west-2:143875454031:subnet/subnet-0703147159513657f"
+    }
+}
+Subnet 2 created OK
+Subnet Tags and Attributes set OK
+Internet Gateway Created and attached OK
+{
+    "Return": true
+}
+{
+    "AssociationId": "rtbassoc-078045286f1f8b7e2"
+}
+{
+    "AssociationId": "rtbassoc-022807a4a90f1a27b"
+}
+Routes and Route Tables setup OK
+Key Pairs created OK
+Security Groups Created OK
+Security Groups setup and Tags created OK
+Ami Data Ready for next Step
+Created AutoScaling Config OK
+{
+    "TargetGroups": [
+        {
+            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:targetgroup/Target-Group-for-Auto-Scaling/8ce4c4bd0d4d135f",
+            "TargetGroupName": "Target-Group-for-Auto-Scaling",
+            "Protocol": "HTTP",
+            "Port": 80,
+            "VpcId": "vpc-072a71aa0818f4a6c",
+            "HealthCheckProtocol": "HTTP",
+            "HealthCheckPort": "traffic-port",
+            "HealthCheckEnabled": true,
+            "HealthCheckIntervalSeconds": 30,
+            "HealthCheckTimeoutSeconds": 5,
+            "HealthyThresholdCount": 5,
+            "UnhealthyThresholdCount": 2,
+            "HealthCheckPath": "/",
+            "Matcher": {
+                "HttpCode": "200"
+            },
+            "TargetType": "instance"
+        }
+    ]
+}
+Create Target-Group-for-Auto-Scaling OK
+ : command not found
+{
+    "PolicyARN": "arn:aws:autoscaling:us-west-2:143875454031:scalingPolicy:98f825eb-867b-45c1-ae92-54d925810e5a:autoScalingGroupName/Auto-Scaling-Group:policyName/cpu-alert",
+    "Alarms": [
+        {
+            "AlarmName": "TargetTracking-Auto-Scaling-Group-AlarmHigh-932e7131-e020-4699-93a3-deab821452b6",
+            "AlarmARN": "arn:aws:cloudwatch:us-west-2:143875454031:alarm:TargetTracking-Auto-Scaling-Group-AlarmHigh-932e7131-e020-4699-93a3-deab821452b6"
+        },
+        {
+            "AlarmName": "TargetTracking-Auto-Scaling-Group-AlarmLow-1c528530-38a5-4caa-998d-4a910d1021a4",
+            "AlarmARN": "arn:aws:cloudwatch:us-west-2:143875454031:alarm:TargetTracking-Auto-Scaling-Group-AlarmLow-1c528530-38a5-4caa-998d-4a910d1021a4"
+        }
+    ]
+}
+Created AutoScaling Group and Policies OK
+{
+    "LoadBalancers": [
+        {
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:loadbalancer/app/My-Web-Load-Balancer/d952ca33fe950aa6",
+            "DNSName": "My-Web-Load-Balancer-1288950476.us-west-2.elb.amazonaws.com",
+            "CanonicalHostedZoneId": "Z1H1FL5HABSF5",
+            "CreatedTime": "2019-10-08T00:45:52.660Z",
+            "LoadBalancerName": "My-Web-Load-Balancer",
+            "Scheme": "internet-facing",
+            "VpcId": "vpc-072a71aa0818f4a6c",
+            "State": {
+                "Code": "provisioning"
+            },
+            "Type": "application",
+            "AvailabilityZones": [
+                {
+                    "ZoneName": "us-west-2b",
+                    "SubnetId": "subnet-0703147159513657f"
+                },
+                {
+                    "ZoneName": "us-west-2a",
+                    "SubnetId": "subnet-0bab88e296a226cf4"
+                }
+            ],
+            "SecurityGroups": [
+                "sg-0e9e334d2a16f86c6"
+            ],
+            "IpAddressType": "ipv4"
+        }
+    ]
+}
+{
+    "Listeners": [
+        {
+            "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:listener/app/My-Web-Load-Balancer/d952ca33fe950aa6/7878099e99955f6a",
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:loadbalancer/app/My-Web-Load-Balancer/d952ca33fe950aa6",
+            "Port": 80,
+            "Protocol": "HTTP",
+            "DefaultActions": [
+                {
+                    "Type": "forward",
+                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:143875454031:targetgroup/Target-Group-for-Auto-Scaling/8ce4c4bd0d4d135f"
+                }
+            ]
+        }
+    ]
+}
+Created LoadBalancer and Listener OK
+
