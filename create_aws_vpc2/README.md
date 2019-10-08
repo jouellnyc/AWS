@@ -61,8 +61,8 @@ delete_lb_and_vpc.sh
 ```
 ### Example 
 [Example 2a](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2a.txt)
-
 [Example 2b](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2b.txt)
+
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
