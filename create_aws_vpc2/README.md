@@ -65,7 +65,7 @@ delete_lb_and_vpc.sh
 
 
 ## Authors
-[https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
+[jouellnyc](mailto:jouellnyc@gmail.com)
 
 ## License
 This project is licensed under the MIT License
