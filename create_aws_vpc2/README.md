@@ -48,8 +48,7 @@ source ../create_aws_alb/create_aws_elbv2.sh
 
 OR
 
-source create_aws_vpc2.sh && \ 
-source create_ec2s_autoscaling_vpc2b.sh
+source create_aws_vpc2.sh && source create_ec2s_autoscaling_vpc2b.sh
 
 <snip>
 ```
