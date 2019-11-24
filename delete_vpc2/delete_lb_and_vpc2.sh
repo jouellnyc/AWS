@@ -30,8 +30,9 @@ sleep 30
 
 aws ec2 detach-internet-gateway --internet-gateway-id $IGWID --vpc-id $VPCID
 aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
-echo "Waiting 60s for Security Groups dependencies to be deleted 2 ..."
-sleep 60  
+echo "Waiting 120s for Security Groups dependencies to be deleted 2 ..."
+sleep 120  
+#LBFROMMYIP can fail if not waiting long enough
 aws ec2 delete-security-group --group-id $LBFROMMYIP
 aws ec2 delete-security-group --group-id $EC2FROMLB 
 aws ec2 delete-security-group --group-id $LBFROMEC2S
