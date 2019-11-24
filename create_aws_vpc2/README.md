@@ -30,7 +30,8 @@ aws configure (set your KEYS/ETC)
 
 ### Expectations 
 It will always be *best* to start from scratch with a new VPC.
-In the future the script can integrate more  elegant error checking
+In the future the script can integrate more  elegant error checking.
+The process should take between 5-10 min on average.
 
 ### Installing
 ```
@@ -52,6 +53,7 @@ OR
 
 source create_aws_vpc2.sh && source create_ec2s_vpc2b_autoscaling.sh
 ```
+
 
 ### Example 
 [Example 2a](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2a.txt)
