@@ -29,8 +29,8 @@ aws configure (set your KEYS/ETC)
 ```
 
 ### Expectations 
-It will always be best to start from scratch with a new VPC.
-In the future the script can integrate more  error checking
+It will always be *best* to start from scratch with a new VPC.
+In the future the script can integrate more  elegant error checking
 
 ### Installing
 ```
