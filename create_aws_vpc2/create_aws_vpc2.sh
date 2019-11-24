@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 ################################################################################
 # create_aws_vpc2.sh - https://github.com/jouellnyc/AWS                        #
