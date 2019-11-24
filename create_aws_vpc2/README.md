@@ -40,7 +40,9 @@ git clone https://github.com/jouellnyc/AWS
 
 ### Usage
 Edit script to suit your needs (Your IP address, Availability Zones and CIDR blocks) 
- <br />
+
+<br />
+
 ```
 source create_aws_vpc2.sh && \ 
 source create_ec2s_vpc2a.sh && \
@@ -49,6 +51,7 @@ source ../create_aws_alb/create_aws_elbv2.sh
 OR
 
 source create_aws_vpc2.sh && source create_ec2s_vpc2b_autoscaling.sh
+```
 
 ### Example 
 [Example 2a](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2a.txt)
