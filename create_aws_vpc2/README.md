@@ -50,14 +50,6 @@ OR
 
 source create_aws_vpc2.sh && source create_ec2s_vpc2b_autoscaling.sh
 
-<snip>
-```
-### Deletion for 2b
-This will tear down all the resources created from source create_aws_vpc2.sh && source create_ec2s_autoscaling_vpc2b.sh
-
-```
-delete_lb_and_vpc.sh
-```
 ### Example 
 [Example 2a](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2a.txt)
 
