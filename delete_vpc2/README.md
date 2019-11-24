@@ -20,3 +20,6 @@ This project is licensed under the MIT License
 
 ## Acknowledgments
 *Thanks AWS!*
+
+## References
+This may help at some point: https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-dependency-error-delete-vpc/
