@@ -11,6 +11,7 @@ If you've run the create scripts via 'source $script', your shell has all the va
 ./delete_lb_and_vpc2.sh
 ```
 Then Just Click Delete VPC in the GUI and all the rest will be deleted
+This will take at least 11 minutes due to the waiting for dependencies
 
 ## Authors
 [https://github.com/jouellnyc](mailto:jouellnyc@gmail.com)
