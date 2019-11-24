@@ -14,11 +14,11 @@ done
 
 aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
 echo "Waiting 30s  for LB to be deleted..."
-sleep 30 
+sleep 120 
 aws elbv2 delete-target-group --target-group-arn $TG_ARN
 aws autoscaling delete-launch-configuration --launch-configuration-name $LC_NAME
-echo "Waiting 30s for Launch Config to be deleted..."
-sleep 30  
+echo "Waiting 120s for Launch Config to be deleted..."
+sleep 120  
 
 SUBNET1=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR1" --query 'Subnets[*].{ID:SubnetId}' --output text)
 SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR2" --query 'Subnets[*].{ID:SubnetId}' --output text)
@@ -33,9 +33,10 @@ aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
 echo "Waiting 120s for Security Groups dependencies to be deleted 2 ..."
 sleep 120  
 #LBFROMMYIP can fail if not waiting long enough
-aws ec2 delete-security-group --group-id $LBFROMMYIP
 aws ec2 delete-security-group --group-id $EC2FROMLB 
 aws ec2 delete-security-group --group-id $LBFROMEC2S
+sleep 30
+aws ec2 delete-security-group --group-id $LBFROMMYIP
 
 aws ec2 delete-key-pair --key-name $KEYPAIR 
 #RTID=$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPCID" --query \
