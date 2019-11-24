@@ -38,8 +38,9 @@ aws ec2 delete-security-group --group-id $EC2FROMLB
 aws ec2 delete-security-group --group-id $LBFROMEC2S
 
 aws ec2 delete-key-pair --key-name $KEYPAIR 
-#RTID=$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPCID" --query "RouteTables[].RouteTableId[]" --output text)
-#Cannot delete default routes specifically but can via the whole VPC
+#RTID=$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPCID" --query \
+#"RouteTables[].RouteTableId[]" --output text)
+#If the Security Groups are deleted OK the vpc should be able to be deleted w/o explicitly rm'ing the routes
 #aws ec2 delete-route --route-table-id $RTID --destination-cidr-block $VPCCIDR 
 #aws ec2 delete-route-table --route-table-id $RTID 
 aws ec2 delete-vpc --vpc-id  $VPCID  && echo "VPC deleted OK"
