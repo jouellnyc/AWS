@@ -8,7 +8,7 @@ git clone https://github.com/jouellnyc/AWS
 ### Usage
 If you've run the create scripts via 'source $script', your shell has all the variables needed to run:
 ```
-./delete_vpc.sh
+./delete_lb_and_vpc2.sh
 ```
 Then Just Click Delete VPC in the GUI and all the rest will be deleted
 
@@ -22,4 +22,6 @@ This project is licensed under the MIT License
 *Thanks AWS!*
 
 ## References
-This may help at some point: https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-dependency-error-delete-vpc/
+This may help if seeing errors:
+https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-dependency-error-delete-vpc/
+(see list_all_aws_items.sh in this repo)
