@@ -6,7 +6,7 @@
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name Auto-Scaling-Group --no-new-instances-protected-from-scale-in
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name Auto-Scaling-Group --force-delete
 echo "Waiting 3 min for Auto Scaling Config to be deleted..."
-sleep 180
+#sleep 180
 INSTANCES=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId]' --filters Name=instance-state-name,Values=running --output text)
 for instance  in $(echo $INSTANCES); do 
     aws ec2 terminate-instances --instance-ids $instance  && echo "Terminating $instance OK"
@@ -14,11 +14,11 @@ done
 
 aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
 echo "Waiting 30s  for LB to be deleted..."
-sleep 120 
+#sleep 120 
 aws elbv2 delete-target-group --target-group-arn $TG_ARN
 aws autoscaling delete-launch-configuration --launch-configuration-name $LC_NAME
 echo "Waiting 120s for Launch Config to be deleted..."
-sleep 120  
+#sleep 120  
 
 SUBNET1=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR1" --query 'Subnets[*].{ID:SubnetId}' --output text)
 SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR2" --query 'Subnets[*].{ID:SubnetId}' --output text)
