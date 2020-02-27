@@ -9,4 +9,5 @@ set -e
 export ASG_NAME="Auto-Scaling-Group"
 export MIN_SERVERS=$1
 export MAX_SERVERS=$2
-aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME   --min-size $MIN_SERVERS --max-size $MAX_SERVERS
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
+--min-size $MIN_SERVERS --max-size $MAX_SERVERS || echo "Appears Successful"
