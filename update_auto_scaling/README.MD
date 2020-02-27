@@ -1,1 +1,1 @@
-### Simple script to up/down the min/max of an ASG ===
+* Simple script to up/down the min/max of an ASG 
