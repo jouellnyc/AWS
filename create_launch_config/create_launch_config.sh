@@ -2,7 +2,7 @@
 
 #### Create an Auto Scaling Launch Configuation ####
 
-export LC_NAME="Auto-Scaling-Launch-Config-Docker-v3"
+export LC_NAME="Auto-Scaling-Launch-Config-Docker-v4"
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
 export USERDATA="../user_data.http.sh"
