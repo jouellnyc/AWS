@@ -12,5 +12,5 @@
 - Create Application Load balancer for vpc2 or vp3 
 #### Smaller Helper Scripts
 - delete_vpc3 deletes 'Scenario 2'  VPC created with create_aws_elbv3
-- create_launch_config update_auto_scaling
+- create_launch_config
 - update_auto_scaling
