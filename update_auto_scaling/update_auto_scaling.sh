@@ -9,7 +9,7 @@ set -e
 export ASG_NAME="Auto-Scaling-Group"
 export MIN_SERVERS=$1
 export MAX_SERVERS=$2
-source ../shared_vars.txt
+source ../shared_vars.txt >/dev/null 2>&1 || source ./shared_vars.txt
 
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
 --min-size $MIN_SERVERS --max-size $MAX_SERVERS --launch-configuration-name $LC_NAME && \
