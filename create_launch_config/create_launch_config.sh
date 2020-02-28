@@ -2,7 +2,6 @@
 
 #### Create an Auto Scaling Launch Configuation ####
 
-export LC_NAME="Auto-Scaling-Launch-Config-Docker-v5"
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
 export USERDATA="../user_data.http.sh"
@@ -12,6 +11,7 @@ export SGROUP1="sg-00b4e2e5337079a81"
 export SGROUP2="sg-028813c0505b2ddfb"
 export SGROUP3="sg-0842bd4fffc901c60"
 export INST_PROF="CloudWatchAgentAdminRole"
+source ../share_vars.txt
 
 
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
