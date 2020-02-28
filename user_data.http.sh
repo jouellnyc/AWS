@@ -17,4 +17,4 @@ mkdir -p $BDIR
 cd $BDIR/
 git clone https://github.com/jouellnyc/shouldipickitup.git 
 cd shouldipickitup
-docker-compose up -d
+docker-compose -f docker-compose.AWS.yaml up -d
