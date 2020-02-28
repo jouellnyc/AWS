@@ -12,6 +12,8 @@ ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 service docker start
 chkconfig docker on
+service awslogsd start
+chkconfig awslogsd on
 
 BDIR="/gitrepos/"
 mkdir -p $BDIR 
