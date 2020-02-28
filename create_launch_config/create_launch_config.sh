@@ -16,4 +16,4 @@ export SGROUP3="sg-0842bd4fffc901c60"
 
 aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \
 --instance-type $TYPE --key-name "PROD-VPC-key.pem" --security-groups $SGROUP1 \
-$SGROUP2 $SGROUP2 --user-data file://$USERDATA --image-id $AMI && echo "Created AutoScaling Config OK"
+$SGROUP2 $SGROUP3 --user-data file://$USERDATA --image-id $AMI && echo "Created AutoScaling Config OK"
