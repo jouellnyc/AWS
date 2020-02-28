@@ -1,0 +1,1 @@
+export LC_NAME="Auto-Scaling-Launch-Config-Docker-v5"
