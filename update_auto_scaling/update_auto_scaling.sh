@@ -10,8 +10,8 @@ export ASG_NAME=${1:-"Auto-Scaling-Group"}
 #Auto-Scaling-Group-BLUE
 #Auto-Scaling-Group-GREEN
 
-export MIN_SERVERS=$1
-export MAX_SERVERS=$2
+export MIN_SERVERS=$2
+export MAX_SERVERS=$3
 source ../shared_vars.txt >/dev/null 2>&1 || source ./shared_vars.txt
 
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
