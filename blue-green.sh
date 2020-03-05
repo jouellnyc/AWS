@@ -8,9 +8,10 @@ export PORT2="443"
 # 1. Required - List the name of the Load Balancer
 export LB_NAME="My-Web-Load-Balancer"
 
-# 2. Required - List the name of the Target Group Name
-export TG_NAME="Target-Group-Auto-Scaling-BLUE"
-export TG_NAME="Target-Group-Auto-Scaling-GREEN"
+# 2. Required - List the name of the *** Target *** Group Name
+export TG_NAME=$1
+#export TG_NAME="Target-Group-Auto-Scaling-BLUE"
+#export TG_NAME="Target-Group-Auto-Scaling-GREEN"
 
 # Do not touch below here #
 
@@ -27,3 +28,10 @@ export TG_ARN=$(aws elbv2  describe-target-groups --query \
 aws elbv2 modify-listener --listener-arn $LST_ARN1 --default-actions Type=forward,TargetGroupArn=$TG_ARN
 aws elbv2 modify-listener --listener-arn $LST_ARN2 --default-actions Type=forward,TargetGroupArn=$TG_ARN
 
+
+###########
+#./update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-Group-GREEN  2 2 
+#### Time to upgrade .... 
+#./update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-Group-BLUE   2 2 
+#### Test Blue ...
+#./blue-green.sh  "Target-Group-Auto-Scaling-BLUE"
