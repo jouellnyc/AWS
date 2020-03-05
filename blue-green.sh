@@ -4,7 +4,6 @@
 
 export PORT1="80"
 export PORT2="443"
-#export PORTX
 
 # 1. Required - List the name of the Load Balancer
 export LB_NAME="My-Web-Load-Balancer"
