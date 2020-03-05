@@ -26,3 +26,4 @@ export TG_ARN=$(aws elbv2  describe-target-groups --query \
 
 aws elbv2 modify-listener --listener-arn $LST_ARN1 --default-actions Type=forward,TargetGroupArn=$TG_ARN
 aws elbv2 modify-listener --listener-arn $LST_ARN2 --default-actions Type=forward,TargetGroupArn=$TG_ARN
+
