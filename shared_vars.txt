@@ -1,1 +1,1 @@
-export LC_NAME="Auto-Scaling-Launch-Config-Docker-v1"
+export LC_NAME="Auto-Scaling-Launch-Config-Docker-v2"
