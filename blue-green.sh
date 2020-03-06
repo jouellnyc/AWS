@@ -30,8 +30,8 @@ aws elbv2 modify-listener --listener-arn $LST_ARN2 --default-actions Type=forwar
 
 
 ###########
-#./update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-Group-GREEN  2 2 
+#./update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-GREEN 2 2 
 #### Time to upgrade .... 
-#./update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-Group-BLUE   2 2 
+#./update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-BLUE  2 2 
 #### Test Blue ...
 #./blue-green.sh  "Target-Group-Auto-Scaling-BLUE"
