@@ -30,12 +30,8 @@ git clone https://github.com/jouellnyc/AWS
 ```
 
 ### Usage
-
-<br />
-
 ```
 source create_aws_vpc3.sh && source create_ec2s_vpc3_autoscaling.sh
-
 ```
 
 ## Authors
