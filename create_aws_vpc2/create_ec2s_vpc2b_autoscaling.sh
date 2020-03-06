@@ -4,11 +4,12 @@
 # create_ec2s_autoscaling_vpc2b.sh - https://github.com/jouellnyc/AWS          #
 ################################################################################
 
+source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt 
+
 ####EC2 INSTANCES
 #Create an Auto Scaling Launch Configuation 
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
-export LC_NAME="Auto-Scaling-Launch-Config"
 export USERDATA="../user_data.http.sh"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
@@ -28,10 +29,11 @@ export TG_ARN=$(aws elbv2  describe-target-groups --query \
 sleep 3
 
 #Create Auto Scaling Group and attach Target Group
+
 export MIN_SERVERS=1
 export MAX_SERVERS=3
 export DESIRED=2
-export ASG_NAME="Auto-Scaling-Group"
+export ASG_NAME="Auto-Scaling-Group-GREEN"
 export ASP_NAME="cpu-alert"
 export SCALEJSON="cpu.json"
 [ -f $SCALEJSON ] || { echo "No Scale Policy File"; }
