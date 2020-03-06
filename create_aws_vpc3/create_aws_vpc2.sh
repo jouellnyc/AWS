@@ -5,7 +5,7 @@
 ################################################################################
 
 #MYIP
-export MYIP="104.162.77.49"
+export MYIP=$(curl ifconfig.co)
 
 #AVAIL ZONES
 export AZ1=us-west-2a
