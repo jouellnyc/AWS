@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 ################################################################################
 # create_ec2s_autoscaling_vpc2b.sh - https://github.com/jouellnyc/AWS          #
@@ -24,7 +24,7 @@ export TG_NAME="Target-GRP-Auto-Scale-BLUE"
 aws elbv2 create-target-group  --name "${TG_NAME}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
     'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text) && \
-    echo "Create Target-Group-for-Auto-Scaling OK"
+    echo "Created $TG_NAME  OK"
 sleep 3
 
 #Create Auto Scaling Groups and attach Target Group
@@ -38,7 +38,7 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME}
     --vpc-zone-identifier $SUBNET1,$SUBNET2 && \ 
 aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-name \
     $ASG_NAME --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
-    echo "Created AutoScaling Group and Policies OK"
+    echo "Created $ASG_NAME  and Policies OK"
 sleep 3
 
 #### /BLUE  ###
@@ -51,7 +51,7 @@ export TG_NAME="Target-GRP-Auto-Scale-GREEN"
 aws elbv2 create-target-group  --name "${TG_NAME}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
     'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text) && \
-    echo "Create Target-Group-for-Auto-Scaling OK"
+    echo "Created $TG_NAME  OK"
 sleep 3
 
 #Create Auto Scaling Groups and attach Target Group
@@ -68,7 +68,7 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME}
     --vpc-zone-identifier $SUBNET1,$SUBNET2 && \ 
 aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-name \
     $ASG_NAME --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
-    echo "Created AutoScaling Group and Policies OK"
+    echo "Created $ASG_NAME  and Policies OK"
 sleep 3
 #### /GREEN ####
 
@@ -78,4 +78,3 @@ aws elbv2 create-load-balancer --name $LB_NAME --subnets $SUBNET1 $SUBNET2  --se
 export LB_ARN=$(aws elbv2  describe-load-balancers --name $LB_NAME --query 'LoadBalancers[0].{Arn:LoadBalancerArn}' --output text) && \
 aws elbv2 create-listener  --load-balancer-arn $LB_ARN --protocol $PROTO --port $PORT --default-actions Type=forward,TargetGroupArn=$TG_ARN && \
 echo "Created LoadBalancer and Listener OK"
-
