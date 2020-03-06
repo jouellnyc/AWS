@@ -38,10 +38,6 @@ source create_aws_vpc3.sh && source create_ec2s_vpc3_autoscaling.sh
 
 ```
 
-### Example 
-[Example 2b](https://github.com/jouellnyc/AWS/blob/master/create_aws_vpc2/example_2b.txt)
-
-
 ## Authors
 [jouellnyc](mailto:jouellnyc@gmail.com)
 
