@@ -50,7 +50,7 @@ echo "Routes and Route Tables setup OK"
 #KEY PAIRS
 #Caution!
 ###KEY PAIRS
-export KEYPAIR="../${VPCLABEL}-key.pem"
+export KEYPAIR="${VPCLABEL}-key.pem"
 # Caution!
 aws ec2 delete-key-pair --key-name $KEYPAIR
 [ -f $KEYPAIR ] && rm -f $KEYPAIR

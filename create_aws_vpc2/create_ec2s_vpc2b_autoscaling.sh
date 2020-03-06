@@ -18,22 +18,47 @@ aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME
     --user-data file://$USERDATA --image-id $AMI && echo "Created AutoScaling Config OK"
 sleep 3
 
+#### BLUE  ###
 #Create Target Group for Auto Scaling use
-export PORT="80"
-export PROTO="HTTP"
-export TG_NAME="Target-Group-for-Auto-Scaling"
+export TG_NAME="Target-GRP-Auto-Scale-BLUE"
 aws elbv2 create-target-group  --name "${TG_NAME}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
     'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text) && \
     echo "Create Target-Group-for-Auto-Scaling OK"
 sleep 3
 
-#Create Auto Scaling Group and attach Target Group
+#Create Auto Scaling Groups and attach Target Group
+export MIN_SERVERS=0
+export MAX_SERVERS=0
+export DESIRED=0
+export ASG_NAME="Auto-Scaling-GRP-BLUE"
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME}" \
+    --launch-configuration-name "${LC_NAME}" --target-group-arns $TG_ARN          \
+    --min-size $MIN_SERVERS --max-size $MAX_SERVERS  --desired-capacity $DESIRED  \
+    --vpc-zone-identifier $SUBNET1,$SUBNET2 && \ 
+aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-name \
+    $ASG_NAME --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
+    echo "Created AutoScaling Group and Policies OK"
+sleep 3
 
+#### /BLUE  ###
+
+#### GREEN ####
+#Create Target Group for Auto Scaling use
+export PORT="80"
+export PROTO="HTTP"
+export TG_NAME="Target-GRP-Auto-Scale-GREEN"
+aws elbv2 create-target-group  --name "${TG_NAME}" --protocol $PROTO --port $PORT --vpc-id $VPCID
+export TG_ARN=$(aws elbv2  describe-target-groups --query \
+    'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text) && \
+    echo "Create Target-Group-for-Auto-Scaling OK"
+sleep 3
+
+#Create Auto Scaling Groups and attach Target Group
 export MIN_SERVERS=1
 export MAX_SERVERS=3
 export DESIRED=2
-export ASG_NAME="Auto-Scaling-Group-GREEN"
+export ASG_NAME="Auto-Scaling-GRP-GREEN"
 export ASP_NAME="cpu-alert"
 export SCALEJSON="cpu.json"
 [ -f $SCALEJSON ] || { echo "No Scale Policy File"; }
@@ -45,8 +70,9 @@ aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-
     $ASG_NAME --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
     echo "Created AutoScaling Group and Policies OK"
 sleep 3
+#### /GREEN ####
 
-#Create Load Balancer and attach Auto Scaling Group
+#Create Load Balancer and attach Auto Scaling Group to GREEN first at init time
 export LB_NAME="My-Web-Load-Balancer"
 aws elbv2 create-load-balancer --name $LB_NAME --subnets $SUBNET1 $SUBNET2  --security-groups  $LBFROMMYIP && \
 export LB_ARN=$(aws elbv2  describe-load-balancers --name $LB_NAME --query 'LoadBalancers[0].{Arn:LoadBalancerArn}' --output text) && \
