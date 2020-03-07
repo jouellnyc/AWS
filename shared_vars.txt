@@ -1,5 +1,5 @@
 #MYIP
-export MYIP=$(curl http://ifconfig.co)
+export MYIP=$(curl http://ifconfig.co 2>/dev/null)
 
 #Launch Config
 export LC_NAME="Auto-Scaling-Launch-Config-Docker-v1"
