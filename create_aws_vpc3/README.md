@@ -23,6 +23,7 @@ aws configure (set your KEYS/ETC)
 ### Expectations 
 It will always be *best* to start from scratch with a new VPC.
 The process should take between 5-10 min on average.
+Use tear_down to tear down.
 
 ### Installing
 ```
