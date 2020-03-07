@@ -4,25 +4,12 @@
 # create_aws_vpc2.sh - https://github.com/jouellnyc/AWS                        #
 ################################################################################
 
-#MYIP
-export MYIP=$(curl ifconfig.co)
+source ../shared_vars.txt
 
-#AVAIL ZONES
-export AZ1=us-west-2a
-export AZ2=us-west-2b
-
-#VPC
-export VPCLABEL="PROD-VPC"
-export VPCCIDR="10.0.0.0/16"
-echo "Creating VPC $VPCLABEL" 
 export VPCID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text  | grep -ioE "vpc-[A-Za-z0-9]{10,25}")
-aws ec2 create-tags --resources $VPCID --tags Key=Name,Value=$VPCLABEL && echo "VPC and Vpc Tags created OK" 
-
-#SUBNETS
-export SNCIDR1="10.0.1.0/24"
-export SNCIDR2="10.0.2.0/24"
-aws ec2 create-subnet --vpc-id $VPCID --cidr-block $SNCIDR1 --availability-zone  $AZ1 && echo "Subnet 1 created OK"
-aws ec2 create-subnet --vpc-id $VPCID --cidr-block $SNCIDR2 --availability-zone  $AZ2 && echo "Subnet 2 created OK"
+aws ec2 create-tags --resources $VPCID --tags Key=Name,Value=$VPCLABEL && echo "VPC and Vpc Tags created OK"
+aws ec2 create-subnet  --vpc-id $VPCID --cidr-block $SNCIDR1 --availability-zone  $AZ1 && echo "Subnet 1 created OK"
+aws ec2 create-subnet  --vpc-id $VPCID --cidr-block $SNCIDR2 --availability-zone  $AZ2 && echo "Subnet 2 created OK"
 
 ############No Need to touch below ###########
 sleep 2
@@ -70,10 +57,5 @@ aws ec2 authorize-security-group-ingress --group-id $EC2FROMLB  --protocol tcp -
 aws ec2 create-tags --resources $LBFROMMYIP --tags Key=Name,Value="LBFROMMYIP" && \
 aws ec2 create-tags --resources $EC2FROMLB  --tags Key=Name,Value="EC2FROMLB"  && \
 aws ec2 create-tags --resources $LBFROMEC2S --tags Key=Name,Value="LBFROMEC2S"  && \
-echo "Security Groups setup and Tags created OK"
-
-#EC2 INSTANCES
-export TYPE="t2.micro"
-export AMI="ami-01bbe152bf19d0289"
-export USERDATA="../user_data.http.sh"
-[ -f $USERDATA ] && echo "Ami Data Ready for next Step"  || { echo "No user data"; echo exit 55; }  
+echo "Security Groups setup and Tags created OK" && \
+echo "done!"

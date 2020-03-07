@@ -1,1 +1,28 @@
-export LC_NAME="Auto-Scaling-Launch-Config-Docker-v2"
+#MYIP
+export MYIP=$(curl http://ifconfig.co)
+
+#Launch Config
+export LC_NAME="Auto-Scaling-Launch-Config-Docker-v1"
+
+#AVAIL ZONES
+export AZ1=us-west-2a
+export AZ2=us-west-2b
+
+#VPC
+export VPCLABEL="PROD-VPC"
+export VPCCIDR="10.0.0.0/16"
+
+#SUBNETS
+export SNCIDR1="10.0.1.0/24"
+export SNCIDR2="10.0.2.0/24"
+
+#LB/Targets
+export LB_NAME="My-Web-Load-Balancer"
+export LB_TGT_NAME="My-Web-Targets"
+
+export TG_NAME_A="Target-GRP-Auto-Scale-GREEN"
+export TG_NAME_B="Target-GRP-Auto-Scale-BLUE"
+export ASG_NAME_A="Auto-Scaling-GRP-BLUE"
+export ASG_NAME_B="Auto-Scaling-GRP-GREEN"
+export ASP_NAME="cpu-alert"
+
