@@ -2,8 +2,7 @@
 
 - Build:
 - VPC with 2 public Subnets, 2 Routes, Routing Table and Internet Gateway
-- Add an Elastic Load Balancer
-- Launch EC2 instances  using an autoscaling group (using %cpu as scaling trigger).
+- Elastic Load Balancer, EC2s launched via autoscaling group using %cpu as scaling trigger.
 
 
 ### Prerequisites
@@ -32,7 +31,8 @@ git clone https://github.com/jouellnyc/AWS
 
 ### Usage
 ```
-source create_aws_vpc3.sh && source create_ec2s_vpc3_autoscaling.sh
+source create_aws_vpc3.sh 
+source create_lb_autoscaling_ec2.sh
 ```
 
 ## Authors
