@@ -49,13 +49,16 @@ echo "Key Pairs created OK"
 export LBFROMMYIP=$(aws ec2 create-security-group --group-name LB-FROM-MYIP --description "LBfromMYIP" --vpc-id $VPCID --output text) && \
 export LBFROMEC2S=$(aws ec2 create-security-group --group-name LB-FROM-EC2S --description "LBfromEC2s" --vpc-id $VPCID --output text) && \
 export EC2FROMLB=$(aws ec2 create-security-group --group-name EC2-FROM-LB --description "EC2fromLB" --vpc-id $VPCID --output text) &&  \
+export       SSH=$(aws ec2 create-security-group --group-name SSH --description "SSH" --vpc-id $VPCID --output text) &&  \
 echo "Security Groups Created OK"
 
 #Change "--cidr $MYIP/32" to "--cidr 0.0.0.0/0"  to expose to the Internet at large
 aws ec2 authorize-security-group-ingress --group-id $LBFROMMYIP --protocol tcp --port 80 --cidr $MYIP/32 && \
 aws ec2 authorize-security-group-ingress --group-id $EC2FROMLB  --protocol tcp --port 80 --source-group $LBFROMMYIP && \
+aws ec2 authorize-security-group-ingress --group-id $SSH        --protocol tcp --port 22 --cidr $MYIP/32 && \
 aws ec2 create-tags --resources $LBFROMMYIP --tags Key=Name,Value="LBFROMMYIP" && \
 aws ec2 create-tags --resources $EC2FROMLB  --tags Key=Name,Value="EC2FROMLB"  && \
 aws ec2 create-tags --resources $LBFROMEC2S --tags Key=Name,Value="LBFROMEC2S"  && \
+aws ec2 create-tags --resources $SSH        --tags Key=Name,Value="SSH"  && \
 echo "Security Groups setup and Tags created OK" && \
 echo "done!"

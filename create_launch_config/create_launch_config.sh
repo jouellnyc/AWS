@@ -2,17 +2,11 @@
 
 #### Create an Auto Scaling Launch Configuation ####
 
+source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt 
+
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
 export USERDATA="../user_data.http.sh"
-#This could be more dynamic...
-#LB-FROM-EC2S, SSH, and EC2-FROM-LB 
-export SGROUP1="sg-00b4e2e5337079a81"
-export SGROUP2="sg-028813c0505b2ddfb"
-export SGROUP3="sg-0842bd4fffc901c60"
-export INST_PROF="CloudWatchAgentAdminRole"
-source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt 
-
 
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 

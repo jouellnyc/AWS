@@ -12,11 +12,11 @@ export USERDATA="user_data.http.sh"
 export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
-aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \
-    --instance-type $TYPE --key-name $KEYPAIR --security-groups $EC2FROMLB       \
-    --user-data file://$USERDATA --image-id $AMI && echo "Created AutoScaling Config OK"
+aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME     \
+    --instance-type $TYPE --key-name $KEYPAIR --security-groups $EC2FROMLB           \
+    --user-data file://$USERDATA --image-id $AMI --iam-instance-profile  $INST_PROF  \ 
+    && echo "Created AutoScaling Config OK"
 sleep 3
-
 
 #### BLUE SIDE  ###
 #2ai. Create Target Groups for Auto Scaling use
