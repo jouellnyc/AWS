@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Delete all the Resource after running:
+# ./tear_down yes; ./tear_down no
+# TBD  sometimes the routes get stuck..
 
 WAIT=$1
 
