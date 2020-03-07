@@ -5,7 +5,7 @@
 - Elastic Load Balancer, EC2s launched via autoscaling group using %cpu as scaling trigger.
 - Extra Infra to perform BLUE-Green upgrades
 
-![Blue-Green]([Blue-Green](blue_green.png)
+![Blue-Green](blue_green.png)
 
 ### Prerequisites
 [Create an AWS account](https://aws.amazon.com)
