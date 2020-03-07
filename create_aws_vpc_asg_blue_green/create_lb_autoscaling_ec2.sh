@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source shared_vars.txt  >/dev/null 2>&1  || { echo 'no shared vars'; exit 55; }
+source ../shared_vars.txt  >/dev/null 2>&1  || { echo 'no shared vars'; exit 55; }
 
 export PORT="80"
 export PROTO="HTTP"
@@ -13,19 +13,18 @@ export USERDATA="user_data.http.sh"
 export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
-aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME     \
-    --instance-type $TYPE --key-name $KEYPAIR --security-groups                      \
-    $EC2FROMLB $LBFROMMYIP $LBFROMEC2S $SSH                                          \ 
-    --user-data file://$USERDATA --image-id $AMI --iam-instance-profile  $INST_PROF  \ 
-    && echo "Created AutoScaling Config OK"
+aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \
+--instance-type $TYPE --key-name $KEYPAIR --security-groups \
+$EC2FROMLB $LBFROMMYIP $LBFROMEC2S $SSH  --user-data file://$USERDATA \
+--image-id $AMI --iam-instance-profile  $INST_PROF \
+&& echo "Created AutoScaling Config OK"
 sleep 3
 
 #### BLUE SIDE  ###
 #2ai. Create Target Groups for Auto Scaling use
 aws elbv2 create-target-group  --name "${TG_NAME_A}" --protocol $PROTO --port $PORT --vpc-id $VPCID
-export TG_ARN=$(aws elbv2  describe-target-groups --query                                   \
-    'TargetGroups[?TargetGroupName==`'$TG_NAME_A'`].{ARN:TargetGroupArn}' --output text) && \
-    echo "Created $TG_NAME_A  OK"
+export TG_ARN=$(aws elbv2  describe-target-groups --query \
+'TargetGroups[?TargetGroupName==`'$TG_NAME_A'`].{ARN:TargetGroupArn}' --output text) && echo "Created $TG_NAME_A  OK"
 sleep 3
 
 #2aii. Create Auto Scaling Groups and attach Target Group
@@ -48,8 +47,7 @@ sleep 3
 #2bi. Create Target Group for Auto Scaling use
 aws elbv2 create-target-group  --name "${TG_NAME_B}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
-    'TargetGroups[?TargetGroupName==`'$TG_NAME_B'`].{ARN:TargetGroupArn}' --output text) && \
-    echo "Created $TG_NAME_B  OK"
+    'TargetGroups[?TargetGroupName==`'$TG_NAME_B'`].{ARN:TargetGroupArn}' --output text) && echo "Created $TG_NAME_B  OK"
 sleep 3
 
 #2bii.  Create Auto Scaling Groups and attach Target Group

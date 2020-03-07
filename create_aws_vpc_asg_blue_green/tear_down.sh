@@ -29,7 +29,7 @@ export TG_ARN_B=$(aws elbv2  describe-target-groups --query \
 aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
 SECS=30
 if [[ $WAIT == 'yes' ]]; then
-  echo "Waiting $SECS for Security Groups dependencies to be deleted 2 ..."
+  echo "Waiting $SECS  ..."
   sleep $SECS 
 fi
 
@@ -38,7 +38,7 @@ aws elbv2 delete-target-group --target-group-arn $TG_ARN_B
 aws autoscaling delete-launch-configuration --launch-configuration-name $LC_NAME
 SECS=30
 if [[ $WAIT == 'yes' ]]; then
-  echo "Waiting $SECS for Security Groups dependencies to be deleted 2 ..."
+  echo "Waiting $SECS for  dependencies to be deleted ..."
   sleep $SECS 
 fi
 
@@ -49,7 +49,7 @@ aws ec2 delete-subnet --subnet-id  $SUBNET1
 aws ec2 delete-subnet --subnet-id  $SUBNET2
 SECS=30
 if [[ $WAIT == 'yes' ]]; then
-  echo "Waiting $SECS for Security Groups dependencies to be deleted 2 ..."
+  echo "Waiting $SECS for  dependencies to be deleted  ..."
   sleep $SECS 
 fi
 
@@ -58,7 +58,7 @@ aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
 
 SECS=120
 if [[ $WAIT == 'yes' ]]; then
-  echo "Waiting $SECS for Security Groups dependencies to be deleted 2 ..."
+  echo "Waiting $SECS for dependencies to be deleted  ..."
   sleep $SECS 
 fi
 aws ec2 delete-security-group --group-id $LBFROMMYIP
