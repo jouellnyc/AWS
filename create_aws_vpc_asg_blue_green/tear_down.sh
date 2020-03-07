@@ -23,10 +23,14 @@ if [[ $WAIT == 'yes' ]]; then
   sleep 180
 fi
 
+
+
 export TG_ARN_A=$(aws elbv2  describe-target-groups --query \
 'TargetGroups[?TargetGroupName==`'$TG_NAME_A'`].{ARN:TargetGroupArn}' --output text)
 export TG_ARN_B=$(aws elbv2  describe-target-groups --query \
 'TargetGroups[?TargetGroupName==`'$TG_NAME_B'`].{ARN:TargetGroupArn}' --output text)
+aws elbv2 delete-target-group --target-group-arn $TG_ARN_A
+aws elbv2 delete-target-group --target-group-arn $TG_ARN_B
 
 aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
 SECS=30
@@ -35,12 +39,19 @@ if [[ $WAIT == 'yes' ]]; then
   sleep $SECS 
 fi
 
-aws elbv2 delete-target-group --target-group-arn $TG_ARN_A
-aws elbv2 delete-target-group --target-group-arn $TG_ARN_B
 aws autoscaling delete-launch-configuration --launch-configuration-name $LC_NAME
 SECS=30
 if [[ $WAIT == 'yes' ]]; then
   echo "Waiting $SECS for  dependencies to be deleted ..."
+  sleep $SECS 
+fi
+
+aws ec2 detach-internet-gateway --internet-gateway-id $IGWID --vpc-id $VPCID
+aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
+
+SECS=30
+if [[ $WAIT == 'yes' ]]; then
+  echo "Waiting $SECS for dependencies to be deleted  ..."
   sleep $SECS 
 fi
 
@@ -49,20 +60,12 @@ SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=c
 
 aws ec2 delete-subnet --subnet-id  $SUBNET1
 aws ec2 delete-subnet --subnet-id  $SUBNET2
-SECS=30
+SECS=60
 if [[ $WAIT == 'yes' ]]; then
   echo "Waiting $SECS for  dependencies to be deleted  ..."
   sleep $SECS 
 fi
 
-aws ec2 detach-internet-gateway --internet-gateway-id $IGWID --vpc-id $VPCID
-aws ec2 delete-internet-gateway --internet-gateway-id $IGWID
-
-SECS=120
-if [[ $WAIT == 'yes' ]]; then
-  echo "Waiting $SECS for dependencies to be deleted  ..."
-  sleep $SECS 
-fi
 aws ec2 delete-security-group --group-id $LBFROMMYIP
 aws ec2 delete-security-group --group-id $EC2FROMLB 
 aws ec2 delete-security-group --group-id $LBFROMEC2S
