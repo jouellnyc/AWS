@@ -1,8 +1,9 @@
 #!/bin/bash
 
+source shared_vars.txt  >/dev/null 2>&1  || { echo 'no shared vars'; exit 55; }
+
 export PORT="80"
 export PROTO="HTTP"
-source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt 
 
 ####EC2 INSTANCES
 # 1. Create an Auto Scaling Launch Configuation 
@@ -13,7 +14,8 @@ export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
 aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME     \
-    --instance-type $TYPE --key-name $KEYPAIR --security-groups $EC2FROMLB           \
+    --instance-type $TYPE --key-name $KEYPAIR --security-groups                      \
+    $EC2FROMLB $LBFROMMYIP $LBFROMEC2S $SSH                                          \ 
     --user-data file://$USERDATA --image-id $AMI --iam-instance-profile  $INST_PROF  \ 
     && echo "Created AutoScaling Config OK"
 sleep 3
@@ -21,7 +23,7 @@ sleep 3
 #### BLUE SIDE  ###
 #2ai. Create Target Groups for Auto Scaling use
 aws elbv2 create-target-group  --name "${TG_NAME_A}" --protocol $PROTO --port $PORT --vpc-id $VPCID
-export TG_ARN=$(aws elbv2  describe-target-groups --query \
+export TG_ARN=$(aws elbv2  describe-target-groups --query                                   \
     'TargetGroups[?TargetGroupName==`'$TG_NAME_A'`].{ARN:TargetGroupArn}' --output text) && \
     echo "Created $TG_NAME_A  OK"
 sleep 3
@@ -30,10 +32,11 @@ sleep 3
 export MIN_SERVERS=0
 export MAX_SERVERS=0
 export DESIRED=0
+
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME_A}" \
-    --launch-configuration-name "${LC_NAME}" --target-group-arns $TG_ARN          \
-    --min-size $MIN_SERVERS --max-size $MAX_SERVERS  --desired-capacity $DESIRED  \
-    --vpc-zone-identifier $SUBNET1,$SUBNET2 && \ 
+    --launch-configuration-name "${LC_NAME}" --target-group-arns $TG_ARN            \
+    --min-size $MIN_SERVERS --max-size $MAX_SERVERS  --desired-capacity $DESIRED    \
+    --vpc-zone-identifier $SUBNET1,$SUBNET2 &&                                      \ 
 aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-name \
     $ASG_NAME_A --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
     echo "Created $ASG_NAME_A  and Policies OK"
