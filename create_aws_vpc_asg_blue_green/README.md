@@ -1,6 +1,6 @@
 ## Create AWS VPC and Setup Up Blue Green Deployment Capability
 
-These Scripts will Build:
+Build:
 - VPC with 2 public Subnets, 2 Routes, Routing Table and Internet Gateway
 - Elastic Load Balancer, EC2s launched via autoscaling group using %cpu as scaling trigger.
 - Extra Infra to perform BLUE-Green upgrades
