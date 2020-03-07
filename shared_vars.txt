@@ -20,10 +20,10 @@ export SNCIDR2="10.0.2.0/24"
 export LB_NAME="My-Web-Load-Balancer"
 export LB_TGT_NAME="My-Web-Targets"
 
-export TG_NAME_A="Target-GRP-Auto-Scale-GREEN"
-export TG_NAME_B="Target-GRP-Auto-Scale-BLUE"
-export ASG_NAME_A="Auto-Scaling-GRP-BLUE"
-export ASG_NAME_B="Auto-Scaling-GRP-GREEN"
+export  TG_NAME_A="Target-GRP-Auto-Scale-GREEN"
+export  TG_NAME_B="Target-GRP-Auto-Scale-BLUE"
+export ASG_NAME_A="Auto-Scaling-GRP-GREEN"
+export ASG_NAME_B="Auto-Scaling-GRP-BLUE"
 export ASP_NAME="cpu-alert"
 
 #SGROUPS/ROLES
