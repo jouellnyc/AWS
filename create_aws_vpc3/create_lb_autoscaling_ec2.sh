@@ -9,6 +9,7 @@ source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
 export USERDATA="user_data.http.sh"
+export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
 aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \
@@ -52,7 +53,6 @@ sleep 3
 export MIN_SERVERS=1
 export MAX_SERVERS=3
 export DESIRED=2
-export SCALEJSON="cpu.json"
 [ -f $SCALEJSON ] || { echo "No Scale Policy File"; }
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME_B}" \
     --launch-configuration-name "${LC_NAME}" --target-group-arns $TG_ARN          \
