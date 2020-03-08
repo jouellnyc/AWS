@@ -9,7 +9,7 @@ export PROTO="HTTP"
 # 1. Create an Auto Scaling Launch Configuation 
 export TYPE="t2.micro"
 export AMI="ami-01bbe152bf19d0289"
-export USERDATA="/home/john/gitrepos/shouldipickitup/user_data.http.sh"
+export USERDATA="user_data.http.sh"
 export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
@@ -52,8 +52,8 @@ sleep 3
 
 #2bii.  Create Auto Scaling Groups and attach Target Group
 export MIN_SERVERS=1
-export MAX_SERVERS=3
-export DESIRED=2
+export MAX_SERVERS=1
+export DESIRED=1
 [ -f $SCALEJSON ] || { echo "No Scale Policy File"; }
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name "${ASG_NAME_B}" \
     --launch-configuration-name "${LC_NAME}" --target-group-arns $TG_ARN          \
