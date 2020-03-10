@@ -27,4 +27,4 @@ export ASG_NAME_B="Auto-Scaling-GRP-BLUE"
 export ASP_NAME="cpu-alert"
 
 #SGROUPS/ROLES
-export INST_PROF="CloudWatchAgentAdminRole"
+export INST_PROF="AWS_EC2_INSTANCE_PROFILE_ROLE"
