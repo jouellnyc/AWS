@@ -1,0 +1,16 @@
+#Attach this policy to an EC2 Instance profile to push logs to Cloudwatch
+{
+    "Policy": {
+        "PolicyName": "CloudWatch_AWS_DEPLOYMENT",
+        "PolicyId": "ANPA4NMDBCB6OAOGFSSIO",
+        "Arn": "arn:aws:iam::853362675836:policy/CloudWatch_AWS_DEPLOYMENT",
+        "Path": "/",
+        "DefaultVersionId": "v1",
+        "AttachmentCount": 1,
+        "PermissionsBoundaryUsageCount": 0,
+        "IsAttachable": true,
+        "Description": "CloudWatch_AWS_DEPLOYMENT",
+        "CreateDate": "2020-03-10T01:46:28Z",
+        "UpdateDate": "2020-03-10T01:46:28Z"
+    }
+}
