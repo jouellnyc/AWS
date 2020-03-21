@@ -31,7 +31,7 @@ aws logs create-log-group --log-group-name mongodb
 # 1. Create an Auto Scaling Launch Configuation 
 export TYPE="t2.micro"
 export AMI="ami-0fc61db8544a617ed"
-export USERDATA="/home/john/gitrepos/shouldipickitup/user_data.http.sh"
+export USERDATA="/home/john/gitrepos/shouldipickitup/user_data.http.AWS.sh"
 export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
