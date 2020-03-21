@@ -29,9 +29,13 @@ if ! aws iam get-role --role-name $CW_ROLE  2>/dev/null; then
 fi
 
 # 0b. CloudWatch log groups
-aws logs create-log-group --log-group-name $WEB_SRV 
-aws logs create-log-group --log-group-name $WEB_APP 
-aws logs create-log-group --log-group-name $DB 
+for log_group in $WEB_SRV $WEB_APP $DB; do 
+
+  if !  aws logs describe-log-groups --log-group-name-prefix $log_group | grep LOGG
+    aws logs create-log-group --log-group-name $log_group
+  fi
+
+done
 
 ####EC2 INSTANCES
 # 1. Create an Auto Scaling Launch Configuation 
