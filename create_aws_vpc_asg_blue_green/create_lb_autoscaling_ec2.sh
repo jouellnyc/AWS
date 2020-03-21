@@ -5,10 +5,16 @@ source ../shared_vars.txt  >/dev/null 2>&1  || { echo 'no shared vars'; exit 55;
 export PORT="80"
 export PROTO="HTTP"
 
+####IAM
+# 0. Create instance profile
+if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName | grep -q $INST_PROF; then
+  aws iam create-instance-profile --instance-profile-name $INST_PROF 
+fi
+
 ####EC2 INSTANCES
 # 1. Create an Auto Scaling Launch Configuation 
 export TYPE="t2.micro"
-export AMI="ami-01bbe152bf19d0289"
+export AMI="ami-0fc61db8544a617ed"
 export USERDATA="/home/john/gitrepos/shouldipickitup/user_data.http.sh"
 export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
