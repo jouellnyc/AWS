@@ -12,11 +12,11 @@ if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName 
   sleep 5
 fi
 if ! aws iam list-policies  --output json --scope Local | grep -q CloudWatch-Send-Policy; then
-  aws iam create-policy --policy-name CloudWatch-Send-Policy  --policy-document file://../iam.cloudwatch.json
+  aws iam create-policy --policy-name CloudWatch-Send-Policy  --policy-document file://../IAM/iam.cloudwatch.json
   sleep 5
 fi
 if ! aws iam get-role --role-name  CloudWatchAgentRole; then
-  aws iam create-role --role-name CloudWatchAgentRole --assume-role-policy-document file://../iam.trustpolicyforec2.json
+  aws iam create-role --role-name CloudWatchAgentRole --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
   sleep 15
   aws iam add-role-to-instance-profile --role-name CloudWatchAgentRole --instance-profile-name  AWS_EC2_INSTANCE_PROFILE_ROLE
   sleep 5
