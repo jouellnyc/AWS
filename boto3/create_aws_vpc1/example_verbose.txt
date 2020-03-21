@@ -1,0 +1,274 @@
+#Running Example of a Successful Run
+
+bash -x create_aws_vpc.sh 
+
++ set -ue
++ AZ1=us-west-2a
++ AZ2=us-west-2b
++ VPCCIDR=10.0.0.0/16
+++ aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text
+++ grep -ioE 'vpc-[A-Za-z0-9]{10,25}'
++ VPCID=vpc-00f99dde7232c0a4c
++ aws ec2 create-tags --resources vpc-00f99dde7232c0a4c --tags Key=Name,Value=PROD-VPC
++ export VPCID
++ SNCIDR1=10.0.1.0/24
++ SNCIDR2=10.0.2.0/24
++ aws ec2 create-subnet --vpc-id vpc-00f99dde7232c0a4c --cidr-block 10.0.1.0/24 --availability-zone us-west-2a
+{
+    "Subnet": {
+        "AvailabilityZone": "us-west-2a",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.1.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "pending",
+        "SubnetId": "subnet-09c03567efc561fcc",
+        "VpcId": "vpc-00f99dde7232c0a4c",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": []
+    }
+}
++ aws ec2 create-subnet --vpc-id vpc-00f99dde7232c0a4c --cidr-block 10.0.2.0/24 --availability-zone us-west-2a
+{
+    "Subnet": {
+        "AvailabilityZone": "us-west-2a",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.2.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "pending",
+        "SubnetId": "subnet-0b3c8313fedf1fef8",
+        "VpcId": "vpc-00f99dde7232c0a4c",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": []
+    }
+}
++ sleep 2
+++ aws ec2 describe-subnets --filters Name=vpc-id,Values=vpc-00f99dde7232c0a4c Name=cidr,Values=10.0.1.0/24 --query 'Subnets[*].{ID:SubnetId}' --output text
++ SUBNET1=subnet-09c03567efc561fcc
+++ aws ec2 describe-subnets --filters Name=vpc-id,Values=vpc-00f99dde7232c0a4c Name=cidr,Values=10.0.2.0/24 --query 'Subnets[*].{ID:SubnetId}' --output text
++ SUBNET2=subnet-0b3c8313fedf1fef8
++ aws ec2 create-tags --resources subnet-09c03567efc561fcc --tags Key=Name,Value=subnet-us-west-2a
++ aws ec2 create-tags --resources subnet-0b3c8313fedf1fef8 --tags Key=Name,Value=subnet-us-west-2b
++ aws ec2 modify-subnet-attribute --subnet-id subnet-09c03567efc561fcc --map-public-ip-on-launch
++ aws ec2 modify-subnet-attribute --subnet-id subnet-0b3c8313fedf1fef8 --map-public-ip-on-launch
+++ aws ec2 create-internet-gateway --output text
+++ awk '{ print $2 }'
++ IGWID=igw-0c355dcc6aad54440
++ aws ec2 attach-internet-gateway --vpc-id vpc-00f99dde7232c0a4c --internet-gateway-id igw-0c355dcc6aad54440
+++ aws ec2 describe-route-tables --filters Name=vpc-id,Values=vpc-00f99dde7232c0a4c --query 'RouteTables[].RouteTableId[]' --output text
++ RTID=rtb-0c68ec673162d7cb6
++ aws ec2 create-route --route-table-id rtb-0c68ec673162d7cb6 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0c355dcc6aad54440
+{
+    "Return": true
+}
++ aws ec2 associate-route-table --subnet-id subnet-09c03567efc561fcc --route-table-id rtb-0c68ec673162d7cb6
+{
+    "AssociationId": "rtbassoc-092b711d86ce91641"
+}
++ aws ec2 associate-route-table --subnet-id subnet-0b3c8313fedf1fef8 --route-table-id rtb-0c68ec673162d7cb6
+{
+    "AssociationId": "rtbassoc-09ce95384eb19ad53"
+}
++ KP=MYKEY.pem
++ rm -f MYKEY.pem
++ aws ec2 create-key-pair --key-name MYKEY.pem --query KeyMaterial --output text
++ chmod 400 MYKEY.pem
+++ aws ec2 create-security-group --group-name SSHAccess --description 'Security group for SSH access' --vpc-id vpc-00f99dde7232c0a4c --output text
++ SG=sg-024cc8bc44217adda
++ aws ec2 authorize-security-group-ingress --group-id sg-024cc8bc44217adda --protocol tcp --port 22 --cidr 0.0.0.0/0
++ TYPE=t2.micro
++ AMI=ami-01bbe152bf19d0289
++ aws ec2 run-instances --image-id ami-01bbe152bf19d0289 --count 1 --instance-type t2.micro --key-name MYKEY.pem --security-group-ids sg-024cc8bc44217adda --subnet-id subnet-09c03567efc561fcc
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-01bbe152bf19d0289",
+            "InstanceId": "i-03c0483b12c3bba94",
+            "InstanceType": "t2.micro",
+            "KeyName": "MYKEY.pem",
+            "LaunchTime": "2018-11-30T15:18:52.000Z",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-west-2a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-10-0-1-250.us-west-2.compute.internal",
+            "PrivateIpAddress": "10.0.1.250",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-09c03567efc561fcc",
+            "VpcId": "vpc-00f99dde7232c0a4c",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "",
+            "EbsOptimized": false,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2018-11-30T15:18:52.000Z",
+                        "AttachmentId": "eni-attach-0d7d5d9141f22ff3d",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "SSHAccess",
+                            "GroupId": "sg-024cc8bc44217adda"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "02:9d:57:3f:0d:f8",
+                    "NetworkInterfaceId": "eni-016c936743b1c648c",
+                    "OwnerId": "143875454031",
+                    "PrivateIpAddress": "10.0.1.250",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "10.0.1.250"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-09c03567efc561fcc",
+                    "VpcId": "vpc-00f99dde7232c0a4c"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "SSHAccess",
+                    "GroupId": "sg-024cc8bc44217adda"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            }
+        }
+    ],
+    "OwnerId": "143875454031",
+    "ReservationId": "r-0bbf7fbe7ceb9870e"
+}
++ aws ec2 run-instances --image-id ami-01bbe152bf19d0289 --count 1 --instance-type t2.micro --key-name MYKEY.pem --security-group-ids sg-024cc8bc44217adda --subnet-id subnet-0b3c8313fedf1fef8
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-01bbe152bf19d0289",
+            "InstanceId": "i-0f09cf74c4df86cc0",
+            "InstanceType": "t2.micro",
+            "KeyName": "MYKEY.pem",
+            "LaunchTime": "2018-11-30T15:18:54.000Z",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-west-2a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-10-0-2-44.us-west-2.compute.internal",
+            "PrivateIpAddress": "10.0.2.44",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-0b3c8313fedf1fef8",
+            "VpcId": "vpc-00f99dde7232c0a4c",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "",
+            "EbsOptimized": false,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2018-11-30T15:18:54.000Z",
+                        "AttachmentId": "eni-attach-0fc156e2127d1849b",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "SSHAccess",
+                            "GroupId": "sg-024cc8bc44217adda"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "02:2f:71:d2:bb:5a",
+                    "NetworkInterfaceId": "eni-09cd08b8cc542701a",
+                    "OwnerId": "143875454031",
+                    "PrivateIpAddress": "10.0.2.44",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "10.0.2.44"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-0b3c8313fedf1fef8",
+                    "VpcId": "vpc-00f99dde7232c0a4c"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "SSHAccess",
+                    "GroupId": "sg-024cc8bc44217adda"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            }
+        }
+    ],
+    "OwnerId": "143875454031",
+    "ReservationId": "r-08b964c05e43ea51c"
+}
+
++ read -r IP1 IP2
+++ aws ec2 describe-instances --filters Name=vpc-id,Values=vpc-033ca14ad020e51b3 --query 'Reservations[*].Instances[0].PublicIpAddress' --output text
++ echo '== Wait 2 mintutes and then check: =='
+== Wait 2 mintutes and then check: ==
++ echo http://54.190.195.6/
+http://54.190.195.6/
++ echo http://35.167.177.183/
+http://35.167.177.183/
+
+

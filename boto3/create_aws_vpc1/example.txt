@@ -1,0 +1,239 @@
+source ./create_aws_vpc.sh  
+{
+    "Subnet": {
+        "AvailabilityZone": "us-west-2a",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.1.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "pending",
+        "SubnetId": "subnet-02a64ac5d21ee4692",
+        "VpcId": "vpc-03904c4a223bca14f",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": []
+    }
+}
+{
+    "Subnet": {
+        "AvailabilityZone": "us-west-2b",
+        "AvailableIpAddressCount": 251,
+        "CidrBlock": "10.0.2.0/24",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false,
+        "State": "pending",
+        "SubnetId": "subnet-0c9c972c2983d2eff",
+        "VpcId": "vpc-03904c4a223bca14f",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": []
+    }
+}
+{
+    "Return": true
+}
+{
+    "AssociationId": "rtbassoc-03dc5f93d83cb64e6"
+}
+{
+    "AssociationId": "rtbassoc-05f8befc4f66ed677"
+}
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-01bbe152bf19d0289",
+            "InstanceId": "i-034cd814aa19c9a9b",
+            "InstanceType": "t2.micro",
+            "KeyName": "PROD-VPC2-key.pem",
+            "LaunchTime": "2018-11-30T17:23:58.000Z",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-west-2a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-10-0-1-23.us-west-2.compute.internal",
+            "PrivateIpAddress": "10.0.1.23",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-02a64ac5d21ee4692",
+            "VpcId": "vpc-03904c4a223bca14f",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "",
+            "EbsOptimized": false,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2018-11-30T17:23:58.000Z",
+                        "AttachmentId": "eni-attach-0e3c7f5a58a82d87f",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "HTTPAccess",
+                            "GroupId": "sg-02650ab993266616d"
+                        },
+                        {
+                            "GroupName": "SSHAccess",
+                            "GroupId": "sg-0d8579527b5c4e191"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "02:de:a9:81:c8:f0",
+                    "NetworkInterfaceId": "eni-03c26329d9f66021d",
+                    "OwnerId": "143875454031",
+                    "PrivateIpAddress": "10.0.1.23",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "10.0.1.23"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-02a64ac5d21ee4692",
+                    "VpcId": "vpc-03904c4a223bca14f"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "HTTPAccess",
+                    "GroupId": "sg-02650ab993266616d"
+                },
+                {
+                    "GroupName": "SSHAccess",
+                    "GroupId": "sg-0d8579527b5c4e191"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            }
+        }
+    ],
+    "OwnerId": "143875454031",
+    "ReservationId": "r-076addacc2b6dfab5"
+}
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-01bbe152bf19d0289",
+            "InstanceId": "i-06b34abea80a26d4e",
+            "InstanceType": "t2.micro",
+            "KeyName": "PROD-VPC2-key.pem",
+            "LaunchTime": "2018-11-30T17:23:59.000Z",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-west-2b",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-10-0-2-228.us-west-2.compute.internal",
+            "PrivateIpAddress": "10.0.2.228",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-0c9c972c2983d2eff",
+            "VpcId": "vpc-03904c4a223bca14f",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "",
+            "EbsOptimized": false,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2018-11-30T17:23:59.000Z",
+                        "AttachmentId": "eni-attach-0e8330d29474e0285",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "HTTPAccess",
+                            "GroupId": "sg-02650ab993266616d"
+                        },
+                        {
+                            "GroupName": "SSHAccess",
+                            "GroupId": "sg-0d8579527b5c4e191"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "06:77:6a:06:50:aa",
+                    "NetworkInterfaceId": "eni-038007bcde2e00b2d",
+                    "OwnerId": "143875454031",
+                    "PrivateIpAddress": "10.0.2.228",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "10.0.2.228"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-0c9c972c2983d2eff",
+                    "VpcId": "vpc-03904c4a223bca14f"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "HTTPAccess",
+                    "GroupId": "sg-02650ab993266616d"
+                },
+                {
+                    "GroupName": "SSHAccess",
+                    "GroupId": "sg-0d8579527b5c4e191"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            }
+        }
+    ],
+    "OwnerId": "143875454031",
+    "ReservationId": "r-041a97e84c83d4498"
+}
+
+== Wait 2 mintutes and then check: ==
+http://52.42.177.159/
+http://34.211.156.125/
+
