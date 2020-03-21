@@ -16,15 +16,17 @@ if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName 
   sleep 5
 fi
 
-if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
-  aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
-  sleep 5
-fi
 
 if ! aws iam get-role --role-name $CW_ROLE  2>/dev/null; then
   aws iam create-role --role-name $CW_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
   sleep 15
   aws iam add-role-to-instance-profile --role-name $CW_ROLE --instance-profile-name $INST_PROF 
+  sleep 5
+fi
+
+if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
+ #aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
+  aws iam put-role-policy --role-name $CW_ROLE  --policy-name  $CW_POLICY --policy-document file://../IAM/iam.cloudwatch.json
   sleep 5
 fi
 
