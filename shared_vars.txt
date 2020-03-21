@@ -5,8 +5,9 @@ export MYIP=$(curl http://ifconfig.co 2>/dev/null)
 export LC_NAME="Auto-Scaling-Launch-Config-Docker-v1"
 
 #AVAIL ZONES
-export AZ1=us-east-1e
-export AZ2=us-east-1f
+export AWS_REGION="us-east-1"
+export AZ1="${AWS_REGION}"e
+export AZ2="${AWS_REGION}"f
 
 #VPC
 export VPCLABEL="PROD-VPC"
