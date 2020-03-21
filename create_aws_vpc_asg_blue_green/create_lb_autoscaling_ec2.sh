@@ -6,7 +6,7 @@ export PORT="80"
 export PROTO="HTTP"
 
 ####IAM
-# 0. Create instance profile
+# 0a. Create instance profile
 if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName | grep -q $INST_PROF; then
   aws iam create-instance-profile --instance-profile-name $INST_PROF 
   sleep 5
@@ -21,6 +21,11 @@ if ! aws iam get-role --role-name  CloudWatchAgentRole; then
   aws iam add-role-to-instance-profile --role-name CloudWatchAgentRole --instance-profile-name  AWS_EC2_INSTANCE_PROFILE_ROLE
   sleep 5
 fi
+
+# 0b. CloudWatch log groups
+aws logs create-log-group --log-group-name nginx
+aws logs create-log-group --log-group-name flask 
+aws logs create-log-group --log-group-name mongodb 
 
 ####EC2 INSTANCES
 # 1. Create an Auto Scaling Launch Configuation 
