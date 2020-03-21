@@ -30,3 +30,4 @@ export ASP_NAME="cpu-alert"
 #SGROUPS/ROLES
 export INST_PROF="AWS_EC2_INSTANCE_PROFILE_ROLE"
 export CW_ROLE="CloudWatchAgentRole"
+export CW_POLICY="CloudWatch-Send-Policy"

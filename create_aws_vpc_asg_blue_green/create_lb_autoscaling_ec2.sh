@@ -5,27 +5,33 @@ source ../shared_vars.txt  >/dev/null 2>&1  || { echo 'no shared vars'; exit 55;
 export PORT="80"
 export PROTO="HTTP"
 
+export WEB_SRV="nginx"
+export WEB_APP="flask"
+export DB="mongodb"
+
 ####IAM
 # 0a. Create instance profile
 if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName | grep -q $INST_PROF; then
   aws iam create-instance-profile --instance-profile-name $INST_PROF 
   sleep 5
 fi
-if ! aws iam list-policies  --output json --scope Local | grep -q CloudWatch-Send-Policy; then
-  aws iam create-policy --policy-name CloudWatch-Send-Policy  --policy-document file://../IAM/iam.cloudwatch.json
+
+if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
+  aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
   sleep 5
 fi
-if ! aws iam get-role --role-name  CloudWatchAgentRole; then
-  aws iam create-role --role-name CloudWatchAgentRole --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
+
+if ! aws iam get-role --role-name $CW_ROLE  2>/dev/null; then
+  aws iam create-role --role-name $CW_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
   sleep 15
-  aws iam add-role-to-instance-profile --role-name CloudWatchAgentRole --instance-profile-name  AWS_EC2_INSTANCE_PROFILE_ROLE
+  aws iam add-role-to-instance-profile --role-name $CW_ROLE --instance-profile-name $INST_PROF 
   sleep 5
 fi
 
 # 0b. CloudWatch log groups
-aws logs create-log-group --log-group-name nginx
-aws logs create-log-group --log-group-name flask 
-aws logs create-log-group --log-group-name mongodb 
+aws logs create-log-group --log-group-name $WEB_SRV 
+aws logs create-log-group --log-group-name $WEB_APP 
+aws logs create-log-group --log-group-name $DB 
 
 ####EC2 INSTANCES
 # 1. Create an Auto Scaling Launch Configuation 
