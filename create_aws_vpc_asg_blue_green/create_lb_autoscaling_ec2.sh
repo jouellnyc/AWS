@@ -55,7 +55,7 @@ aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME
 --instance-type $TYPE --key-name $KEYPAIR --security-groups \
 $EC2FROMLB $LBFROMMYIP $LBFROMEC2S $SSH  --user-data file://$USERDATA \
 --image-id $AMI --iam-instance-profile  $INST_PROF \
-&& echo "Created AutoScaling Config OK"
+&& echo "Created AutoScaling Launch Config OK"
 sleep 3
 
 #### BLUE SIDE  ###
