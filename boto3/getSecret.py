@@ -57,7 +57,10 @@ def get_secret():
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
             return decoded_binary_secret
 
-mysecret  = json.loads(get_secret())
-username  = mysecret['username']
-password  = mysecret['password']
-print(username, password)
+mysecret       = json.loads(get_secret())
+
+mongousername  = mysecret['mongousername']
+mongopassword  = mysecret['mongopassword']
+mongohost      = mysecret['mongohost']
+
+print(mongousername, mongopassword, mongohost)

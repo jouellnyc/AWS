@@ -10,13 +10,14 @@ export WEB_APP="flask"
 export DB="mongodb"
 
 ####IAM
-# 0a. Create instance profile
+# Create instance profile
 if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName | grep -q $INST_PROF; then
   aws iam create-instance-profile --instance-profile-name $INST_PROF 
   sleep 5
 fi
 
 
+# Create EC2 Role
 if ! aws iam get-role --role-name $CW_ROLE  2>/dev/null; then
   aws iam create-role --role-name $CW_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
   sleep 15
@@ -24,13 +25,16 @@ if ! aws iam get-role --role-name $CW_ROLE  2>/dev/null; then
   sleep 5
 fi
 
+# Populate the Role with Polices for Cloud Watch and AWS Secret Mgr
 if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
-  #aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
+  aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
+  aws iam create-policy --policy-name $AS_POLICY  --policy-document file://../IAM/iam.aws_secrets_mgr.json
   aws iam put-role-policy --role-name $CW_ROLE  --policy-name  $CW_POLICY --policy-document file://../IAM/iam.cloudwatch.json
+  aws iam put-role-policy --role-name $CW_ROLE  --policy-name  $AS_POLICY --policy-document file://../IAM/iam.aws_secrets_mgr.json
   sleep 5
 fi
 
-# 0b. CloudWatch log groups
+# Create CloudWatch log groups
 for log_group in $WEB_SRV $WEB_APP $DB; do 
 
   if !  aws logs describe-log-groups --log-group-name-prefix $log_group | grep LOGG
