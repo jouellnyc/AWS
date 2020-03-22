@@ -1,9 +1,5 @@
 #!/usr/bin/python3
 
-# Use this code snippet in your app.
-# If you need more information about configurations or implementing the sample code, visit the AWS docs:   
-# https://aws.amazon.com/developers/getting-started/python/
-
 import boto3
 import base64
 from botocore.exceptions import ClientError
@@ -11,8 +7,8 @@ from botocore.exceptions import ClientError
 
 def get_secret():
 
-    secret_name = "myapp/sec"
-    region_name = "us-west-2"
+    secret_name = "Beta_MongoDB"
+    region_name = "us-east-1"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -55,9 +51,7 @@ def get_secret():
         # Depending on whether the secret is a string or binary, one of these fields will be populated.
         if 'SecretString' in get_secret_value_response:
             secret = get_secret_value_response['SecretString']
+            print(secret)
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-    return secret
-           
-mysecret =  get_secret()
-print (mysecret)
+            return decoded_binary_secret
