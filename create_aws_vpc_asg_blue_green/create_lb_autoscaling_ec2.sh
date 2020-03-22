@@ -18,10 +18,10 @@ fi
 
 
 # Create EC2 Role
-if ! aws iam get-role --role-name $CW_ROLE  2>/dev/null; then
-  aws iam create-role --role-name $CW_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
+if ! aws iam get-role --role-name $APP_ROLE  2>/dev/null; then
+  aws iam create-role --role-name $APP_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
   sleep 15
-  aws iam add-role-to-instance-profile --role-name $CW_ROLE --instance-profile-name $INST_PROF 
+  aws iam add-role-to-instance-profile --role-name $APP_ROLE --instance-profile-name $INST_PROF 
   sleep 5
 fi
 
@@ -29,15 +29,15 @@ fi
 if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
   aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
   aws iam create-policy --policy-name $AS_POLICY  --policy-document file://../IAM/iam.aws_secrets_mgr.json
-  aws iam put-role-policy --role-name $CW_ROLE  --policy-name  $CW_POLICY --policy-document file://../IAM/iam.cloudwatch.json
-  aws iam put-role-policy --role-name $CW_ROLE  --policy-name  $AS_POLICY --policy-document file://../IAM/iam.aws_secrets_mgr.json
+  aws iam put-role-policy --role-name $APP_ROLE  --policy-name  $CW_POLICY --policy-document file://../IAM/iam.cloudwatch.json
+  aws iam put-role-policy --role-name $APP_ROLE  --policy-name  $AS_POLICY --policy-document file://../IAM/iam.aws_secrets_mgr.json
   sleep 5
 fi
 
 # Create CloudWatch log groups
 for log_group in $WEB_SRV $WEB_APP $DB; do 
 
-if !  aws logs describe-log-groups --log-group-name-prefix $log_group | grep -q logGroupName;then
+if !  aws logs describe-log-groups --log-group-name-prefix $log_group --output json | grep -q logGroupName;then
     aws logs create-log-group --log-group-name $log_group
 fi
 
