@@ -37,9 +37,9 @@ fi
 # Create CloudWatch log groups
 for log_group in $WEB_SRV $WEB_APP $DB; do 
 
-  if !  aws logs describe-log-groups --log-group-name-prefix $log_group | grep LOGG
+if !  aws logs describe-log-groups --log-group-name-prefix $log_group | grep -q logGroupName;then
     aws logs create-log-group --log-group-name $log_group
-  fi
+fi
 
 done
 
