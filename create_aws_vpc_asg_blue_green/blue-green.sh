@@ -1,6 +1,29 @@
 #!/bin/bash
 
+########################################################################################
 # Given an AWS Web app behind an ALB, flip the Target Groups from GREEN to BLUE and back
+########################################################################################
+
+# Usage: ./blue-green.sh  "Name_of_Target_Auto_Scaling_Group"
+
+# Example
+
+# Init deploy - Running Green in Production 
+#../update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-GREEN 2 2 
+
+#### Time passes..You now want to upgrade .... 
+
+# Prepare the Blue Side with 
+#../update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-BLUE  2 2 
+
+#### Test Blue ... If if passes then:
+#./blue-green.sh  "Target-GRP-Auto-Scale-BLUE"
+
+#### Drain the Green Side
+#../update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-GREEN 0 0  
+
+# NOTE:  This script only flips the Target Groups in The Load Balancer
+
 
 export PORT1="80"
 export PORT2="443"
@@ -32,16 +55,6 @@ if aws elbv2 modify-listener --listener-arn $LST_ARN1 --default-actions Type=for
   echo "Target updated to  $TG_NAME"
 fi
 
-
 #There is no ssl right now..
 #aws elbv2 modify-listener --listener-arn $LST_ARN2 --default-actions Type=forward,TargetGroupArn=$TG_ARN
 
-
-###########
-# Init deploy
-#../update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-GREEN 2 2 
-#### Time passes..You now wan to upgrade .... 
-#../update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-BLUE  2 2 
-#### Test Blue ... If if passes:
-#./blue-green.sh  "Target-GRP-Auto-Scale-GREEN"
-#../update_auto_scaling/update_auto_scaling.sh   Auto-Scaling-GRP-GREEN 0 0  
