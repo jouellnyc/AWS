@@ -27,7 +27,12 @@ export LST_ARN1=$(aws elbv2 describe-listeners --load-balancer-arn  $LB_ARN \
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
 'TargetGroups[?TargetGroupName==`'$TG_NAME'`].{ARN:TargetGroupArn}' --output text)
 
-aws elbv2 modify-listener --listener-arn $LST_ARN1 --default-actions Type=forward,TargetGroupArn=$TG_ARN
+if aws elbv2 modify-listener --listener-arn $LST_ARN1 --default-actions Type=forward,TargetGroupArn=$TG_ARN --output json\
+| grep -iq \/$TG_NAME\/; then
+  echo "Target updated to  $TG_NAME"
+fi
+
+
 #There is no ssl right now..
 #aws elbv2 modify-listener --listener-arn $LST_ARN2 --default-actions Type=forward,TargetGroupArn=$TG_ARN
 
