@@ -20,17 +20,26 @@ fi
 # Create EC2 Role
 if ! aws iam get-role --role-name $APP_ROLE  2>/dev/null; then
   aws iam create-role --role-name $APP_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
-  sleep 15
+fi
+
+sleep 15
+
+#Ensure role is attached to Instance Profile
+if ! aws iam list-instance-profiles --output json | grep Roles -i $APP_ROLE  then
   aws iam add-role-to-instance-profile --role-name $APP_ROLE --instance-profile-name $INST_PROF 
   sleep 5
 fi
 
 # Populate the Role with Polices for Cloud Watch and AWS Secret Mgr
 if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
-  aws iam create-policy --policy-name $CW_POLICY  --policy-document file://../IAM/iam.cloudwatch.json
-  aws iam create-policy --policy-name $AS_POLICY  --policy-document file://../IAM/iam.aws_secrets_mgr.json
-  aws iam put-role-policy --role-name $APP_ROLE  --policy-name  $CW_POLICY --policy-document file://../IAM/iam.cloudwatch.json
-  aws iam put-role-policy --role-name $APP_ROLE  --policy-name  $AS_POLICY --policy-document file://../IAM/iam.aws_secrets_mgr.json
+  CW_FILE="../IAM/iam.cloudwatch.json"
+  aws iam create-policy --policy-name $CW_POLICY  --policy-document file://$CW_FILE
+  aws iam put-role-policy --role-name $APP_ROLE  --policy-name  $CW_POLICY --policy-document file://$CW_FILE
+fi
+if ! aws iam list-policies  --output json --scope Local | grep -q $AS_POLICY; then
+  AS_FILE="../IAM/iam.aws_secrets_mgr.json"
+  aws iam create-policy --policy-name $AS_POLICY  --policy-document file://$AS_FILE
+  aws iam put-role-policy --role-name $APP_ROLE  --policy-name  $AS_POLICY --policy-document file://$AS_FILE
   sleep 5
 fi
 
