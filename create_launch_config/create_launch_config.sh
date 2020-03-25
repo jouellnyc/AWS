@@ -2,12 +2,12 @@
 
 #### Create an Auto Scaling Launch Configuation ####
 
-export LC_NAME="Auto-Scaling-Launch-Config-Docker-v11"
-export KEYPAIR="vpc-012da0cac29f6f0b6-key.pem"
-
 source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt 
 
+export LC_NAME=$1
+export KEYPAIR="vpc-012da0cac29f6f0b6-key.pem"
 export USERDATA="/home/john/gitrepos/shouldipickitup/user_data.http.AWS.sh"
+
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
 aws autoscaling create-launch-configuration --launch-configuration-name $LC_NAME \

@@ -4,17 +4,19 @@
 
 set -e
 
-[[ $# -eq 0 ]] && { echo "usage: $0 MIN MAX"; exit 55;  }
-
-export ASG_NAME=$1
-#Auto-Scaling-GRP-BLUE
-#Auto-Scaling-GRP-GREEN
-export MIN_SERVERS=$2
-export MAX_SERVERS=$3
+[[ $# -lt 4 ]] && { echo "usage: $0  ASG_NAME LC_NAME MIN MAX"; exit 55;  }
 
 source ../shared_vars.txt >/dev/null 2>&1 || source ./shared_vars.txt
+
+export ASG_NAME=$1
+export LC_NAME=$2
+export MIN_SERVERS=$3
+export MAX_SERVERS=$4
 
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
 --min-size $MIN_SERVERS --max-size $MAX_SERVERS --launch-configuration-name $LC_NAME && \
 echo "Appears Successful - Run this:" 
 echo "aws autoscaling  describe-scaling-activities  --max-items 1"
+
+##aws autoscaling delete-launch-configuration --launch-configuration-name Auto-Scaling-Launch-Config-Docker-v4
+
