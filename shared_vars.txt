@@ -35,9 +35,3 @@ export APP_ROLE="EC2AppRole"
 export CW_POLICY="CloudWatchSendPolicy"
 export AS_POLICY="AwsSecretsPolicy"
 
-#
-export EC2FROMLB=sg-078c11284685ce09c
-export LBFROMEC2S=sg-068ae9d3aa4f4f380
-export LBFROMMYIP=sg-0aa4c43cf6bb98c99
-export SSH=sg-0f1d45fa696f63a78
-
