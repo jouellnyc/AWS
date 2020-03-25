@@ -3,6 +3,8 @@ export MYIP=$(curl http://ifconfig.co 2>/dev/null)
 
 #Launch Config
 export LC_NAME="Auto-Scaling-Launch-Config-Docker-v1"
+export TYPE="t2.micro"
+export AMI="ami-01bbe152bf19d0289"
 
 #AVAIL ZONES
 export AWS_REGION="us-east-1"
