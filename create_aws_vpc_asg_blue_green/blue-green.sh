@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 ########################################################################################
 # Given an AWS Web app behind an ALB, flip the Target Groups from GREEN to BLUE and back
 ########################################################################################
@@ -24,6 +26,7 @@
 
 # NOTE:  This script only flips the Target Groups in The Load Balancer
 
+[[ $# -lt 1 ]] && { echo "usage: $0 auto or Target_Group"; exit 55;  }
 
 export PORT1="80"
 export PORT2="443"
@@ -33,8 +36,16 @@ source ../shared_vars.txt
 
 # 2. Required - List the name of the *** NEW *** Target Group Name
 export TG_NAME=$1
-#export TG_NAME="Target-GRP-Auto-Scale-BLUE"
-#export TG_NAME="Target-GRP-Auto-Scale-GREEN"
+
+if [ $TG_NAME =  "auto" ];then
+
+    if ./show_lb_tgt_group.sh | grep -q  Target-GRP-Auto-Scale-BLUE; then
+      export TG_NAME="Target-GRP-Auto-Scale-GREEN"
+    elif ./show_lb_tgt_group.sh | grep -q  Target-GRP-Auto-Scale-GREEN; then
+      export TG_NAME="Target-GRP-Auto-Scale-BLUE"
+    fi
+fi
+
 
 # Do not touch below here #
 
