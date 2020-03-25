@@ -22,10 +22,10 @@ if ! aws iam get-role --role-name $APP_ROLE  2>/dev/null; then
   aws iam create-role --role-name $APP_ROLE --assume-role-policy-document file://../IAM/iam.trustpolicyforec2.json
 fi
 
-sleep 15
+sleep 5 
 
 #Ensure role is attached to Instance Profile
-if ! aws iam list-instance-profiles --output json | grep Roles -i $APP_ROLE;  then
+if ! aws iam list-instance-profiles --output json  | grep  -iq $APP_ROLE;  then
   aws iam add-role-to-instance-profile --role-name $APP_ROLE --instance-profile-name $INST_PROF 
   sleep 5
 fi
