@@ -26,7 +26,7 @@
 
 # NOTE:  This script only flips the Target Groups in The Load Balancer
 
-[[ $# -lt 1 ]] && { echo "usage: $0 auto or Target_Group"; exit 55;  }
+[[ $# -lt 1 ]] && { echo "usage: $0 \"auto\" or Target_Group"; exit 55;  }
 
 export PORT1="80"
 export PORT2="443"
