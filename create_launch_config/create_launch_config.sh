@@ -3,6 +3,7 @@
 #### Create an Auto Scaling Launch Configuation ####
 
 export LC_NAME="Auto-Scaling-Launch-Config-Docker-v11"
+export KEYPAIR="vpc-012da0cac29f6f0b6-key.pem"
 
 source ../shared_vars.txt  >/dev/null 2>&1  || source ./shared_vars.txt 
 
