@@ -9,7 +9,7 @@ aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A 
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_B  --no-new-instances-protected-from-scale-in
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A  --force-delete
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASG_NAME_B  --force-delete
-sleep 120
+#sleep 120
 
 INSTANCES=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId]' --filters Name=instance-state-name,Values=running --output text)
 for instance  in $(echo $INSTANCES); do
@@ -54,4 +54,6 @@ for x in $(aws ec2 describe-security-groups --query 'SecurityGroups[*].[GroupId]
 done
 
 aws ec2 delete-key-pair --key-name $KEYPAIR
+
+VPCID=$(aws ec2 describe-vpcs --query "Vpcs[0].VpcId" --output text)
 aws ec2 delete-vpc --vpc-id  $VPCID  && echo "VPC deleted OK"
