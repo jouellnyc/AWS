@@ -4,7 +4,11 @@
 # create_aws_vpc2.sh - https://github.com/jouellnyc/AWS                        #
 ################################################################################
 
-set -u
+if [ -z "$DEFAULT_AWS_PROFILE" -a -z "$AWS_PROFILE" ];then
+   echo "DEFAULT_AWS_PROFILE and AWS_PROFILE are  not set"
+   exit
+fi
+
 source ../shared_vars.txt
 
 export VPCID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text  | grep -ioE "vpc-[A-Za-z0-9]{10,25}")
