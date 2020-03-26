@@ -9,6 +9,7 @@ aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A 
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_B  --no-new-instances-protected-from-scale-in
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A  --force-delete
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASG_NAME_B  --force-delete
+
 echo "Waiting 3 min for Auto Scaling Config to be deleted..."
 #sleep 180
 INSTANCES=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId]' --filters Name=instance-state-name,Values=running --output text)
