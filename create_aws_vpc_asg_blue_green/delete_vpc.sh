@@ -32,8 +32,9 @@ aws elbv2 delete-target-group --target-group-arn $TG_ARN_B
 sleep 5
 
 aws autoscaling delete-launch-configuration --launch-configuration-name $LC_NAME
-echo "Waiting 120s for Launch Config to be deleted..."
 
+echo "Waiting 120s for Launch Config to be deleted..."
+sleep 120
 SUBNET1=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR1" --query 'Subnets[*].{ID:SubnetId}' --output text)
 SUBNET2=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPCID" "Name=cidr,Values=$SNCIDR2" --query 'Subnets[*].{ID:SubnetId}' --output text)
 
