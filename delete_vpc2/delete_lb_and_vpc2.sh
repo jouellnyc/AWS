@@ -3,8 +3,12 @@
 # Delete all the Resource after running:
 # source create_aws_vpc2.sh && create_ec2s_autoscaling_vpc2b.sh
 
-aws autoscaling update-auto-scaling-group --auto-scaling-group-name Auto-Scaling-Group --no-new-instances-protected-from-scale-in
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name Auto-Scaling-Group --force-delete
+source ../shared_vars.txt
+
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A  --no-new-instances-protected-from-scale-in
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_B  --no-new-instances-protected-from-scale-in
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A  --force-delete
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASG_NAME_B  --force-delete
 echo "Waiting 3 min for Auto Scaling Config to be deleted..."
 #sleep 180
 INSTANCES=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId]' --filters Name=instance-state-name,Values=running --output text)
