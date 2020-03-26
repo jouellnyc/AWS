@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Delete all the Resource after running:
-# source create_aws_vpc2.sh && create_ec2s_autoscaling_vpc2b.sh
 
 source ../shared_vars.txt
 
