@@ -4,6 +4,7 @@
 # create_aws_vpc2.sh - https://github.com/jouellnyc/AWS                        #
 ################################################################################
 
+set -u
 source ../shared_vars.txt
 
 export VPCID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text  | grep -ioE "vpc-[A-Za-z0-9]{10,25}")
@@ -37,7 +38,7 @@ echo "Routes and Route Tables setup OK"
 #KEY PAIRS
 #Caution!
 ###KEY PAIRS
-export KEYPAIR="${VPCID}-key.pem"
+export KEYPAIR="${VPCID}-{AWS_PROFILE}-key.pem"
 # Caution!
 aws ec2 delete-key-pair --key-name $KEYPAIR
 [ -f $KEYPAIR ] && rm -f $KEYPAIR
