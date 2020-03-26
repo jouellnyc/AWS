@@ -3,6 +3,7 @@
 # Delete all the Resource after running:
 
 source ../shared_vars.txt
+../check_creds.sh || exit 1
 
 echo "Waiting 2 min for Auto Scaling Config to be deleted..."
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME_A  --no-new-instances-protected-from-scale-in
