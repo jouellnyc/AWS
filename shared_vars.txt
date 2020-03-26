@@ -8,6 +8,7 @@ export AMI="ami-0fc61db8544a617ed"
 
 #AVAIL ZONES
 export AWS_REGION="us-east-1"
+export AWS_DEFAULT_REGION="us-east-1"
 export AZ1="${AWS_REGION}"e
 export AZ2="${AWS_REGION}"f
 
