@@ -40,9 +40,19 @@ export TG_NAME=$1
 if [ $TG_NAME =  "auto" ];then
 
     if ./show_lb_tgt_group.sh | grep -q  Target-GRP-Auto-Scale-BLUE; then
-      export TG_NAME="Target-GRP-Auto-Scale-GREEN"
-    elif ./show_lb_tgt_group.sh | grep -q  Target-GRP-Auto-Scale-GREEN; then
+
       export TG_NAME="Target-GRP-Auto-Scale-BLUE"
+      echo "Target is currently $TG_NAME..."
+      #new, going forward:
+      export TG_NAME="Target-GRP-Auto-Scale-GREEN"
+
+    elif ./show_lb_tgt_group.sh | grep -q  Target-GRP-Auto-Scale-GREEN; then
+
+      export TG_NAME="Target-GRP-Auto-Scale-GREEN"
+      echo "Target is currently $TG_NAME..."
+      #new, going forward:
+      export TG_NAME="Target-GRP-Auto-Scale-BLUE"
+
     fi
 fi
 
