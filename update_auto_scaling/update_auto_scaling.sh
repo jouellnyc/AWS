@@ -18,5 +18,6 @@ aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
 echo "Appears Successful - Run this:" 
 echo "aws autoscaling  describe-scaling-activities  --max-items 1"
 
-##aws autoscaling delete-launch-configuration --launch-configuration-name Auto-Scaling-Launch-Config-Docker-v4
+#aws autoscaling delete-launch-configuration --launch-configuration-name Auto-Scaling-Launch-Config-Docker-v4
+#update_auto_scaling.sh  Auto-Scaling-GRP-GREEN   Auto-Scaling-Launch-Config-Docker-v1 1 1
 
