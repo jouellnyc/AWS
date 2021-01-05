@@ -26,6 +26,8 @@ export IGWID=$(aws ec2 create-internet-gateway --output text  | awk  '{ print $2
 aws ec2 attach-internet-gateway --vpc-id $VPCID   --internet-gateway-id $IGWID && \
 echo "Internet Gateway Created and attached OK"
 
+###
+
 #ROUTE TABLE
 #aws ec1 create-route-table --vpc-id $VPCID
 export RTID=$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPCID" --query "RouteTables[].RouteTableId[]" --output text)
@@ -33,7 +35,7 @@ aws ec2 create-route --route-table-id $RTID  --destination-cidr-block 0.0.0.0/0 
 aws ec2 associate-route-table  --subnet-id $SUBNET1 --route-table-id $RTID && \
 aws ec2 associate-route-table  --subnet-id $SUBNET2 --route-table-id $RTID && \
 echo "Routes and Route Tables setup OK"
-
+<-----------------------------------------here
 #KEY PAIRS
 #Caution!
 ###KEY PAIRS
@@ -51,6 +53,9 @@ export LBFROMEC2S=$(aws ec2 create-security-group --group-name LB-FROM-EC2S --de
 export EC2FROMLB=$(aws ec2 create-security-group --group-name EC2-FROM-LB --description "EC2fromLB" --vpc-id $VPCID --output text) &&  \
 export       SSH=$(aws ec2 create-security-group --group-name SSH --description "SSH" --vpc-id $VPCID --output text) &&  \
 echo "Security Groups Created OK"
+
+------------
+
 
 #Change "--cidr $MYIP/32" to "--cidr 0.0.0.0/0"  to expose to the Internet at large
 aws ec2 authorize-security-group-ingress --group-id $LBFROMMYIP --protocol tcp --port 80 --cidr $MYIP/32 && \

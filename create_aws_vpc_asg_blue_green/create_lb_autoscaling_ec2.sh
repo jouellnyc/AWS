@@ -16,6 +16,7 @@ if ! aws iam list-instance-profiles --output json | grep -i InstanceProfileName 
   sleep 5
 fi
 
+--
 
 # Create EC2 Role
 if ! aws iam get-role --role-name $APP_ROLE  2>/dev/null; then
@@ -29,6 +30,7 @@ if ! aws iam list-instance-profiles --output json  | grep  -iq $APP_ROLE;  then
   aws iam add-role-to-instance-profile --role-name $APP_ROLE --instance-profile-name $INST_PROF 
   sleep 5
 fi
+
 
 # Populate the Role with Polices for Cloud Watch and AWS Secret Mgr
 if ! aws iam list-policies  --output json --scope Local | grep -q $CW_POLICY; then
@@ -52,11 +54,12 @@ fi
 
 done
 
+
 ####EC2 INSTANCES
 # 1. Create an Auto Scaling Launch Configuation 
 export TYPE="t2.micro"
 export AMI="ami-0fc61db8544a617ed"
-export USERDATA=~/gitrepos/shouldipickitup/user_data.http.AWS.sh
+export USERDATA=~/gitrepos/jouell/shouldipickitup/user_data.http.AWS.sh
 export SCALEJSON="cpu.json"
 [ -f $USERDATA ] || { echo "No user data"; exit 55; }
 
@@ -67,12 +70,15 @@ $EC2FROMLB $LBFROMMYIP $LBFROMEC2S $SSH  --user-data file://$USERDATA \
 && echo "Created AutoScaling Launch Config OK"
 sleep 3
 
+
+
 #### BLUE SIDE  ###
 #2ai. Create Target Groups for Auto Scaling use
 aws elbv2 create-target-group  --name "${TG_NAME_A}" --protocol $PROTO --port $PORT --vpc-id $VPCID
 export TG_ARN=$(aws elbv2  describe-target-groups --query \
 'TargetGroups[?TargetGroupName==`'$TG_NAME_A'`].{ARN:TargetGroupArn}' --output text) && echo "Created $TG_NAME_A  OK"
 sleep 3
+
 
 #2aii. Create Auto Scaling Groups and attach Target Group
 export MIN_SERVERS=0
@@ -87,6 +93,8 @@ aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-
     $ASG_NAME_A --policy-type TargetTrackingScaling --target-tracking-configuration file://$SCALEJSON && \
     echo "Created $ASG_NAME_A  and Policies OK"
 sleep 3
+
+
 
 #### /BLUE  ###
 
@@ -111,6 +119,7 @@ aws autoscaling put-scaling-policy --policy-name $ASP_NAME --auto-scaling-group-
     echo "Created $ASG_NAME_B  and Policies OK"
 sleep 3
 #### /GREEN ####
+
 
 #3. Create Load Balancer and attach Auto Scaling Group to GREEN first at init time
 aws elbv2 create-load-balancer --name $LB_NAME --subnets $SUBNET1 $SUBNET2  --security-groups  $LBFROMMYIP && \
