@@ -4,6 +4,7 @@
 
 import time
 import json
+import random
 
 from prod_build_config import (
     VPC,
@@ -85,12 +86,14 @@ class BUILD:
         self.elbv2_client = elbv2_client
         self.ec2_inst = EC2_instance()
         self.LoadBalancer = LoadBalancer()
+
         """ Things we will set via boto3 """
         self.sec_groups = {}
         self.subnets = []
         self.target_groups = {}
         self.auto_scaling_groups = {}
         self.load_balancer = ""
+        self.listener = ""
 
     def my_create_vpc(self, tagged=True):
         """ Create VPC """
@@ -211,7 +214,10 @@ class BUILD:
             self.sec_groups[sec_group.name] = response
 
             if sec_group.name != "LB2EC2":
-                # print("name ", sec_group.name)
+
+                """ We create Groups differently  as we set a Security Group """
+                """ OR We set a CIDR for src/dest filters                    """
+
                 """ Authorize Group """
                 self.ec2_res.meta.client.authorize_security_group_ingress(
                     GroupId=self.sec_groups[sec_group.name].id,
@@ -403,37 +409,37 @@ class BUILD:
             time.sleep(15)
             print(f"LC: Launch Config {self.ec2_inst.lc_name} Created OK")
 
-    def my_create_t_a_p_group(self, auto_scaling_bundle):
+    def my_create_t_a_p_group(self, auto_scaling_bundle, subnet_bundles):
 
         try:
 
             tg_name = auto_scaling_bundle.tg_name
             as_name = auto_scaling_bundle.asg_name
 
-            response = self.elbv2_client.create_target_group(
+            self.target_groups[tg_name] = self.elbv2_client.create_target_group(
                 Name=tg_name,
                 Port=auto_scaling_bundle.tg_port,
                 Protocol=auto_scaling_bundle.tg_proto,
                 VpcId=self.vpcid,
             )
 
-            self.target_groups[tg_name] = response
-            TargetGroupARN = response["TargetGroups"][0]["TargetGroupArn"]
+            TargetGroupARN = self.target_groups[tg_name]["TargetGroups"][0][
+                "TargetGroupArn"
+            ]
 
-            response = self.as_client.create_auto_scaling_group(
+            self.auto_scaling_groups[
+                as_name
+            ] = self.as_client.create_auto_scaling_group(
                 AutoScalingGroupName=as_name,
                 LaunchConfigurationName=self.ec2_inst.lc_name,
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
                 DesiredCapacity=1,
-                # TBD - How to use a string with 2 subnets??
-                # VPCZoneIdentifier=str(self.subnet1.id) + ' ' +  str(self.subnet2.id),
-                # VPCZoneIdentifier=self.subnet1.id,self.subnet2.id,
-                VPCZoneIdentifier=self.subnets[0].id,
+                AvailabilityZones=[
+                    subnet_bundle.az for subnet_bundle in subnet_bundles
+                ],
                 TargetGroupARNs=[TargetGroupARN],
             )
-
-            self.auto_scaling_groups[as_name] = response
 
             self.as_client.put_scaling_policy(
                 AdjustmentType="ChangeInCapacity",
@@ -461,10 +467,11 @@ class BUILD:
         try:
 
             LBName = f"{self.LoadBalancer.name}-{self.vpcname}"
-            FirstTg_Group = "Target-GRP-Auto-Scale-GREEN"
-            # print([x.id for x in self.subnets])
-            # print(LBName)
-            # print("SG", [self.sec_groups["HTTP"].id])
+            """ We randomly choose the Target Group b/c it doesnt matter """
+
+            FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
+            print(f"LB: {FirstTg_Group} chosen for Target Group")
+
             self.load_balancer = self.elbv2_client.create_load_balancer(
                 Name=LBName,
                 Subnets=[x.id for x in self.subnets],
@@ -474,13 +481,11 @@ class BUILD:
             print(f"LB: {LBName} Created  OK")
 
             self.LB_ARN = self.load_balancer["LoadBalancers"][0]["LoadBalancerArn"]
-            # We arbitralily choose green first; TBD make it random
             Tg_Grn = self.target_groups[FirstTg_Group]["TargetGroups"][0][
                 "TargetGroupArn"
             ]
-            # print("Tg_Grn: ", Tg_Grn)
 
-            self.elbv2_client.create_listener(
+            self.listener = self.elbv2_client.create_listener(
                 DefaultActions=[{"TargetGroupArn": Tg_Grn, "Type": "forward",},],
                 LoadBalancerArn=self.LB_ARN,
                 Port=self.LoadBalancer.port,
@@ -530,7 +535,7 @@ if __name__ == "__main__":
             prod_vpc.my_create_log_groups(log_group_name)
         prod_vpc.my_create_launch_configuration()
         for auto_scaling_bundle in auto_scaling_bundles:
-            prod_vpc.my_create_t_a_p_group(auto_scaling_bundle)
+            prod_vpc.my_create_t_a_p_group(auto_scaling_bundle, subnet_bundles)
         prod_vpc.my_create_load_balancer(LoadBalancer)
     except Exception as e:
         print(e, type(e))
