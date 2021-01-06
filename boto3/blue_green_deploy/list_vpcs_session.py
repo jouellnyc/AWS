@@ -63,9 +63,7 @@ def main(profile_name=profile_name):
     else:
         for y in x:
             print(y["LoadBalancerArn"], y["VpcId"])
-            for x in y['AvailabilityZones']:
-                print(x['ZoneName'])
-            
+
     print("== Auto Scaling Groups ==")
     x = as_client.describe_auto_scaling_groups()["AutoScalingGroups"]
     if len(x) < 1:
@@ -73,7 +71,6 @@ def main(profile_name=profile_name):
     else:
         for y in x:
             print(y["AutoScalingGroupName"])
-            print(y["AvailabilityZones"])
 
     print("== Target Groups ==")
     x = elbv2_client.describe_target_groups()["TargetGroups"]

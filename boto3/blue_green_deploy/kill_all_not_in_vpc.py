@@ -129,7 +129,7 @@ def delete_items(ec2_res, as_client, iam_client, logs_client, profile_name):
 
     except Exception as e:
 
-        print("Error Deprovisioning: ", e)
+        print("Error Deprovision: ", e)
 
     else:
         print("No Errors Deprovisioning")
