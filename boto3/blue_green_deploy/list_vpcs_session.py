@@ -71,6 +71,7 @@ def main(profile_name=profile_name):
     else:
         for y in x:
             print(y["AutoScalingGroupName"])
+            print(y["AvailabilityZones"])
 
     print("== Target Groups ==")
     x = elbv2_client.describe_target_groups()["TargetGroups"]
