@@ -435,9 +435,7 @@ class BUILD:
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
                 DesiredCapacity=1,
-                AvailabilityZones=[
-                    subnet_bundle.az for subnet_bundle in subnet_bundles
-                ],
+                VPCZoneIdentifier=self.subnets[0].id,           
                 TargetGroupARNs=[TargetGroupARN],
             )
 
