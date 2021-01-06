@@ -95,6 +95,16 @@ class BUILD:
         self.load_balancer = ""
         self.listener = ""
 
+    def __str__(self):
+        return f"""VPC NAME: {self.vpcname}
+VPC ID: {self.vpcid}
+SG: {self.sec_groups}
+SN: {self.subnets}
+TG: {self.target_groups}
+AS: {self.auto_scaling_groups}
+LB: {self.load_balancer}
+LS: {self.listener}"""
+
     def my_create_vpc(self, tagged=True):
         """ Create VPC """
         try:
@@ -435,7 +445,7 @@ class BUILD:
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
                 DesiredCapacity=1,
-                VPCZoneIdentifier=self.subnets[0].id,           
+                VPCZoneIdentifier=self.subnets[0].id,
                 TargetGroupARNs=[TargetGroupARN],
             )
 
