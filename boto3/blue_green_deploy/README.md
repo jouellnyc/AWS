@@ -19,11 +19,13 @@ git clone https://github.com/jouellnyc/AWS
 ```
 
 ### Usage
+- cd boto3/blue_green_deploy
+
 - edit prod_build_config.py to taste. 
 
 - python3 ./prod_vpc_lb_builder.py
 
-(I suggest Using Spyder)
+(I suggest Using Spyder or a REPL - that way you can print the 'prod_vpc' object easily to debug.)
 
 ## Authors
 [jouellnyc](mailto:jouellnyc@gmail.com)
