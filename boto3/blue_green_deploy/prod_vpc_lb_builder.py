@@ -94,6 +94,7 @@ class BUILD:
         self.auto_scaling_groups = {}
         self.load_balancer = ""
         self.listener = ""
+        self.launch_config = ""
 
     def __str__(self):
         return f"""VPC NAME: {self.vpcname}
@@ -154,7 +155,7 @@ LS: {self.listener}"""
                 Tags=[{"Key": "Name", "Value": subnet_bundle.subnet_name}],
             )
 
-            # Add All subnets to the object
+            """  Add All subnets to the object """
             self.subnets.append(subnet)
 
         except Exception as e:
@@ -202,6 +203,7 @@ LS: {self.listener}"""
             print("RT: Routes created and attached to Route Table OK")
 
     def my_create_keypair(self):
+        """ Create Keypairs """
 
         try:
             self.key_pair = self.ec2_res.create_key_pair(
@@ -288,6 +290,8 @@ LS: {self.listener}"""
             )
 
     def my_create_instance_profile(self, inst_prof_name):
+        """ Create Inst Prof """
+
         try:
             self.inst_prof_name = inst_prof_name
             self.iam_client.create_instance_profile(InstanceProfileName=inst_prof_name)
@@ -301,6 +305,7 @@ LS: {self.listener}"""
             print(f"IP: Instance Profle {inst_prof_name} Created OK")
 
     def my_create_app_role(self, app_role_name, app_role_file):
+        """ Create App Role """
 
         self.app_role_name = app_role_name
 
@@ -339,6 +344,7 @@ LS: {self.listener}"""
             )
 
     def my_create_policy(self, policy_name, policy_file, policy_desc):
+        """ Create Policy"""
         try:
 
             with open(policy_file) as ph:
@@ -373,8 +379,8 @@ LS: {self.listener}"""
             print(f"PL: Policy {policy_name} inserted to {self.app_role_name} OK ")
 
     def my_attach_policy(self, aws_policy_arn):
+        """ Attach the policy """
         try:
-            # seems to be a waiting problem on the role!!
             role = "EC2AppRole"
             self.iam_client.attach_role_policy(RoleName=role, PolicyArn=aws_policy_arn)
         except Exception as e:
@@ -383,6 +389,7 @@ LS: {self.listener}"""
             print(f"PL: Policy {aws_policy_arn} Attached to {role} OK")
 
     def my_create_log_groups(self, log_group_name):
+        """ Create the Log Groups """
         try:
             self.logs_client.create_log_group(logGroupName=log_group_name)
         except self.logs_client.exceptions.ResourceAlreadyExistsException:
@@ -394,17 +401,10 @@ LS: {self.listener}"""
             print(f"LG: Log group {log_group_name} Created OK")
 
     def my_create_launch_configuration(self):
-
-        """        
-        file="/home/john/gitrepos/jouell/shouldipickitup/user_data.http.AWS.sh"
-        with open(file) as fh:
-            contents=fh.read()
-        """
-
+        """ Create the Launch Config """
         try:
 
-            # print("SECGS: ", [x.id for x in self.sec_groups.values()])
-            self.as_client.create_launch_configuration(
+            self.launch_config = self.as_client.create_launch_configuration(
                 KeyName=f"{self.vpcid}-{self.profile_name}.pem",
                 IamInstanceProfile=self.inst_prof_name,
                 ImageId=self.ec2_inst.ami,
@@ -426,7 +426,7 @@ LS: {self.listener}"""
             print(f"LC: Launch Config {self.ec2_inst.lc_name} Created OK")
 
     def my_create_t_a_p_group(self, auto_scaling_bundle, subnet_bundles):
-
+        """ Create the Target Groups, AS Groups and put the Policy in """
         try:
 
             tg_name = auto_scaling_bundle.tg_name
@@ -451,7 +451,7 @@ LS: {self.listener}"""
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
                 DesiredCapacity=1,
-                VPCZoneIdentifier=self.subnets[0].id,
+                VPCZoneIdentifier=",".join([x.id for x in self.subnets]),
                 TargetGroupARNs=[TargetGroupARN],
             )
 
@@ -478,6 +478,8 @@ LS: {self.listener}"""
             print(f"TG: Target {tg_name} and Auto Scaling {as_name} groups created OK")
 
     def my_create_load_balancer(self, LoadBalancer):
+        """ Create The Load Balancer """
+
         try:
 
             LBName = f"{self.LoadBalancer.name}-{self.vpcname}"
