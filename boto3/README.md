@@ -1,6 +1,3 @@
-![AWS](aws.png)
-
-
 ## What's here 
 
 #### blue_green_deploy  
