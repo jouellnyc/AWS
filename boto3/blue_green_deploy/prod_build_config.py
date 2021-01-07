@@ -104,7 +104,7 @@ class EC2_instance:
 
 class LoadBalancer:
     def __init__(self):
-        self.name = "My-Web-Load-Balancer"
+        self.name = "My-Web-Load-Balancer2"
         self.targets = "My-Web-Targets"
         self.port = 80
         self.proto = "HTTP"

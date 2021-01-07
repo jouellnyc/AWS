@@ -98,11 +98,17 @@ class BUILD:
     def __str__(self):
         return f"""VPC NAME: {self.vpcname}
 VPC ID: {self.vpcid}
+
 SG: {self.sec_groups}
+
 SN: {self.subnets}
+
 TG: {self.target_groups}
+
 AS: {self.auto_scaling_groups}
+
 LB: {self.load_balancer}
+
 LS: {self.listener}"""
 
     def my_create_vpc(self, tagged=True):
@@ -475,8 +481,8 @@ LS: {self.listener}"""
         try:
 
             LBName = f"{self.LoadBalancer.name}-{self.vpcname}"
-            """ We randomly choose the Target Group b/c it doesnt matter """
 
+            """ We randomly choose the Target Group b/c it doesnt matter """
             FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
             print(f"LB: {FirstTg_Group} chosen for Target Group")
 
