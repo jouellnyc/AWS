@@ -29,6 +29,10 @@ git clone https://github.com/jouellnyc/AWS
 
 (I suggest Using Spyder or a REPL - that way you can print the 'prod_vpc' object easily to debug.)
 
+### Deco
+- Run kill_all_not_in_vpc.py
+- Run kill_all_vpc.py
+
 ## Authors
 [jouellnyc](mailto:jouellnyc@gmail.com)
 
