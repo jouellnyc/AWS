@@ -19,8 +19,10 @@ git clone https://github.com/jouellnyc/AWS
 ```
 
 ### Usage
-edit prod_build_config.py to taste. 
-python3 ./prod_vpc_lb_builder.py
+- edit prod_build_config.py to taste. 
+
+- python3 ./prod_vpc_lb_builder.py
+
 (I suggest Using Spyder)
 
 ## Authors
