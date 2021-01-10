@@ -4,7 +4,7 @@ import boto3.session
 from prod_build_config import region_name
         
 
-class AWS_CREDS():
+class AWS_CREDS:
 
     def __init__(self, profile_name):
         
