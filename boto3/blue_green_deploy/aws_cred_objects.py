@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import boto3.session
 from prod_build_config import region_name
@@ -30,11 +31,3 @@ class AWS_CREDS():
         self.logs_client = boto3.session.Session(profile_name=profile_name).client(
             "logs", region_name
         )
-
-'''
-if __name__ == '__main__':
-    pass
-
-'''
-
-    
