@@ -105,7 +105,7 @@ def main(aws_creds):
             print(y["PolicyName"], y["Arn"])
             # print(iam_client.get_policy(PolicyArn=x['Arn']),"\n")
 
-    # These are not inline policies
+    """ These are not inline policies """
     print("== Roles and Attached AWS Managed Policies ==")
     for x in aws_creds.iam_client.list_roles()["Roles"]:
         print("Role:", x["RoleName"])
@@ -117,11 +117,11 @@ def main(aws_creds):
             else:
                 print("No Policies")
 
-    # Show the actual details of the policy
-    # print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="CloudWatchSendPolicy"))
+    """  Show the actual details of the policy """
+    #print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="CloudWatchSendPolicy"))
 
 
-# print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="AwsSecretsPolicy"))
+#print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="AwsSecretsPolicy"))
 
 
 if __name__ == "__main__":
