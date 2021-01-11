@@ -19,6 +19,8 @@ from prod_build_config import (
     LoadBalancer,
 )
 
+from aws_cred_objects import AWS_CREDS
+
 userdata = """\
 #!/bin/bash -x
 yum update -y
@@ -62,28 +64,19 @@ docker-compose -f docker-compose.AWS.hosted.MongoDb.yaml up -d
 
 
 class BUILD:
-    def __init__(
-        self,
-        VPC,
-        ec2_res,
-        iam_client,
-        logs_client,
-        as_client,
-        elbv2_client,
-        profile_name,
-    ):
+    def __init__(self, aws_creds, VPC):
 
         """ Things we imported """
-        self.profile_name = profile_name
         self.VPC = VPC
         self.vpc_cidr = self.VPC["vpc_cidr"]
         self.vpcname = self.VPC["vpcname"]
-        self.ec2_res = ec2_res
-        self.ec2_client = ec2_res.meta.client
-        self.iam_client = iam_client
-        self.logs_client = logs_client
-        self.as_client = as_client
-        self.elbv2_client = elbv2_client
+        self.ec2_res = aws_creds.ec2_res
+        self.ec2_client = aws_creds.ec2_res.meta.client
+        self.iam_client = aws_creds.iam_client
+        self.logs_client = aws_creds.logs_client
+        self.as_client = aws_creds.as_client
+        self.elbv2_client = aws_creds.elbv2_client
+        self.profile_name = aws_creds.profile_name
         self.ec2_inst = EC2_instance()
         self.LoadBalancer = LoadBalancer()
 
@@ -516,22 +509,12 @@ LS: {self.listener}"""
 
 if __name__ == "__main__":
 
-    from aws_cred_objects import (
-        ec2_res,
-        elbv2_client,
-        as_client,
-        iam_client,
-        profile_name,
-        logs_client,
-    )
-
     try:
 
+        profile_name = "dev"
+        aws_creds = AWS_CREDS(profile_name)
+        prod_vpc = BUILD(aws_creds, VPC)
         print("Profile: ", profile_name)
-        vpcname = VPC["vpcname"]
-        prod_vpc = BUILD(
-            VPC, ec2_res, iam_client, logs_client, as_client, elbv2_client, profile_name
-        )
 
         print(prod_vpc.my_create_vpc(tagged=True))
         for subnet_bundle in subnet_bundles:

@@ -126,5 +126,5 @@ def main(aws_creds):
 
 if __name__ == "__main__":
 
-    aws_creds = AWS_CREDS(profile_name="prod")
+    aws_creds = AWS_CREDS(profile_name="dev")
     main(aws_creds)

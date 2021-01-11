@@ -2,15 +2,17 @@
 
 import sys
 import time
+from aws_cred_objects import AWS_CREDS
+
 
 """ This kills the VPCs after all the Infra outside the VPC is deco'ed """
 
 
-def vpc_delete(vpcid, ec2_res, as_client, iam_client, profile_name):
+def vpc_delete(vpcid, aws_creds):
 
-    ec2client = ec2_res.meta.client
-    vpc = ec2_res.Vpc(vpcid)
-    dhcp_options_default = ec2_res.DhcpOptions("default")
+    aws_creds.ec2client = aws_creds.ec2_res.meta.client
+    vpc = aws_creds.ec2_res.Vpc(vpcid)
+    dhcp_options_default = aws_creds.ec2_res.DhcpOptions("default")
 
     if not vpcid:
         print("== No VPCs here ==")
@@ -29,10 +31,10 @@ def vpc_delete(vpcid, ec2_res, as_client, iam_client, profile_name):
     for subnet in vpc.subnets.all():
         for instance in subnet.instances.all():
             instance.terminate()
-    for ep in ec2client.describe_vpc_endpoints(
+    for ep in aws_creds.ec2client.describe_vpc_endpoints(
         Filters=[{"Name": "vpc-id", "Values": [vpcid]}]
     )["VpcEndpoints"]:
-        ec2client.delete_vpc_endpoints(VpcEndpointIds=[ep["VpcEndpointId"]])
+        aws_creds.ec2client.delete_vpc_endpoints(VpcEndpointIds=[ep["VpcEndpointId"]])
 
     """
     
@@ -43,7 +45,9 @@ def vpc_delete(vpcid, ec2_res, as_client, iam_client, profile_name):
     """ Find the SG's w/dependencies """
     is_dep = []
     print("Checking Security Groups for dependencies")
-    for sec_group in ec2_res.meta.client.describe_security_groups()["SecurityGroups"]:
+    for sec_group in aws_creds.ec2_res.meta.client.describe_security_groups()[
+        "SecurityGroups"
+    ]:
 
         try:
 
@@ -75,7 +79,9 @@ def vpc_delete(vpcid, ec2_res, as_client, iam_client, profile_name):
     for sec_group in is_dep:
 
         try:
-            ec2_res.meta.client.delete_security_group(GroupId=sec_group["GroupId"])
+            aws_creds.ec2_res.meta.client.delete_security_group(
+                GroupId=sec_group["GroupId"]
+            )
             time.sleep(10)
         except Exception as e:
             print(e)
@@ -84,21 +90,27 @@ def vpc_delete(vpcid, ec2_res, as_client, iam_client, profile_name):
 
     """ Rerun now against all  groups not that those w/deps are gone """
     print("Deleting groups w/o dependencies")
-    for sec_group in ec2_res.meta.client.describe_security_groups()["SecurityGroups"]:
+    for sec_group in aws_creds.ec2_res.meta.client.describe_security_groups()[
+        "SecurityGroups"
+    ]:
         try:
             if sec_group["GroupName"] == "default":
                 continue
             else:
-                ec2_res.meta.client.delete_security_group(GroupId=sec_group["GroupId"])
+                aws_creds.ec2_res.meta.client.delete_security_group(
+                    GroupId=sec_group["GroupId"]
+                )
         except Exception as e:
             print(e)
         else:
             print(f"Deleted SG {sec_group['GroupName']}  {sec_group['GroupId']}")
 
-    for vpcpeer in ec2client.describe_vpc_peering_connections(
+    for vpcpeer in aws_creds.ec2client.describe_vpc_peering_connections(
         Filters=[{"Name": "requester-vpc-info.vpc-id", "Values": [vpcid]}]
     )["VpcPeeringConnections"]:
-        ec2_res.VpcPeeringConnection(vpcpeer["VpcPeeringConnectionId"]).delete()
+        aws_creds.ec2_res.VpcPeeringConnection(
+            vpcpeer["VpcPeeringConnectionId"]
+        ).delete()
     for netacl in vpc.network_acls.all():
         if not netacl.is_default:
             netacl.delete()
@@ -106,31 +118,25 @@ def vpc_delete(vpcid, ec2_res, as_client, iam_client, profile_name):
         for interface in subnet.network_interfaces.all():
             interface.delete()
         subnet.delete()
-    ec2client.delete_vpc(VpcId=vpcid)
+    aws_creds.ec2client.delete_vpc(VpcId=vpcid)
 
 
 if __name__ == "__main__":
 
-    from aws_cred_objects import (
-        ec2_res,
-        as_client,
-        iam_client,
-        profile_name,
-    )
-
+    aws_creds = AWS_CREDS(profile_name="dev")
     vpc_to_ignore = "PROD-VPC"
 
     try:
 
         count = 0
 
-        for vpc in ec2_res.vpcs.all():
+        for vpc in aws_creds.ec2_res.vpcs.all():
             try:
                 if vpc.tags[0]["Value"] != vpc_to_ignore:
                     vpc_delete(vpc.id)
                     count += 1
             except TypeError:
-                resp = vpc_delete(vpc.id, ec2_res, as_client, iam_client, profile_name)
+                resp = vpc_delete(vpc.id, aws_creds)
                 if resp is None:
                     count += 1
 
