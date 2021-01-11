@@ -21,7 +21,7 @@ git clone https://github.com/jouellnyc/AWS
 ### Usage
 - cd boto3/blue_green_deploy
 
-- set your profle name (~/.aws/credentials|aws configure) in  aws_cred_objects.py 
+- set your profle name (~/.aws/credentials|aws configure) in prod_vpc_lb_builder.py.
 
 - edit prod_build_config.py to taste. 
 
