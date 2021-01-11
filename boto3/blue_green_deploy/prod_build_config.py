@@ -3,7 +3,6 @@
 from prod_build_config_defs import (
     Policy,
     Role,
-    EC2_Instance,
     Sec_Group,
     Auto_Scaling_Bundle,
     Subnet_Bundle,
@@ -51,16 +50,6 @@ policies = [
 roles = [Role(name="EC2AppRole", file="../../IAM/iam.trustpolicyforec2.json")]
 
 
-ec2_instances = [
-    EC2_Instance(
-        type="t2.micro",
-        ami="ami-0fc61db8544a617ed",
-        userdata="~/gitrepos/jouell/shouldipickitup/user_data.http.AWS.sh",
-        cpu_scaling_file="cpu.json",
-    )
-]
-
-
 auto_scaling_bundles = [
     Auto_Scaling_Bundle(
         asg_name="Auto-Scaling-GRP-GREEN",
@@ -97,7 +86,6 @@ class EC2_instance:
     def __init__(self):
         self.type = "t2.micro"
         self.ami = "ami-0fc61db8544a617ed"
-        self.userdata = "~/gitrepos/jouell/shouldipickitup/user_data.http.AWS.sh"
         self.cpu_scaling_file = "cpu.json"
         self.lc_name = "Auto-Scaling-Launch-Config-Docker-v1"
 
@@ -108,3 +96,4 @@ class LoadBalancer:
         self.targets = "My-Web-Targets"
         self.port = 80
         self.proto = "HTTP"
+        
