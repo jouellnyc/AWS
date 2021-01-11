@@ -109,25 +109,22 @@ def main(aws_creds):
     print("== Roles and Attached AWS Managed Policies ==")
     for x in aws_creds.iam_client.list_roles()["Roles"]:
         print("Role:", x["RoleName"])
-        for y in aws_creds.iam_client.list_attached_role_policies(RoleName=x["RoleName"])[
-            "AttachedPolicies"
-        ]:
+        for y in aws_creds.iam_client.list_attached_role_policies(
+            RoleName=x["RoleName"]
+        )["AttachedPolicies"]:
             if len(y) > 1:
                 print("\tPol: ", y["PolicyName"], y["PolicyArn"])
             else:
                 print("No Policies")
 
     """  Show the actual details of the policy """
-    #print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="CloudWatchSendPolicy"))
+    # print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="CloudWatchSendPolicy"))
 
 
-#print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="AwsSecretsPolicy"))
+# print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="AwsSecretsPolicy"))
 
 
 if __name__ == "__main__":
 
-    aws_creds=AWS_CREDS(profile_name="prod")    
+    aws_creds = AWS_CREDS(profile_name="prod")
     main(aws_creds)
-
-
-    

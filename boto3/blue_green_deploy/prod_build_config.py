@@ -96,4 +96,3 @@ class LoadBalancer:
         self.targets = "My-Web-Targets"
         self.port = 80
         self.proto = "HTTP"
-        
