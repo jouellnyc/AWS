@@ -28,6 +28,7 @@ git clone https://github.com/jouellnyc/AWS
 - python3 ./prod_vpc_lb_builder.py
 
 (I suggest Using Spyder or a REPL - that way you can print the 'prod_vpc' object easily to debug.)
+![Spyder](spyder.png)
 
 ### Deco
 - Run kill_all_not_in_vpc.py
