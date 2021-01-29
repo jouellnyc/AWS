@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
     try:
 
-        aws_creds = AWS_CREDS(profile_name="dev")
+        aws_creds = AWS_CREDS(profile_name="stocks")
         delete_items(aws_creds)
 
     except Exception as e:

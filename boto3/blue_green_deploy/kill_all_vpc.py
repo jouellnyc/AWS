@@ -123,7 +123,7 @@ def vpc_delete(vpcid, aws_creds):
 
 if __name__ == "__main__":
 
-    aws_creds = AWS_CREDS(profile_name="dev")
+    aws_creds = AWS_CREDS(profile_name="stocks")
     vpc_to_ignore = "PROD-VPC"
 
     try:
