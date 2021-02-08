@@ -105,6 +105,14 @@ def vpc_delete(vpcid, aws_creds):
         else:
             print(f"Deleted SG {sec_group['GroupName']}  {sec_group['GroupId']}")
 
+    try:
+        for keyp in aws_creds.ec2client.describe_key_pairs()['KeyPairs']:
+            aws_creds.ec2client.delete_key_pair(KeyName=keyp['KeyName'])
+    except Exception:
+        raise()
+    else:
+        print("All ssh keys deleted")
+        
     for vpcpeer in aws_creds.ec2client.describe_vpc_peering_connections(
         Filters=[{"Name": "requester-vpc-info.vpc-id", "Values": [vpcid]}]
     )["VpcPeeringConnections"]:
@@ -123,8 +131,8 @@ def vpc_delete(vpcid, aws_creds):
 
 if __name__ == "__main__":
 
-    aws_creds = AWS_CREDS(profile_name="stocks")
-    vpc_to_ignore = "PROD-VPC"
+    aws_creds = AWS_CREDS(profile_name="should_prod")
+    vpc_to_ignore = "NONE"
 
     try:
 

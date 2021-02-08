@@ -83,6 +83,10 @@ def main(aws_creds):
         for y in x:
             print(y["TargetGroupName"])
 
+    print("== SSH keys  ==")
+    for x in aws_creds.ec2_res.meta.client.describe_key_pairs()['KeyPairs']:
+        print(x['KeyName'])
+        
     print("== Instance Profiles ==")
     x = aws_creds.iam_client.list_instance_profiles()["InstanceProfiles"]
     if len(x) < 1:
@@ -126,5 +130,5 @@ def main(aws_creds):
 
 if __name__ == "__main__":
 
-    aws_creds = AWS_CREDS(profile_name="stocks")
+    aws_creds = AWS_CREDS(profile_name="should_prod")
     main(aws_creds)

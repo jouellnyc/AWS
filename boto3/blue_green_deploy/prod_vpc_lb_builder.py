@@ -22,9 +22,6 @@ from prod_build_config import (
 from aws_cred_objects import AWS_CREDS
 
 userdata = """#!/bin/bash -x
-GIT_AWS="https://github.com/jouellnyc/AWS.git"
-GIT_STOCKS="https://github.com/jouellnyc/stocks_web.git"
-
 yum update -y
 yum -y install git 
 yum -y install python3 
@@ -45,13 +42,13 @@ chkconfig awslogsd on
 GIT_DIR="/gitrepos/"
 mkdir -p $GIT_DIR
 cd $GIT_DIR/
-git clone  $GIT_AWS 
+git clone https://github.com/jouellnyc/AWS.git
 cd AWS/boto3/
 read -r  MONGOUSERNAME MONGOPASSWORD MONGOHOST <  <(/usr/bin/python3 ./getSecret.py)
 
 cd $GIT_DIR
-git clone $GIT_STOCKS 
-cd stocks_web
+git clone https://github.com/jouellnyc/shouldipickitup.git
+cd shouldipickitup
 sleep 2
 sed -i -r  's#MONGOCLIENTLINE#client = MongoClient("mongodb+srv://MONGOUSERNAME:MONGOPASSWORD@MONGOHOST/test?retryWrites=true\&w=majority", serverSelectionTimeoutMS=2000)#' lib/mongodb.py
 
@@ -513,7 +510,7 @@ if __name__ == "__main__":
 
     try:
 
-        profile_name = "stocks"
+        profile_name = "should_prod"
         aws_creds = AWS_CREDS(profile_name)
         prod_vpc = BUILD(aws_creds, VPC)
         print("Profile: ", profile_name)
