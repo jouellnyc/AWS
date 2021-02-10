@@ -39,6 +39,3 @@ git clone https://github.com/jouellnyc/AWS
 
 ## License
 This project is licensed under the MIT License
-
-## Acknowledgments
-*Thanks AWS!*
