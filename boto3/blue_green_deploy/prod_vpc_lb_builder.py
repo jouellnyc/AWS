@@ -17,7 +17,7 @@ from prod_build_config import (
     auto_scaling_bundles,
     subnet_bundles,
     LoadBalancer,
-    aws_profile 
+    aws_profile,
 )
 
 from aws_cred_objects import AWS_CREDS

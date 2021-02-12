@@ -3,7 +3,13 @@
 """ This kills the infr outside the VPC """
 import time
 from aws_cred_objects import AWS_CREDS
-from prod_build_config import aws_policies, inst_profiles, roles, aws_profile, log_groups 
+from prod_build_config import (
+    aws_policies,
+    inst_profiles,
+    roles,
+    aws_profile,
+    log_groups,
+)
 
 rolename = "EC2AppRole"
 inst_prof = "AWS_EC2_INSTANCE_PROFILE_ROLE"

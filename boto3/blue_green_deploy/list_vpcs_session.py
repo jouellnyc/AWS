@@ -4,7 +4,7 @@
 """ This lists all the infra in the VPCs """
 
 from aws_cred_objects import AWS_CREDS
-from prod_build_config import  aws_profile 
+from prod_build_config import aws_profile
 
 
 def main(aws_creds):
@@ -84,9 +84,9 @@ def main(aws_creds):
             print(y["TargetGroupName"])
 
     print("== SSH keys  ==")
-    for x in aws_creds.ec2_res.meta.client.describe_key_pairs()['KeyPairs']:
-        print(x['KeyName'])
-        
+    for x in aws_creds.ec2_res.meta.client.describe_key_pairs()["KeyPairs"]:
+        print(x["KeyName"])
+
     print("== Instance Profiles ==")
     x = aws_creds.iam_client.list_instance_profiles()["InstanceProfiles"]
     if len(x) < 1:

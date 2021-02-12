@@ -3,7 +3,7 @@
 import sys
 import time
 from aws_cred_objects import AWS_CREDS
-from prod_build_config import aws_profile 
+from prod_build_config import aws_profile
 
 
 """ This kills the VPCs after all the Infra outside the VPC is deco'ed """
@@ -107,13 +107,13 @@ def vpc_delete(vpcid, aws_creds):
             print(f"Deleted SG {sec_group['GroupName']}  {sec_group['GroupId']}")
 
     try:
-        for keyp in aws_creds.ec2client.describe_key_pairs()['KeyPairs']:
-            aws_creds.ec2client.delete_key_pair(KeyName=keyp['KeyName'])
+        for keyp in aws_creds.ec2client.describe_key_pairs()["KeyPairs"]:
+            aws_creds.ec2client.delete_key_pair(KeyName=keyp["KeyName"])
     except Exception:
-        raise()
+        raise ()
     else:
         print("All ssh keys deleted")
-        
+
     for vpcpeer in aws_creds.ec2client.describe_vpc_peering_connections(
         Filters=[{"Name": "requester-vpc-info.vpc-id", "Values": [vpcid]}]
     )["VpcPeeringConnections"]:
