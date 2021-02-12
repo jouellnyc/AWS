@@ -7,6 +7,9 @@ from prod_build_config_defs import (
     Subnet_Bundle,
 )
 
+""" AWS Account """
+aws_profile = "stocks"
+
 """ VPC Details """
 region_name = "us-east-1"
 
@@ -93,7 +96,7 @@ class EC2_instance:
 
 class LoadBalancer:
     def __init__(self):
-        self.name = "My-Web-Load-Balancer2"
+        self.name = "My-Web-Load-Balancer"
         self.targets = "My-Web-Targets"
         self.port = 80
         self.proto = "HTTP"

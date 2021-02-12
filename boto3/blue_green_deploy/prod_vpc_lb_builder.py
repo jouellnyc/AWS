@@ -17,6 +17,7 @@ from prod_build_config import (
     auto_scaling_bundles,
     subnet_bundles,
     LoadBalancer,
+    aws_profile 
 )
 
 from aws_cred_objects import AWS_CREDS
@@ -510,10 +511,9 @@ if __name__ == "__main__":
 
     try:
 
-        profile_name = "should_prod"
-        aws_creds = AWS_CREDS(profile_name)
+        aws_creds = AWS_CREDS(aws_profile)
         prod_vpc = BUILD(aws_creds, VPC)
-        print("Profile: ", profile_name)
+        print("Profile: ", aws_profile)
 
         print(prod_vpc.my_create_vpc(tagged=True))
         for subnet_bundle in subnet_bundles:

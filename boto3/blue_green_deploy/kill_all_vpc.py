@@ -3,6 +3,7 @@
 import sys
 import time
 from aws_cred_objects import AWS_CREDS
+from prod_build_config import aws_profile 
 
 
 """ This kills the VPCs after all the Infra outside the VPC is deco'ed """
@@ -131,7 +132,7 @@ def vpc_delete(vpcid, aws_creds):
 
 if __name__ == "__main__":
 
-    aws_creds = AWS_CREDS(profile_name="should_prod")
+    aws_creds = AWS_CREDS(profile_name=aws_profile)
     vpc_to_ignore = "NONE"
 
     try:

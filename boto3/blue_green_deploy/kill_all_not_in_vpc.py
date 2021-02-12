@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 
 """ This kills the infr outside the VPC """
-
 import time
-
-from prod_build_config import log_groups
-
 from aws_cred_objects import AWS_CREDS
-
-from prod_build_config import aws_policies, inst_profiles, roles
+from prod_build_config import aws_policies, inst_profiles, roles, aws_profile, log_groups 
 
 rolename = "EC2AppRole"
 inst_prof = "AWS_EC2_INSTANCE_PROFILE_ROLE"
@@ -142,7 +137,7 @@ if __name__ == "__main__":
 
     try:
 
-        aws_creds = AWS_CREDS(profile_name="should_prod")
+        aws_creds = AWS_CREDS(profile_name=aws_profile)
         delete_items(aws_creds)
 
     except Exception as e:

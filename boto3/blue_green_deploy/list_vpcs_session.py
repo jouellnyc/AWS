@@ -3,8 +3,8 @@
 
 """ This lists all the infra in the VPCs """
 
-
 from aws_cred_objects import AWS_CREDS
+from prod_build_config import  aws_profile 
 
 
 def main(aws_creds):
@@ -130,5 +130,5 @@ def main(aws_creds):
 
 if __name__ == "__main__":
 
-    aws_creds = AWS_CREDS(profile_name="should_prod")
+    aws_creds = AWS_CREDS(profile_name=aws_profile)
     main(aws_creds)
