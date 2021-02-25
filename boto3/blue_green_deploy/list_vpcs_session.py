@@ -31,8 +31,11 @@ def main(aws_creds):
                 print(vpcid, name)
 
     print("== IPs of Instances  ==")
-    for x in aws_creds.ec2_res.meta.client.describe_instances()['Reservations']:
-        print(x['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp'])
+    try:
+        for x in aws_creds.ec2_res.meta.client.describe_instances()['Reservations']:
+            print(x['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp'])
+    except IndexError:
+        print("No Active IPs")
 
     print("== Security Groups ==")
     x = aws_creds.ec2_res.meta.client.describe_security_groups()["SecurityGroups"]
