@@ -9,6 +9,8 @@ from prod_build_config_defs import (
 
 """ AWS Account """
 aws_profile = "stocks"
+#aws_profile = "should_dev"
+#aws_profile  = "should_prod"
 
 """ VPC Details """
 region_name = "us-east-1"
@@ -16,7 +18,7 @@ region_name = "us-east-1"
 VPC = {
     "vpcname": "MyVPC3",
     "vpc_cidr": "10.0.0.0/16",
-    "mycidr": "104.162.67.217/32",
+    "mycidr": "104.162.76.246/32",
 }
 
 
@@ -55,8 +57,8 @@ auto_scaling_bundles = [
     ),
     Auto_Scaling_Bundle(
         asg_name="Auto-Scaling-GRP-BLUE",
-        asg_min_srv=1,
-        asg_max_srv=1,
+        asg_min_srv=0,
+        asg_max_srv=0,
         tg_name="Target-GRP-Auto-Scale-BLUE",
         tg_port=80,
         tg_proto="HTTP",

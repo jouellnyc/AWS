@@ -25,7 +25,8 @@ from aws_cred_objects import AWS_CREDS
 
 """ Pull in the Precise userdata for each instances build """
 try:
-    user_data_file="../../../stocks_web/user_data.http.AWS.sh"
+    #user_data_file="../../../stocks_web/user_data.http.AWS.sh"
+    user_data_file="../../../shouldipickitup/user_data.http.AWS.sh"
     userdata = open(user_data_file,'r')
     userdata = userdata.read()
 except IOError as e:
@@ -440,23 +441,28 @@ LS: {self.listener}"""
             time.sleep(5)
             print(f"TG: Target {tg_name} and Auto Scaling {as_name} groups created OK")
 
-    def my_create_load_balancer(self, LoadBalancer):
+    def my_create_load_balancer(self, LoadBalancer, randomAS=False):
         """ Create The Load Balancer """
 
         try:
 
             LBName = f"{self.LoadBalancer.name}-{self.vpcname}"
 
-            """ We randomly choose the Target Group b/c it doesnt matter """
-            FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
+            if randomAS:
+                """ We randomly choose the Target / ASGroup """
+                FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
+            else:
+                FirstTg_Group='Target-GRP-Auto-Scale-GREEN'
+                
             print(f"LB: {FirstTg_Group} chosen for Target Group")
-
+    
             self.load_balancer = self.elbv2_client.create_load_balancer(
                 Name=LBName,
                 Subnets=[x.id for x in self.subnets],
                 SecurityGroups=[x.id for x in self.sec_groups.values()],
             )
 
+        
             print(f"LB: {LBName} Created  OK")
 
             self.LB_ARN = self.load_balancer["LoadBalancers"][0]["LoadBalancerArn"]
