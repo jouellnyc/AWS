@@ -8,9 +8,8 @@ from prod_build_config_defs import (
 )
 
 """ AWS Account """
+aws_profile  = "should_prod"
 aws_profile = "stocks"
-#aws_profile = "should_dev"
-#aws_profile  = "should_prod"
 
 """ VPC Details """
 region_name = "us-east-1"
@@ -57,8 +56,8 @@ auto_scaling_bundles = [
     ),
     Auto_Scaling_Bundle(
         asg_name="Auto-Scaling-GRP-BLUE",
-        asg_min_srv=0,
-        asg_max_srv=0,
+        asg_min_srv=1,
+        asg_max_srv=1,
         tg_name="Target-GRP-Auto-Scale-BLUE",
         tg_port=80,
         tg_proto="HTTP",
@@ -80,7 +79,7 @@ inst_profiles = [
 
 
 """ Log Group Details """
-log_groups = ["nginx", "flask", "mongodb"]
+log_groups = ["nginx", "flask", "mongodb", "crawler"]
 
 
 """ EC2 Instance Details """

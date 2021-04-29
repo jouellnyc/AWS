@@ -25,8 +25,8 @@ from aws_cred_objects import AWS_CREDS
 
 """ Pull in the Precise userdata for each instances build """
 try:
-    #user_data_file="../../../stocks_web/user_data.http.AWS.sh"
-    user_data_file="../../../shouldipickitup/user_data.http.AWS.sh"
+    user_data_file="../../../DockerStocksWeb/user_data.http.AWS.sh"
+    #user_data_file="../../../shouldipickitup/user_data.http.AWS.sh"
     userdata = open(user_data_file,'r')
     userdata = userdata.read()
 except IOError as e:

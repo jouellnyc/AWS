@@ -32,8 +32,13 @@ def main(aws_creds):
 
     print("== IPs of Instances  ==")
     try:
+        instances = aws_creds.ec2_res.instances.filter(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
+        for instance in instances:
+            print(instance.public_ip_address)
+        """
         for x in aws_creds.ec2_res.meta.client.describe_instances()['Reservations']:
             print(x['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp'])
+        """
     except IndexError:
         print("No Active IPs")
 
@@ -116,7 +121,7 @@ def main(aws_creds):
             print(y["PolicyName"], y["Arn"])
             # print(iam_client.get_policy(PolicyArn=x['Arn']),"\n")
 
-    """ These are not inline policies """
+    """ These are not inline policies 
     print("== Roles and Attached AWS Managed Policies ==")
     for x in aws_creds.iam_client.list_roles()["Roles"]:
         print("Role:", x["RoleName"])
@@ -127,10 +132,11 @@ def main(aws_creds):
                 print("\tPol: ", y["PolicyName"], y["PolicyArn"])
             else:
                 print("No Policies")
+    """
 
-    """  Show the actual details of the policy """
+    """  Show the actual details of the policy 
     # print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="CloudWatchSendPolicy"))
-
+    """
 
 # print(iam_client.get_role_policy(RoleName="EC2AppRole",PolicyName="AwsSecretsPolicy"))
 
