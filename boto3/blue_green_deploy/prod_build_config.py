@@ -79,7 +79,7 @@ inst_profiles = [
 
 
 """ Log Group Details """
-log_groups = ["nginx", "flask", "mongodb", "crawler"]
+log_groups = ["nginx", "flask", "mongodb", "crawler", "flywheel"]
 
 
 """ EC2 Instance Details """
