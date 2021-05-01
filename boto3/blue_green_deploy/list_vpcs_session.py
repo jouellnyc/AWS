@@ -34,7 +34,7 @@ def main(aws_creds):
     try:
         instances = aws_creds.ec2_res.instances.filter(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
         for instance in instances:
-            print(instance.public_ip_address)
+            print(instance.public_ip_address,instance.id, instance.subnet_id)
         """
         for x in aws_creds.ec2_res.meta.client.describe_instances()['Reservations']:
             print(x['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp'])
@@ -97,8 +97,9 @@ def main(aws_creds):
 
     print("== SSH keys  ==")
     for x in aws_creds.ec2_res.meta.client.describe_key_pairs()["KeyPairs"]:
-        print(x["KeyName"])
-
+        #print(x["KeyName"])
+        print(x)
+        
     print("== Instance Profiles ==")
     x = aws_creds.iam_client.list_instance_profiles()["InstanceProfiles"]
     if len(x) < 1:
