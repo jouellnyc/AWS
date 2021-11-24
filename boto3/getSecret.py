@@ -8,7 +8,7 @@ from botocore.exceptions import ClientError
 
 def get_secret():
 
-    secret_name = "Beta_MongoDB"
+    secret_name = "Prod-Stocks"
     region_name = "us-east-1"
 
     # Create a Secrets Manager client
