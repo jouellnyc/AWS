@@ -8,8 +8,8 @@ from prod_build_config_defs import (
 )
 
 """ AWS Account """
-aws_profile  = "should_prod"
 aws_profile = "stocks"
+#aws_profile = "should_prod"
 
 """ VPC Details """
 region_name = "us-east-1"
@@ -24,9 +24,7 @@ VPC = {
 """ Security Groups Details """
 sec_groups = [
     Sec_Group(port=22, name="SSH", description="SSH", proto="tcp", myip=VPC["mycidr"]),
-    Sec_Group(
-        port=80, name="HTTP", description="HTTP", proto="tcp", myip=VPC["mycidr"]
-    ),
+    Sec_Group(port=80, name="HTTP", description="HTTP", proto="tcp", myip=VPC["mycidr"]),
     Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp", myip="HTTP"),
 ]
 

@@ -6,7 +6,6 @@
 from aws_cred_objects import AWS_CREDS
 from prod_build_config import aws_profile
 
-
 def main(aws_creds):
 
     print("Profile: ", aws_creds.profile_name)
@@ -146,3 +145,4 @@ if __name__ == "__main__":
 
     aws_creds = AWS_CREDS(profile_name=aws_profile)
     main(aws_creds)
+

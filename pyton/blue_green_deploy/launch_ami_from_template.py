@@ -19,7 +19,7 @@ def launch(name, version, max=1, min=1):
 if __name__ == '__main__':
     
     
-    launch("Flywheel", 6)
+    #launch("Flywheel", 6)
+    #launch("Crawler", 1, max=50, min=50)
     launch("Crawler", 1)
-    
     
