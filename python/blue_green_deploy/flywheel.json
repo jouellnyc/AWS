@@ -1,0 +1,99 @@
+{
+    "LaunchTemplateData": {
+        "BlockDeviceMappings": [
+            {
+                "DeviceName": "/dev/xvda",
+                "Ebs": {
+                    "DeleteOnTermination": true,
+                    "Encrypted": false,
+                    "SnapshotId": "snap-0e27a39c6e2f9f079",
+                    "VolumeSize": 8,
+                    "VolumeType": "gp2"
+                }
+            }
+        ],
+        "CapacityReservationSpecification": {
+            "CapacityReservationPreference": "open"
+        },
+        "CpuOptions": {
+            "CoreCount": 1,
+            "ThreadsPerCore": 1
+        },
+        "CreditSpecification": {
+            "CpuCredits": "standard"
+        },
+        "DisableApiTermination": false,
+        "EbsOptimized": false,
+        "HibernationOptions": {
+            "Configured": false
+        },
+        "IamInstanceProfile": {
+            "Arn": "arn:aws:iam::193221362319:instance-profile/AWS_EC2_INSTANCE_PROFILE_ROLE"
+        },
+        "ImageId": "ami-0fc61db8544a617ed",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "InstanceType": "t2.micro",
+        "KeyName": "vpc-0740504a74ea5eac9-stocks.pem",
+        "MetadataOptions": {
+            "HttpEndpoint": "enabled",
+            "HttpPutResponseHopLimit": 1,
+            "HttpTokens": "optional"
+        },
+        "Monitoring": {
+            "Enabled": false
+        },
+        "NetworkInterfaces": [
+            {
+                "AssociatePublicIpAddress": true,
+                "DeleteOnTermination": true,
+                "Description": "",
+                "DeviceIndex": 0,
+                "Groups": [
+                    "sg-0010dcb269bfcff9d",
+                    "sg-00d595d3b56aaf971"
+                ],
+                "InterfaceType": "interface",
+                "Ipv6Addresses": [],
+                "PrivateIpAddresses": [
+                    {
+                        "Primary": true,
+                        "PrivateIpAddress": "10.0.1.139"
+                    }
+                ],
+                "SubnetId": "subnet-0b044a7ae98bb2b00"
+            }
+        ],
+        "Placement": {
+            "AvailabilityZone": "us-east-1a",
+            "GroupName": "",
+            "Tenancy": "default"
+        },
+        "TagSpecifications": [
+            {
+                "ResourceType": "instance",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Flywheel"
+                    }
+                ]
+            }
+        ],
+        "UserData": "IyEvYmluL2Jhc2ggLXgKCkdJVF9BV1M9Imh0dHBzOi8vZ2l0aHViLmNvbS9qb3VlbGxueWMvQVdTLmdpdCIKR0lUX1NUT0NLUz0iaHR0cHM6Ly9naXRodWIuY29tL2pvdWVsbG55Yy9Eb2NrZXJTdG9ja3NXZWIuZ2l0IgoKeXVtIHVwZGF0ZSAteQp5dW0gLXkgaW5zdGFsbCBnaXQgCnl1bSAteSBpbnN0YWxsIHB5dGhvbjMgCnBpcDMgaW5zdGFsbCBib3RvMwp5dW0gLXkgaW5zdGFsbCBhd3Nsb2dzCnl1bSAteSBpbnN0YWxsIHRlbG5ldCAKCmFtYXpvbi1saW51eC1leHRyYXMgaW5zdGFsbCBkb2NrZXIKCmN1cmwgLUwgaHR0cHM6Ly9naXRodWIuY29tL2RvY2tlci9jb21wb3NlL3JlbGVhc2VzL2Rvd25sb2FkLzEuMjEuMC9kb2NrZXItY29tcG9zZS1gdW5hbWUgLXNgLWB1bmFtZSAtbWAgfCBzdWRvIHRlZSAvdXNyL2xvY2FsL2Jpbi9kb2NrZXItY29tcG9zZSA+IC9kZXYvbnVsbApjaG1vZCAreCAvdXNyL2xvY2FsL2Jpbi9kb2NrZXItY29tcG9zZQpsbiAtcyAvdXNyL2xvY2FsL2Jpbi9kb2NrZXItY29tcG9zZSAvdXNyL2Jpbi9kb2NrZXItY29tcG9zZQoKc2VydmljZSBkb2NrZXIgc3RhcnQKY2hrY29uZmlnIGRvY2tlciBvbgpzZXJ2aWNlIGF3c2xvZ3NkIHN0YXJ0CmNoa2NvbmZpZyBhd3Nsb2dzZCBvbgoKR0lUX0RJUj0iL2dpdHJlcG9zLyIKbWtkaXIgLXAgJEdJVF9ESVIKY2QgJEdJVF9ESVIvCmdpdCBjbG9uZSAgJEdJVF9BV1MgCmNkIEFXUy9ib3RvMy8KcmVhZCAtciAgTU9OR09VU0VSTkFNRSBNT05HT1BBU1NXT1JEIE1PTkdPSE9TVCA8ICA8KC91c3IvYmluL3B5dGhvbjMgLi9nZXRTZWNyZXQucHkpCgpjZCAkR0lUX0RJUgpnaXQgY2xvbmUgJEdJVF9TVE9DS1MgCmNkIERvY2tlclN0b2Nrc1dlYgpzbGVlcCAyCgpNT05HT0ZJTEU9ImxpYi9tb25nb2RiLnB5IgpzZWQgLWkgLXIgICdzI01PTkdPQ0xJRU5UTElORSNjbGllbnQgPSBNb25nb0NsaWVudCgibW9uZ29kYitzcnY6Ly9NT05HT1VTRVJOQU1FOk1PTkdPUEFTU1dPUkRATU9OR09IT1NUL3Rlc3Q/cmV0cnlXcml0ZXM9dHJ1ZVwmdz1tYWpvcml0eSIsIHNlcnZlclNlbGVjdGlvblRpbWVvdXRNUz0yMDAwKSMnICRNT05HT0ZJTEUKc2VkIC1pIHMiL01PTkdPVVNFUk5BTUUvJHtNT05HT1VTRVJOQU1FfS8iICRNT05HT0ZJTEUKc2VkIC1pIHMiL01PTkdPUEFTU1dPUkQvJHtNT05HT1BBU1NXT1JEfS8iICRNT05HT0ZJTEUgCnNlZCAtaSAgICAgICAgIHMiL01PTkdPSE9TVC8ke01PTkdPSE9TVH0vIiAkTU9OR09GSUxFIAp1bnNldCBNT05HT1BBU1NXT1JEIAp1bnNldCBNT05HT0hPU1QKdW5zZXQgTU9OR09VU0VSTkFNRQoKRE9DS0VSX0NPTVBPU0VfRklMRT0iZG9ja2VyLWNvbXBvc2UuQVdTLmZseXdoZWVsLnlhbWwiCnNvdXJjZSAkR0lUX0RJUi9BV1MvYXdzLWNsaS9zaGFyZWRfdmFycy50eHQKZG9ja2VyLWNvbXBvc2UgLWYgJERPQ0tFUl9DT01QT1NFX0ZJTEUgdXAgLWQK"
+    },
+    "ResponseMetadata": {
+        "HTTPHeaders": {
+            "cache-control": "no-cache, no-store",
+            "content-type": "text/xml;charset=UTF-8",
+            "date": "Sat, 01 May 2021 03:24:23 GMT",
+            "server": "AmazonEC2",
+            "strict-transport-security": "max-age=31536000; includeSubDomains",
+            "transfer-encoding": "chunked",
+            "vary": "accept-encoding",
+            "x-amzn-requestid": "3c0776d6-5366-49dc-9603-f1293cf20414"
+        },
+        "HTTPStatusCode": 200,
+        "RequestId": "3c0776d6-5366-49dc-9603-f1293cf20414",
+        "RetryAttempts": 0
+    }
+}
