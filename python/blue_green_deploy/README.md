@@ -5,7 +5,7 @@ Build:
 - Elastic Load Balancer, EC2s launched via autoscaling group using %cpu as scaling trigger.
 - Extra Infra to perform BLUE-Green upgrades
 
-![Blue-Green](blue_green.png)
+![Blue-Green](images/blue_green.png)
 
 ### Expectations 
 It will always be *best* to start from scratch with a new VPC.
