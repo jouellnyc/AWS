@@ -9,7 +9,6 @@ from prod_build_config_defs import (
 
 """ AWS Account """
 aws_profile = "stocks"
-#aws_profile = "should_prod"
 
 """ VPC Details """
 region_name = "us-east-1"

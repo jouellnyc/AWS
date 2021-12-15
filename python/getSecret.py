@@ -6,10 +6,7 @@ import json
 from botocore.exceptions import ClientError
 
 
-def get_secret():
-
-    secret_name = "Prod-Stocks"
-    region_name = "us-east-1"
+def get_secret(secret_name, region_name):
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -55,10 +52,10 @@ def get_secret():
             return decoded_binary_secret
 
 
-mysecret = json.loads(get_secret())
+if __name__ == "__main__":
+    mysecret = json.loads(get_secret("Prod-Stocks", "us-east-1"))
+    mongousername = mysecret["mongousername"]
+    mongopassword = mysecret["mongopassword"]
+    mongohost = mysecret["mongohost"]
+    print(mongousername, mongopassword, mongohost)
 
-mongousername = mysecret["mongousername"]
-mongopassword = mysecret["mongopassword"]
-mongohost = mysecret["mongohost"]
-
-print(mongousername, mongopassword, mongohost)

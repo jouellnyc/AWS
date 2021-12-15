@@ -1,0 +1,8 @@
+.spyproject/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.bak
+bak/
+*.gold
