@@ -22,10 +22,11 @@ from prod_build_config import (
 )
 
 from aws_cred_objects import AWS_CREDS
+from aws_cert_mgr import  get_cert_arn 
 
 """ Pull in the Precise userdata for each instances build """
 try:
-    user_data_file="../../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+    user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
     userdata = open(user_data_file,'r')
     userdata = userdata.read()
 except IOError as e:
@@ -469,11 +470,18 @@ LS: {self.listener}"""
                 "TargetGroupArn"
             ]
 
+            self.CertARN =  get_cert_arn() 
             self.listener = self.elbv2_client.create_listener(
                 DefaultActions=[{"TargetGroupArn": Tg_Grn, "Type": "forward",},],
                 LoadBalancerArn=self.LB_ARN,
                 Port=self.LoadBalancer.port,
                 Protocol=self.LoadBalancer.proto,
+                SslPolicy = self.LoadBalancer.SslPolicy,
+                Certificates=[
+                {
+                    'CertificateArn': self.CertARN,
+                },
+                ],
             )
 
         except Exception as e:

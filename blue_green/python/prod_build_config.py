@@ -23,7 +23,7 @@ VPC = {
 """ Security Groups Details """
 sec_groups = [
     Sec_Group(port=22, name="SSH", description="SSH", proto="tcp", myip=VPC["mycidr"]),
-    Sec_Group(port=80, name="HTTP", description="HTTP", proto="tcp", myip=VPC["mycidr"]),
+    Sec_Group(port=443, name="HTTPS", description="HTTPS", proto="tcp", myip=VPC["mycidr"]),
     Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp", myip="HTTP"),
 ]
 
@@ -96,5 +96,6 @@ class LoadBalancer:
     def __init__(self):
         self.name = "My-Web-Load-Balancer"
         self.targets = "My-Web-Targets"
-        self.port = 80
-        self.proto = "HTTP"
+        self.port = 443 
+        self.proto = "HTTPS"
+        self.SslPolicy = "ELBSecurityPolicy-2016-08"

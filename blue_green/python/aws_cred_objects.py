@@ -32,3 +32,7 @@ class AWS_CREDS:
         self.logs_client = boto3.session.Session(profile_name=profile_name).client(
             "logs", region_name
         )
+
+        self.acm_client = boto3.session.Session(profile_name=profile_name).client(
+            "acm", region_name
+        )
