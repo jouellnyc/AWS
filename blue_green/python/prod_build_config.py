@@ -22,8 +22,9 @@ VPC = {
 
 """ Security Groups Details """
 sec_groups = [
-    Sec_Group(port=22, name="SSH", description="SSH", proto="tcp", myip=VPC["mycidr"]),
-    Sec_Group(port=443, name="HTTPS", description="HTTPS", proto="tcp", myip=VPC["mycidr"]),
+    Sec_Group(port=22, name="SSH",   description="SSH", proto="tcp",   myip=VPC["mycidr"]),
+    Sec_Group(port=443,name="HTTPS", description="HTTPS", proto="tcp", myip=VPC["mycidr"]),
+    Sec_Group(port=80, name="HTTP",  description="HTTP", proto="tcp",  myip=VPC["mycidr"]),
     Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp", myip="HTTP"),
 ]
 
