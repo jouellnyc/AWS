@@ -1,2 +1,3 @@
 #!/bin/bash
-ssh -i *pem  ec2-user@$(./show_ip.sh)
+chmod 400 *pem
+ssh -o StrictHostKeyChecking=no -i *pem  ec2-user@$(./show_ip.sh)
