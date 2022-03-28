@@ -2,10 +2,11 @@
 
 """ This is the primary build VPC script """
 
+import sys
 import time
 import json
+import base64
 import random
-import sys
 
 from prod_build_config import (
     VPC,
@@ -25,14 +26,14 @@ from aws_cred_objects import AWS_CREDS
 from aws_cert_mgr import get_cert_arn
 
 """ Pull in the Precise userdata for each instances build """
+user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.sh"
 try:
-    user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.sh"
-    userdata = open(user_data_file, "r")
-    userdata = userdata.read()
-except IOError as e:
-    print(str(e))
+    user_data = open(user_data_file, "r").read().encode("utf-8")
+    encoded_user_data = base64.b64encode(user_data)
+    userdata = encoded_user_data.decode("ascii")
+except OSError as e:
+    print('Try another file: ',e)
     sys.exit(1)
-
 
 class BUILD:
     def __init__(self, aws_creds, VPC):
@@ -364,30 +365,28 @@ LS: {self.listener}"""
         else:
             print(f"LG: Log group {log_group_name} Created OK")
 
-    def my_create_launch_configuration(self):
+    def my_create_launch_template(self):
         """ Create the Launch Config """
         try:
+            self.ec2_client.create_launch_template(
+                 LaunchTemplateName = self.ec2_inst.lt_name,
 
-            self.launch_config = self.as_client.create_launch_configuration(
-                KeyName=f"{self.vpcid}-{self.profile_name}.pem",
-                IamInstanceProfile=self.inst_prof_name,
-                ImageId=self.ec2_inst.ami,
-                InstanceType=self.ec2_inst.type,
-                LaunchConfigurationName=self.ec2_inst.lc_name,
-                SecurityGroups=[x.id for x in self.sec_groups.values()],
-                UserData=userdata,
-            )
-
-        except self.as_client.exceptions.AlreadyExistsFault:
-            print(
-                f"LC: Launch Config {self.ec2_inst.lc_name} Already Exists -- skipping"
-            )
-            pass
+                 LaunchTemplateData = {
+                     "EbsOptimized": False,
+                     "IamInstanceProfile": {"Name": self.inst_prof_name},
+                     "ImageId": self.ec2_inst.ami,
+                     "InstanceType": self.ec2_inst.type,
+                     "KeyName": f"{self.vpcid}-{self.profile_name}.pem",
+                     "Monitoring": {"Enabled": True},
+                     "SecurityGroupIds": [ x.id for x in self.sec_groups.values() ],
+                     "UserData": userdata
+                  }
+             )
         except Exception as e:
-            print("LC: Launch Config problem: ", e)
+            print("LT: Launch Template problem: ", e)
         else:
             time.sleep(15)
-            print(f"LC: Launch Config {self.ec2_inst.lc_name} Created OK")
+            print(f"LT: Launch Template  {self.ec2_inst.lt_name} Created OK")
 
     def my_create_t_a_p_group(self, auto_scaling_bundle, subnet_bundles):
         """ Create the Target Groups, AS Groups and put the Policy in """
@@ -411,7 +410,10 @@ LS: {self.listener}"""
                 as_name
             ] = self.as_client.create_auto_scaling_group(
                 AutoScalingGroupName=as_name,
-                LaunchConfigurationName=self.ec2_inst.lc_name,
+                LaunchTemplate={
+                        'LaunchTemplateName': self.ec2_inst.lt_name,
+                        'Version': str(1)
+                 },
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
                 DesiredCapacity=1,
@@ -527,7 +529,7 @@ if __name__ == "__main__":
             prod_vpc.my_attach_policy(aws_policy_arn)
         for log_group_name in log_groups:
             prod_vpc.my_create_log_groups(log_group_name)
-        prod_vpc.my_create_launch_configuration()
+        prod_vpc.my_create_launch_template()
         for auto_scaling_bundle in auto_scaling_bundles:
             prod_vpc.my_create_t_a_p_group(auto_scaling_bundle, subnet_bundles)
         prod_vpc.my_create_load_balancer(LoadBalancer)

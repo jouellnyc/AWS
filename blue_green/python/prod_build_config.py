@@ -87,7 +87,7 @@ class EC2_instance:
     def __init__(self):
         self.type = "t2.micro"
         self.ami = "ami-0fc61db8544a617ed"
-        self.lc_name = "Auto-Scaling-Launch-Config-Docker-v1"
+        self.lt_name = "Auto-Scaling-Launch-Template-Base"
 
 
 """ Load Balancer Details """
