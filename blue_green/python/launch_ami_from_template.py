@@ -22,3 +22,4 @@ if __name__ == '__main__':
     aws = AWS_CREDS(aws_profile)
     subnet_id = random.choice(list(aws.ec2_res.subnets.all())).id
     launch("Auto-Scaling-Launch-Config-Docker-v1", 1, subnet_id)
+    #launch("Devops-DockerStocksWeb-v111", 1, subnet_id)
