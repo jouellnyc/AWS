@@ -12,7 +12,7 @@ from prod_build_config import aws_profile, inst_profiles, EC2_instance, sec_grou
 from aws_cred_objects import AWS_CREDS
 
 
-def create_launch_template(user_data_file):
+def create_launch_template(template_name, user_data_file):
 
     aws = AWS_CREDS(aws_profile)
     ec2_inst= EC2_instance()
@@ -29,12 +29,12 @@ def create_launch_template(user_data_file):
 
     INSTANCE_PROFILE = inst_profiles[0]
     AMI              = ec2_inst.ami
-    LAUNCH_TEMPLATE  = ec2_inst.lt_name
+    LAUNCH_TEMPLATE  = template_name or ec2_inst.lt_name
     INSTANCE_TYPE    = ec2_inst.type
     VPCID            = aws.ec2_res.meta.client.describe_vpcs()["Vpcs"][0]['VpcId']
     KEYNAME          = f"{VPCID}-{aws_profile}.pem"
 
-    response = aws.ec2_res.meta.client.create_launch_template(
+    return  aws.ec2_res.meta.client.create_launch_template(
         LaunchTemplateName= LAUNCH_TEMPLATE,
         LaunchTemplateData={
             "EbsOptimized": False,
@@ -51,7 +51,13 @@ def create_launch_template(user_data_file):
 
 if __name__ == '__main__':
 
-    user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
-    create_launch_template(user_data_file)
-    print(response)
-    
+    #template_name = "FlyWheel"
+    #user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
+    #template_name = "HTTP"
+    #user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+    template_name = "Crawler"
+    user_data_file="../../../DockerStocksWeb/data/user_data.crawler.AWS.sh"
+
+    print(create_launch_template(template_name, user_data_file))
+
+
