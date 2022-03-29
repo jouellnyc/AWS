@@ -16,6 +16,7 @@ def create_launch_template(user_data_file, template_name=None):
 
     aws = AWS_CREDS(aws_profile)
     ec2_inst= EC2_instance()
+    """ These are all the groups """
     sec_group_ids = [ x['GroupId'] for x in aws.ec2_res.meta.client.describe_security_groups()["SecurityGroups"] ]
 
     try:

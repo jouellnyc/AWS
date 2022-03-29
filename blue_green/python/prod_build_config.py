@@ -17,15 +17,17 @@ VPC = {
     "vpcname": "MyVPC3",
     "vpc_cidr": "10.0.0.0/16",
     "mycidr": "104.162.76.246/32",
+    "all": "0.0.0.0/32",
 }
 
 
 """ Security Groups Details """
 sec_groups = [
-    Sec_Group(port=22, name="SSH",   description="SSH", proto="tcp",   myip=VPC["mycidr"]),
-    Sec_Group(port=443,name="HTTPS", description="HTTPS", proto="tcp", myip=VPC["mycidr"]),
-    Sec_Group(port=80, name="HTTP",  description="HTTP", proto="tcp",  myip=VPC["mycidr"]),
-    Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp", myip="HTTP"),
+    Sec_Group(port=22, name="SSH",   description="SSH", proto="tcp",       myip=VPC["mycidr"]),
+    Sec_Group(port=443,name="HTTPS", description="HTTPS", proto="tcp",     myip=VPC["mycidr"]),
+    Sec_Group(port=80, name="HTTP",  description="HTTP", proto="tcp",      myip=VPC["mycidr"]),
+    Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp",   myip="HTTP"),
+    Sec_Group(port=9001, name="9001", description="FlyWheel", proto="tcp", myip=VPC["all"]),
 ]
 
 
