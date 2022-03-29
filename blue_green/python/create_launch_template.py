@@ -12,7 +12,7 @@ from prod_build_config import aws_profile, inst_profiles, EC2_instance, sec_grou
 from aws_cred_objects import AWS_CREDS
 
 
-def create_launch_template(template_name, user_data_file):
+def create_launch_template(user_data_file, template_name=None):
 
     aws = AWS_CREDS(aws_profile)
     ec2_inst= EC2_instance()
@@ -53,11 +53,11 @@ if __name__ == '__main__':
 
     #template_name = "FlyWheel"
     #user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
-    #template_name = "HTTP"
-    #user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
-    template_name = "Crawler"
-    user_data_file="../../../DockerStocksWeb/data/user_data.crawler.AWS.sh"
+    template_name = "HTTP"
+    user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+    #template_name = "Crawler"
+    #user_data_file="../../../DockerStocksWeb/data/user_data.crawler.AWS.sh"
 
-    print(create_launch_template(template_name, user_data_file))
-
+    #print(create_launch_template(user_data_file, template_name))
+    print(create_launch_template(user_data_file))
 
