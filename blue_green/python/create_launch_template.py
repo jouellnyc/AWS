@@ -27,9 +27,9 @@ def create_launch_template(user_data_file, template_name=None):
         fly_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['9001']} ])['SecurityGroups'][0]['GroupId']
         ssh_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['SSH']} ])['SecurityGroups'][0]['GroupId']
         if template_name == 'FlyWheel':
-            sec_group_names = [ fly_id, ssh_id ]
+            sec_group_ids = [ fly_id, ssh_id ]
         else:
-            sec_group_names  = [ x['GroupId'] for x in aws.ec2_res.meta.client.describe_security_groups()["SecurityGroups"] if x['GroupId'] != fly_id ]
+            sec_group_ids  = [ x['GroupId'] for x in aws.ec2_res.meta.client.describe_security_groups()["SecurityGroups"] if x['GroupId'] != fly_id ]
 
     """"
     print(fly_id)
@@ -63,7 +63,7 @@ def create_launch_template(user_data_file, template_name=None):
             "InstanceType": INSTANCE_TYPE,
             "KeyName": KEYNAME,
             "Monitoring": {"Enabled": True},
-            "SecurityGroups": sec_group_names,
+            "SecurityGroupIds": sec_group_ids,
             "UserData": str_encoded_user_data
         }
     )
