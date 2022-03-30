@@ -366,7 +366,7 @@ LS: {self.listener}"""
             print(f"LG: Log group {log_group_name} Created OK")
 
     def my_create_launch_template(self):
-        """ Create the Launch Config """
+        """ Create the Launch Template """
         try:
             self.ec2_client.create_launch_template(
                  LaunchTemplateName = self.ec2_inst.lt_name,

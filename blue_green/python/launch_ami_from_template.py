@@ -23,5 +23,5 @@ if __name__ == '__main__':
     subnet_id = random.choice(list(aws.ec2_res.subnets.all())).id
     #launch("Auto-Scaling-Launch-Template-Base", 1, subnet_id)
     #launch("HTTP", 1, subnet_id)
-    #launch("Crawler", 1, subnet_id)
-    launch("FlyWheel", 1, subnet_id)
+    #launch("FlyWheel", 1, subnet_id)
+    launch("Crawler", 1, subnet_id)

@@ -27,7 +27,7 @@ sec_groups = [
     Sec_Group(port=443,name="HTTPS", description="HTTPS", proto="tcp",     myip=VPC["mycidr"]),
     Sec_Group(port=80, name="HTTP",  description="HTTP", proto="tcp",      myip=VPC["mycidr"]),
     Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp",   myip="HTTP"),
-    Sec_Group(port=9001, name="9001", description="FlyWheel", proto="tcp", myip=VPC["all"]),
+    Sec_Group(port=9001, name="FlyWheel", description="FlyWheel", proto="tcp", myip=VPC["all"]),
 ]
 
 
@@ -89,7 +89,7 @@ class EC2_instance:
     def __init__(self):
         self.type = "t2.micro"
         self.ami = "ami-0fc61db8544a617ed"
-        self.lt_name = "Auto-Scaling-Launch-Template-Base"
+        self.lt_name = "Devops-Auto-Scaling-Launch-Template-Base"
 
 
 """ Load Balancer Details """
