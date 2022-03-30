@@ -24,4 +24,6 @@ if __name__ == '__main__':
     #launch("Auto-Scaling-Launch-Template-Base", 1, subnet_id)
     #launch("HTTP", 1, subnet_id)
     #launch("FlyWheel", 1, subnet_id)
-    launch("Crawler", 1, subnet_id)
+    launch("Crawler", 1, subnet_id,min=10,max=10)
+    #Add instance ip to mongodb
+    #Add flywheel ip to instance

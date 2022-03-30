@@ -24,19 +24,12 @@ def create_launch_template(user_data_file, template_name=None):
     """ Needs to be different for FlyWheel """
 
     if template_name:
-        fly_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['9001']} ])['SecurityGroups'][0]['GroupId']
+        fly_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['FlyWheel']} ])['SecurityGroups'][0]['GroupId']
         ssh_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['SSH']} ])['SecurityGroups'][0]['GroupId']
         if template_name == 'FlyWheel':
             sec_group_ids = [ fly_id, ssh_id ]
         else:
             sec_group_ids  = [ x['GroupId'] for x in aws.ec2_res.meta.client.describe_security_groups()["SecurityGroups"] if x['GroupId'] != fly_id ]
-
-    """"
-    print(fly_id)
-    print(ssh_id)
-    print(sec_group_names)
-    sys.exit(1)
-    """
 
     try:
         user_data = open(user_data_file, "r").read().encode("utf-8")
