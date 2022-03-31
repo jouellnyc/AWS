@@ -22,16 +22,17 @@ def vpc_delete(vpcid, aws_creds):
 
     if dhcp_options_default:
         dhcp_options_default.associate_with_vpc(VpcId=vpc.id)
-    for gw in vpc.internet_gateways.all():
-        vpc.detach_internet_gateway(InternetGatewayId=gw.id)
-        gw.delete()
+    for subnet in vpc.subnets.all():
+        for instance in subnet.instances.all():
+            print(instance)
+            instance.terminate()
     for rt in vpc.route_tables.all():
         for rta in rt.associations:
             if not rta.main:
                 rta.delete()
-    for subnet in vpc.subnets.all():
-        for instance in subnet.instances.all():
-            instance.terminate()
+    for gw in vpc.internet_gateways.all():
+        vpc.detach_internet_gateway(InternetGatewayId=gw.id)
+        gw.delete()
     for ep in aws_creds.ec2client.describe_vpc_endpoints(
         Filters=[{"Name": "vpc-id", "Values": [vpcid]}]
     )["VpcEndpoints"]:

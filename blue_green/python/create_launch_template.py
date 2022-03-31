@@ -64,10 +64,11 @@ def create_launch_template(user_data_file, template_name=None):
 
 if __name__ == '__main__':
 
-    #template_name = "FlyWheel"
-    #user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
     #template_name = "HTTP"
     #user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+    template_name = "FlyWheel"
+    user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
+    print(create_launch_template(user_data_file, template_name))
     template_name = "Crawler"
     user_data_file="../../../DockerStocksWeb/data/user_data.crawler.AWS.sh"
     print(create_launch_template(user_data_file, template_name))
