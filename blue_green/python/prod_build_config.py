@@ -56,7 +56,7 @@ auto_scaling_bundles = [
     ),
     Auto_Scaling_Bundle(
         asg_name="Auto-Scaling-GRP-BLUE",
-        asg_min_srv=1,
+        asg_min_srv=0,
         asg_max_srv=1,
         tg_name="Target-GRP-Auto-Scale-BLUE",
         tg_port=80,
