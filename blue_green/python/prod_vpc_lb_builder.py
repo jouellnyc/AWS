@@ -7,6 +7,7 @@ import time
 import json
 import base64
 import random
+import pprint
 
 from prod_build_config import (
     VPC,
@@ -24,6 +25,8 @@ from prod_build_config import (
 
 from aws_cred_objects import AWS_CREDS
 from aws_cert_mgr import get_cert_arn
+import update_dns_cloud_flare
+
 
 """ Pull in the Precise userdata for each instances build """
 user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.sh"
@@ -416,7 +419,6 @@ LS: {self.listener}"""
                  },
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
-                DesiredCapacity=1,
                 VPCZoneIdentifier=",".join([x.id for x in self.subnets]),
                 TargetGroupARNs=[TargetGroupARN],
             )
@@ -507,31 +509,29 @@ LS: {self.listener}"""
 
 if __name__ == "__main__":
 
-    try:
+    aws_creds = AWS_CREDS(aws_profile)
+    prod_vpc = BUILD(aws_creds, VPC)
+    print("Profile: ", aws_profile)
 
-        aws_creds = AWS_CREDS(aws_profile)
-        prod_vpc = BUILD(aws_creds, VPC)
-        print("Profile: ", aws_profile)
-
-        print(prod_vpc.my_create_vpc(tagged=True))
-        for subnet_bundle in subnet_bundles:
-            prod_vpc.my_create_subnet(subnet_bundle)
-        prod_vpc.my_create_igw()
-        prod_vpc.my_create_routes()
-        prod_vpc.my_create_keypair()
-        for sec_group in sec_groups:
-            prod_vpc.my_create_security_groups(sec_group)
-        for inst_prof_name in inst_profiles:
-            prod_vpc.my_create_instance_profile(inst_prof_name)
-        for role_name, role_file in roles:
-            prod_vpc.my_create_app_role(role_name, role_file)
-        for aws_policy_arn in aws_policies:
-            prod_vpc.my_attach_policy(aws_policy_arn)
-        for log_group_name in log_groups:
-            prod_vpc.my_create_log_groups(log_group_name)
-        prod_vpc.my_create_launch_template()
-        for auto_scaling_bundle in auto_scaling_bundles:
-            prod_vpc.my_create_t_a_p_group(auto_scaling_bundle, subnet_bundles)
-        prod_vpc.my_create_load_balancer(LoadBalancer)
-    except Exception as e:
-        print(e, type(e))
+    print(prod_vpc.my_create_vpc(tagged=True))
+    for subnet_bundle in subnet_bundles:
+        prod_vpc.my_create_subnet(subnet_bundle)
+    prod_vpc.my_create_igw()
+    prod_vpc.my_create_routes()
+    prod_vpc.my_create_keypair()
+    for sec_group in sec_groups:
+        prod_vpc.my_create_security_groups(sec_group)
+    for inst_prof_name in inst_profiles:
+        prod_vpc.my_create_instance_profile(inst_prof_name)
+    for role_name, role_file in roles:
+        prod_vpc.my_create_app_role(role_name, role_file)
+    for aws_policy_arn in aws_policies:
+        prod_vpc.my_attach_policy(aws_policy_arn)
+    for log_group_name in log_groups:
+        prod_vpc.my_create_log_groups(log_group_name)
+    prod_vpc.my_create_launch_template()
+    for auto_scaling_bundle in auto_scaling_bundles:
+        prod_vpc.my_create_t_a_p_group(auto_scaling_bundle, subnet_bundles)
+    prod_vpc.my_create_load_balancer(LoadBalancer)
+    print("LB: ", end='')
+    pprint.pprint(update_dns_cloud_flare.update_one_dns_record(update_dns_cloud_flare.WWW,'CNAME',prod_vpc.load_balancer['LoadBalancers'][0]['DNSName']))
