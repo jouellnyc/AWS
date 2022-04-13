@@ -101,6 +101,8 @@ class LoadBalancer:
     def __init__(self):
         self.name = "My-Web-Load-Balancer"
         self.targets = "My-Web-Targets"
-        self.port = 443 
-        self.proto = "HTTPS"
-        self.SslPolicy = "ELBSecurityPolicy-2016-08"
+        self.port = 80 
+        self.proto = "HTTP"
+        self.redirect_port = 443 
+        self.redirect_proto = "HTTPS"
+        self.redirect_status_code =  "HTTP_301"

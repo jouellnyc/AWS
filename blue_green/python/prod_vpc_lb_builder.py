@@ -485,19 +485,19 @@ LS: {self.listener}"""
             )
             self.listener = self.elbv2_client.create_listener(
                 LoadBalancerArn=self.LB_ARN,
-                Port=80,
-                Protocol="HTTP",
+                Port=self.LoadBalancer.port,
+                Protocol=self.LoadBalancer.proto,
                 DefaultActions=[
                     {
                         "Type": "redirect",
                         "Order": 1,
                         "RedirectConfig": {
-                            "Protocol": "HTTPS",
-                            "Port": "443",
+                            "Port": self.redirect_port,
+                            "Protocol": self.redirect_proto,
                             "Host": web_site_name,
                             "Path": "/#{path}",
                             "Query": "#{query}",
-                            "StatusCode": "HTTP_301",
+                            "StatusCode": self.redirect_status_code
                         },
                     }
                 ],

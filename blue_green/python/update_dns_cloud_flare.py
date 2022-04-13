@@ -34,6 +34,6 @@ def create_one_dns_record(dns_name, dns_type, dns_content):
     return cf.zones.dns_records.post(my_cf_zone_id, data=new_dns_record)
 
 if __name__ == '__main__':
-    print(update_one_dns_record('flywheel.justgrowthrates.com', 'A', '34.204.86.187'))
+    print(update_one_dns_record('flywheel.justgrowthrates.com', 'A', '107.21.183.125'))
     #print(update_one_dns_record(WWW, 'CNAME', '54.167.240.13'))
     #print(create_one_dns_record('flywheel.justgrowthrates.com', 'A', '54.167.240.13'))
