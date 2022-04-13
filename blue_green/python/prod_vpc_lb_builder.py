@@ -494,7 +494,7 @@ LS: {self.listener}"""
                         "RedirectConfig": {
                             "Protocol": "HTTPS",
                             "Port": "443",
-                            "Host": web_site_name
+                            "Host": web_site_name,
                             "Path": "/#{path}",
                             "Query": "#{query}",
                             "StatusCode": "HTTP_301",
