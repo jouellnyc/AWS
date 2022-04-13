@@ -21,6 +21,7 @@ from prod_build_config import (
     subnet_bundles,
     LoadBalancer,
     aws_profile,
+    web_site_name
 )
 
 from aws_cred_objects import AWS_CREDS
@@ -493,7 +494,7 @@ LS: {self.listener}"""
                         "RedirectConfig": {
                             "Protocol": "HTTPS",
                             "Port": "443",
-                            "Host": "www.justgrowthrates.com",
+                            "Host": web_site_name
                             "Path": "/#{path}",
                             "Query": "#{query}",
                             "StatusCode": "HTTP_301",

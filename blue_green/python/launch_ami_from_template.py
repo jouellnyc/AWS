@@ -9,12 +9,12 @@ from aws_cred_objects import AWS_CREDS
 
 def launch(name, version, subnet_id, max=1, min=1):
 
-        aws.ec2_res.create_instances(
+    print(aws.ec2_res.create_instances(
         LaunchTemplate={"LaunchTemplateName": name, "Version": str(version) },
         SubnetId = subnet_id,
         MinCount = min,
         MaxCount = max,
-    )
+    ))
     
 
 if __name__ == '__main__':
@@ -24,7 +24,8 @@ if __name__ == '__main__':
     #launch("Auto-Scaling-Launch-Template-Base", 1, subnet_id)
     #launch("HTTP", 1, subnet_id)
     #launch("FlyWheel", 1, subnet_id)
-    launch("Crawler", 1, subnet_id,min=50,max=50)
+    launch("Crawler", 1, subnet_id)
+    #launch("Crawler", 1, subnet_id,min=50,max=50)
     #launch("Crawler", 1, subnet_id,min=25,max=35)
     #Add instance ip to mongodb
     #Add flywheel ip to instance

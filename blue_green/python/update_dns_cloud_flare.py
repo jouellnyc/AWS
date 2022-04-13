@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 
+import sys
 import yaml
 
 import CloudFlare
@@ -16,11 +17,23 @@ def update_one_dns_record(dns_name, dns_type, dns_content):
     cf                         = CloudFlare.CloudFlare(token=BEARER_TOKEN)
     my_cf_zone_id              = cf.zones.get(params = {'name': DNS_ZONE })[0]['id']
     dns_zone_data              = cf.zones.dns_records.get(my_cf_zone_id)
-    dns_record_id    = [ x['id'] for x in dns_zone_data if (x['type'] == dns_type and x['name'] == WWW)][0]
-
+    # A list is returned. Pull the string out using ..[0]
+    try:
+        dns_record_id    = [ x['id'] for x in dns_zone_data if (x['type'] == dns_type and x['name'] == dns_name)][0]
+    except IndexError:
+        print(f"{dns_name} does not exist")
+        sys.exit(1)
     new_dns_record = {'name':dns_name, 'type':dns_type, 'ttl': 60, 'content': dns_content}
     return cf.zones.dns_records.put(my_cf_zone_id, dns_record_id, data=new_dns_record)
 
-if __name__ == '__main__':
+def create_one_dns_record(dns_name, dns_type, dns_content):
+    cf                         = CloudFlare.CloudFlare(token=BEARER_TOKEN)
+    my_cf_zone_id              = cf.zones.get(params = {'name': DNS_ZONE })[0]['id']
+    dns_zone_data              = cf.zones.dns_records.get(my_cf_zone_id)
+    new_dns_record = {'name':dns_name, 'type':dns_type, 'ttl': 60, 'content': dns_content}
+    return cf.zones.dns_records.post(my_cf_zone_id, data=new_dns_record)
 
-    print(update_one_dns_record(WWW, 'CNAME', 'hello5.aws.com'))
+if __name__ == '__main__':
+    print(update_one_dns_record('flywheel.justgrowthrates.com', 'A', '34.204.86.187'))
+    #print(update_one_dns_record(WWW, 'CNAME', '54.167.240.13'))
+    #print(create_one_dns_record('flywheel.justgrowthrates.com', 'A', '54.167.240.13'))

@@ -20,6 +20,8 @@ VPC = {
     "all": "0.0.0.0/0",
 }
 
+""" WWW Site Name """
+web_site_name = 'www.justgrowthrates.com'
 
 """ Security Groups Details """
 sec_groups = [

@@ -17,7 +17,6 @@ from aws_cred_objects import AWS_CREDS
 
 def create_launch_template(user_data_file, template_name=None):
 
-    group_map = { 'FlyWheel': ['9001', 'SSH']}
     aws = AWS_CREDS(aws_profile)
     ec2_inst= EC2_instance()
     """ These are all the groups          """
@@ -66,9 +65,8 @@ if __name__ == '__main__':
 
     #template_name = "HTTP"
     #user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
-    template_name = "FlyWheel"
-    user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
-    print(create_launch_template(user_data_file, template_name))
+    #template_name = "FlyWheel"
+    #user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
     template_name = "Crawler"
     user_data_file="../../../DockerStocksWeb/data/user_data.crawler.AWS.sh"
     print(create_launch_template(user_data_file, template_name))
