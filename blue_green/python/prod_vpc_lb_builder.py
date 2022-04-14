@@ -8,6 +8,7 @@ import json
 import base64
 import random
 import pprint
+import logging
 
 from prod_build_config import (
     VPC,
@@ -21,7 +22,7 @@ from prod_build_config import (
     subnet_bundles,
     LoadBalancer,
     aws_profile,
-    web_site_name
+    web_site_name,
 )
 
 from aws_cred_objects import AWS_CREDS
@@ -30,18 +31,19 @@ import update_dns_cloud_flare
 
 
 """ Pull in the Precise userdata for each instances build """
-user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+# user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.bespoke.all.sh"
 try:
     user_data = open(user_data_file, "r").read().encode("utf-8")
     encoded_user_data = base64.b64encode(user_data)
     userdata = encoded_user_data.decode("ascii")
 except OSError as e:
-    print('Try another file: ',e)
+    print("Try another file: ", e)
     sys.exit(1)
+
 
 class BUILD:
     def __init__(self, aws_creds, VPC):
-
         """ Things we imported """
         self.VPC = VPC
         self.vpc_cidr = self.VPC["vpc_cidr"]
@@ -54,7 +56,7 @@ class BUILD:
         self.elbv2_client = aws_creds.elbv2_client
         self.profile_name = aws_creds.profile_name
         self.ec2_inst = EC2_instance()
-        self.LoadBalancer = LoadBalancer()
+        self.myLoadBalancer = LoadBalancer()
 
         """ Things we will set via boto3 """
         self.sec_groups = {}
@@ -92,7 +94,7 @@ LS: {self.listener}"""
             if self.tagged:
                 self.vpctag = self.ec2_res.create_tags(
                     Resources=[self.vpcid],
-                    Tags=[{"Key": "Name", "Value": self.vpcname},],
+                    Tags=[{"Key": "Name", "Value": self.vpcname}, ],
                 )
 
         except Exception:
@@ -245,8 +247,8 @@ LS: {self.listener}"""
             """ Tag Group """
             time.sleep(5)
             self.ec2_res.meta.client.create_tags(
-                Resources=[self.sec_groups[sec_group.name].id,],
-                Tags=[{"Key": "Name", "Value": sec_group.name,},],
+                Resources=[self.sec_groups[sec_group.name].id, ],
+                Tags=[{"Key": "Name", "Value": sec_group.name, }, ],
             )
 
         except Exception as e:
@@ -263,9 +265,11 @@ LS: {self.listener}"""
 
         try:
             self.inst_prof_name = inst_prof_name
-            self.iam_client.create_instance_profile(InstanceProfileName=inst_prof_name)
+            self.iam_client.create_instance_profile(
+                InstanceProfileName=inst_prof_name)
         except self.iam_client.exceptions.EntityAlreadyExistsException:
-            print(f"IP: Instance Profle {inst_prof_name} Already Exists -- skipping")
+            print(
+                f"IP: Instance Profle {inst_prof_name} Already Exists -- skipping")
             pass
         except Exception as e:
             print("IP: Inst prof problem ", e)
@@ -345,13 +349,15 @@ LS: {self.listener}"""
         except Exception as e:
             print("PL: Policy Insertion problem ", e)
         else:
-            print(f"PL: Policy {policy_name} inserted to {self.app_role_name} OK ")
+            print(
+                f"PL: Policy {policy_name} inserted to {self.app_role_name} OK ")
 
     def my_attach_policy(self, aws_policy_arn):
         """ Attach the policy """
         try:
             role = "EC2AppRole"
-            self.iam_client.attach_role_policy(RoleName=role, PolicyArn=aws_policy_arn)
+            self.iam_client.attach_role_policy(
+                RoleName=role, PolicyArn=aws_policy_arn)
         except Exception as e:
             print("PL: Policy Attach problem ", e)
         else:
@@ -373,19 +379,18 @@ LS: {self.listener}"""
         """ Create the Launch Template """
         try:
             self.ec2_client.create_launch_template(
-                 LaunchTemplateName = self.ec2_inst.lt_name,
-
-                 LaunchTemplateData = {
-                     "EbsOptimized": False,
-                     "IamInstanceProfile": {"Name": self.inst_prof_name},
-                     "ImageId": self.ec2_inst.ami,
-                     "InstanceType": self.ec2_inst.type,
-                     "KeyName": f"{self.vpcid}-{self.profile_name}.pem",
-                     "Monitoring": {"Enabled": True},
-                     "SecurityGroupIds": [ x.id for x in self.sec_groups.values() ],
-                     "UserData": userdata
-                  }
-             )
+                LaunchTemplateName=self.ec2_inst.lt_name,
+                LaunchTemplateData={
+                    "EbsOptimized": False,
+                    "IamInstanceProfile": {"Name": self.inst_prof_name},
+                    "ImageId": self.ec2_inst.ami,
+                    "InstanceType": self.ec2_inst.type,
+                    "KeyName": f"{self.vpcid}-{self.profile_name}.pem",
+                    "Monitoring": {"Enabled": True},
+                    "SecurityGroupIds": [x.id for x in self.sec_groups.values()],
+                    "UserData": userdata,
+                },
+            )
         except Exception as e:
             print("LT: Launch Template problem: ", e)
         else:
@@ -415,9 +420,9 @@ LS: {self.listener}"""
             ] = self.as_client.create_auto_scaling_group(
                 AutoScalingGroupName=as_name,
                 LaunchTemplate={
-                        'LaunchTemplateName': self.ec2_inst.lt_name,
-                        'Version': str(1)
-                 },
+                    "LaunchTemplateName": self.ec2_inst.lt_name,
+                    "Version": str(1),
+                },
                 MaxSize=auto_scaling_bundle.asg_max_srv,
                 MinSize=auto_scaling_bundle.asg_min_srv,
                 VPCZoneIdentifier=",".join([x.id for x in self.subnets]),
@@ -444,24 +449,26 @@ LS: {self.listener}"""
             raise
         else:
             time.sleep(5)
-            print(f"TG: Target {tg_name} and Auto Scaling {as_name} groups created OK")
+            print(
+                f"TG: Target {tg_name} and Auto Scaling {as_name} groups created OK")
 
-    def my_create_load_balancer(self, LoadBalancer, randomAS=False):
+    def my_create_load_balancer(self, randomAS=False):
         """ Create The Load Balancer """
 
         try:
 
-            LBName = f"{self.LoadBalancer.name}-{self.vpcname}"
+            LBName = f"{self.myLoadBalancer.name}-{self.vpcname}"
 
             if randomAS:
                 """ We randomly choose the Target / ASGroup """
-                FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
+                FirstTg_Group = random.choice(
+                    [x for x in self.target_groups.keys()])
             else:
                 FirstTg_Group = "Target-GRP-Auto-Scale-GREEN"
 
             print(f"LB: {FirstTg_Group} chosen for Target Group")
 
-            self.load_balancer = self.elbv2_client.create_load_balancer(
+            self.load_balancer_response = self.elbv2_client.create_load_balancer(
                 Name=LBName,
                 Subnets=[x.id for x in self.subnets],
                 SecurityGroups=[x.id for x in self.sec_groups.values()],
@@ -469,41 +476,50 @@ LS: {self.listener}"""
 
             print(f"LB: {LBName} Created  OK")
 
-            self.LB_ARN = self.load_balancer["LoadBalancers"][0]["LoadBalancerArn"]
+            self.LB_ARN = self.load_balancer_response["LoadBalancers"][0][
+                "LoadBalancerArn"
+            ]
             Tg_Grn = self.target_groups[FirstTg_Group]["TargetGroups"][0][
                 "TargetGroupArn"
             ]
 
             self.CertARN = get_cert_arn()
+
+
             self.listener = self.elbv2_client.create_listener(
                 DefaultActions=[{"TargetGroupArn": Tg_Grn, "Type": "forward",},],
                 LoadBalancerArn=self.LB_ARN,
-                Port=LoadBalancer.port,
-                Protocol=LoadBalancer.proto,
-                SslPolicy=LoadBalancer.SslPolicy,
+                Port=self.myLoadBalancer.port,
+                Protocol=self.myLoadBalancer.proto,
+                SslPolicy=self.myLoadBalancer.SslPolicy,
                 Certificates=[{"CertificateArn": self.CertARN,},],
             )
+
+            
+            #Port Numbers are int or strs in different place as per 
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/elbv2.html
             self.listener = self.elbv2_client.create_listener(
                 LoadBalancerArn=self.LB_ARN,
-                Port=self.LoadBalancer.port,
-                Protocol=self.LoadBalancer.proto,
+                Port=self.myLoadBalancer.redirect_port,
+                Protocol=self.myLoadBalancer.redirect_proto,
                 DefaultActions=[
                     {
                         "Type": "redirect",
                         "Order": 1,
                         "RedirectConfig": {
-                            "Port": self.redirect_port,
-                            "Protocol": self.redirect_proto,
+                            "Port": str(self.myLoadBalancer.redirect_port),
+                            "Protocol": str(self.myLoadBalancer.redirect_proto),
                             "Host": web_site_name,
                             "Path": "/#{path}",
                             "Query": "#{query}",
-                            "StatusCode": self.redirect_status_code
+                            "StatusCode": self.myLoadBalancer.redirect_status_code,
                         },
                     }
                 ],
             )
         except Exception as e:
-            print("LB: LB problem: ", e)
+            logging.exception(f"LB problem: {e}")
+            breakpoint()
         else:
             print(f"LB: Target Group {FirstTg_Group} attached to {LBName} OK")
 
@@ -533,7 +549,12 @@ if __name__ == "__main__":
     prod_vpc.my_create_launch_template()
     for auto_scaling_bundle in auto_scaling_bundles:
         prod_vpc.my_create_t_a_p_group(auto_scaling_bundle, subnet_bundles)
-    prod_vpc.my_create_load_balancer(LoadBalancer)
-    print("LB: ", end='')
-    pprint.pprint(update_dns_cloud_flare.update_one_dns_record(update_dns_cloud_flare.WWW,'CNAME',prod_vpc.load_balancer['LoadBalancers'][0]['DNSName']))
-    breakpoint()
+    prod_vpc.my_create_load_balancer()
+    print("LB: ", end="")
+    pprint.pprint(
+        update_dns_cloud_flare.update_one_dns_record(
+            update_dns_cloud_flare.WWW,
+            "CNAME",
+            prod_vpc.load_balancer_response["LoadBalancers"][0]["DNSName"],
+        )
+    )

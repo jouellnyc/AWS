@@ -55,7 +55,7 @@ auto_scaling_bundles = [
         tg_name="Target-GRP-Auto-Scale-GREEN",
         tg_port=80,
         tg_proto="HTTP",
-        asg_cpu_scale_out='70.0',
+        asg_cpu_scale_out=70.0,
     ),
     Auto_Scaling_Bundle(
         asg_name="Auto-Scaling-GRP-BLUE",
@@ -64,7 +64,7 @@ auto_scaling_bundles = [
         tg_name="Target-GRP-Auto-Scale-BLUE",
         tg_port=80,
         tg_proto="HTTP",
-        asg_cpu_scale_out='70.0',
+        asg_cpu_scale_out=70.0,
     ),
 ]
 
