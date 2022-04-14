@@ -94,7 +94,7 @@ LS: {self.listener}"""
             if self.tagged:
                 self.vpctag = self.ec2_res.create_tags(
                     Resources=[self.vpcid],
-                    Tags=[{"Key": "Name", "Value": self.vpcname}, ],
+                    Tags=[{"Key": "Name", "Value": self.vpcname},],
                 )
 
         except Exception:
@@ -247,8 +247,8 @@ LS: {self.listener}"""
             """ Tag Group """
             time.sleep(5)
             self.ec2_res.meta.client.create_tags(
-                Resources=[self.sec_groups[sec_group.name].id, ],
-                Tags=[{"Key": "Name", "Value": sec_group.name, }, ],
+                Resources=[self.sec_groups[sec_group.name].id,],
+                Tags=[{"Key": "Name", "Value": sec_group.name,},],
             )
 
         except Exception as e:
@@ -265,11 +265,9 @@ LS: {self.listener}"""
 
         try:
             self.inst_prof_name = inst_prof_name
-            self.iam_client.create_instance_profile(
-                InstanceProfileName=inst_prof_name)
+            self.iam_client.create_instance_profile(InstanceProfileName=inst_prof_name)
         except self.iam_client.exceptions.EntityAlreadyExistsException:
-            print(
-                f"IP: Instance Profle {inst_prof_name} Already Exists -- skipping")
+            print(f"IP: Instance Profle {inst_prof_name} Already Exists -- skipping")
             pass
         except Exception as e:
             print("IP: Inst prof problem ", e)
@@ -349,15 +347,13 @@ LS: {self.listener}"""
         except Exception as e:
             print("PL: Policy Insertion problem ", e)
         else:
-            print(
-                f"PL: Policy {policy_name} inserted to {self.app_role_name} OK ")
+            print(f"PL: Policy {policy_name} inserted to {self.app_role_name} OK ")
 
     def my_attach_policy(self, aws_policy_arn):
         """ Attach the policy """
         try:
             role = "EC2AppRole"
-            self.iam_client.attach_role_policy(
-                RoleName=role, PolicyArn=aws_policy_arn)
+            self.iam_client.attach_role_policy(RoleName=role, PolicyArn=aws_policy_arn)
         except Exception as e:
             print("PL: Policy Attach problem ", e)
         else:
@@ -449,8 +445,7 @@ LS: {self.listener}"""
             raise
         else:
             time.sleep(5)
-            print(
-                f"TG: Target {tg_name} and Auto Scaling {as_name} groups created OK")
+            print(f"TG: Target {tg_name} and Auto Scaling {as_name} groups created OK")
 
     def my_create_load_balancer(self, randomAS=False):
         """ Create The Load Balancer """
@@ -461,8 +456,7 @@ LS: {self.listener}"""
 
             if randomAS:
                 """ We randomly choose the Target / ASGroup """
-                FirstTg_Group = random.choice(
-                    [x for x in self.target_groups.keys()])
+                FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
             else:
                 FirstTg_Group = "Target-GRP-Auto-Scale-GREEN"
 
@@ -479,36 +473,35 @@ LS: {self.listener}"""
             self.LB_ARN = self.load_balancer_response["LoadBalancers"][0][
                 "LoadBalancerArn"
             ]
+
             Tg_Grn = self.target_groups[FirstTg_Group]["TargetGroups"][0][
                 "TargetGroupArn"
             ]
 
             self.CertARN = get_cert_arn()
 
-
             self.listener = self.elbv2_client.create_listener(
                 DefaultActions=[{"TargetGroupArn": Tg_Grn, "Type": "forward",},],
                 LoadBalancerArn=self.LB_ARN,
-                Port=self.myLoadBalancer.port,
-                Protocol=self.myLoadBalancer.proto,
+                Port=self.myLoadBalancer.redirect_to_port,
+                Protocol=self.myLoadBalancer.redirect_to_proto,
                 SslPolicy=self.myLoadBalancer.SslPolicy,
                 Certificates=[{"CertificateArn": self.CertARN,},],
             )
 
-            
-            #Port Numbers are int or strs in different place as per 
+            # Port Numbers are int or strs in different place as per
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/elbv2.html
             self.listener = self.elbv2_client.create_listener(
                 LoadBalancerArn=self.LB_ARN,
-                Port=self.myLoadBalancer.redirect_port,
-                Protocol=self.myLoadBalancer.redirect_proto,
+                Port=self.myLoadBalancer.port,
+                Protocol=self.myLoadBalancer.proto,
                 DefaultActions=[
                     {
                         "Type": "redirect",
                         "Order": 1,
                         "RedirectConfig": {
-                            "Port": str(self.myLoadBalancer.redirect_port),
-                            "Protocol": str(self.myLoadBalancer.redirect_proto),
+                            "Port": str(self.myLoadBalancer.redirect_to_port),
+                            "Protocol": str(self.myLoadBalancer.redirect_to_proto),
                             "Host": web_site_name,
                             "Path": "/#{path}",
                             "Query": "#{query}",

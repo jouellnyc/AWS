@@ -106,6 +106,6 @@ class LoadBalancer:
         self.SslPolicy = "ELBSecurityPolicy-2016-08"
         self.port = 80 
         self.proto = "HTTP"
-        self.redirect_port = 443 
-        self.redirect_proto = "HTTPS"
+        self.redirect_to_port = 443 
+        self.redirect_to_proto = "HTTPS"
         self.redirect_status_code =  "HTTP_301"
