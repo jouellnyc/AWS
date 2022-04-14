@@ -55,6 +55,7 @@ auto_scaling_bundles = [
         tg_name="Target-GRP-Auto-Scale-GREEN",
         tg_port=80,
         tg_proto="HTTP",
+        asg_cpu_scale_out='70.0',
     ),
     Auto_Scaling_Bundle(
         asg_name="Auto-Scaling-GRP-BLUE",
@@ -63,6 +64,7 @@ auto_scaling_bundles = [
         tg_name="Target-GRP-Auto-Scale-BLUE",
         tg_port=80,
         tg_proto="HTTP",
+        asg_cpu_scale_out='70.0',
     ),
 ]
 
@@ -101,6 +103,7 @@ class LoadBalancer:
     def __init__(self):
         self.name = "My-Web-Load-Balancer"
         self.targets = "My-Web-Targets"
+        self.SslPolicy = "ELBSecurityPolicy-2016-08"
         self.port = 80 
         self.proto = "HTTP"
         self.redirect_port = 443 

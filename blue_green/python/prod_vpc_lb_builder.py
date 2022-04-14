@@ -430,7 +430,7 @@ LS: {self.listener}"""
                 PolicyName="cpu-alert",
                 PolicyType="TargetTrackingScaling",
                 TargetTrackingConfiguration={
-                    "TargetValue": 70.0,
+                    "TargetValue": auto_scaling_bundle.asg_cpu_scale_out,
                     "PredefinedMetricSpecification": {
                         "PredefinedMetricType": "ASGAverageCPUUtilization"
                     },
@@ -478,9 +478,9 @@ LS: {self.listener}"""
             self.listener = self.elbv2_client.create_listener(
                 DefaultActions=[{"TargetGroupArn": Tg_Grn, "Type": "forward",},],
                 LoadBalancerArn=self.LB_ARN,
-                Port=self.LoadBalancer.port,
-                Protocol=self.LoadBalancer.proto,
-                SslPolicy=self.LoadBalancer.SslPolicy,
+                Port=LoadBalancer.port,
+                Protocol=LoadBalancer.proto,
+                SslPolicy=LoadBalancer.SslPolicy,
                 Certificates=[{"CertificateArn": self.CertARN,},],
             )
             self.listener = self.elbv2_client.create_listener(
@@ -536,3 +536,4 @@ if __name__ == "__main__":
     prod_vpc.my_create_load_balancer(LoadBalancer)
     print("LB: ", end='')
     pprint.pprint(update_dns_cloud_flare.update_one_dns_record(update_dns_cloud_flare.WWW,'CNAME',prod_vpc.load_balancer['LoadBalancers'][0]['DNSName']))
+    breakpoint()

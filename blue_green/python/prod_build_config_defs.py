@@ -12,7 +12,7 @@ Sec_Group = namedtuple("Sec_Group", ["port", "name", "description", "proto", "my
 
 Auto_Scaling_Bundle = namedtuple(
     "Auto_Scaling_Bundle",
-    ["asg_name", "asg_min_srv", "asg_max_srv", "tg_name", "tg_port", "tg_proto"],
+    ["asg_name", "asg_min_srv", "asg_max_srv", "tg_name", "tg_port", "tg_proto","asg_cpu_scale_out"],
 )
 
 Subnet_Bundle = namedtuple("Subnet_Bundle", ["cidr", "az", "subnet_name"])
