@@ -21,15 +21,21 @@ VPC = {
 }
 
 """ WWW Site Name """
-web_site_name = 'www.justgrowthrates.com'
+web_site_name = "www.justgrowthrates.com"
 
 """ Security Groups Details """
 sec_groups = [
-    Sec_Group(port=22, name="SSH",   description="SSH", proto="tcp",       myip=VPC["mycidr"]),
-    Sec_Group(port=443,name="HTTPS", description="HTTPS", proto="tcp",     myip=VPC["mycidr"]),
-    Sec_Group(port=80, name="HTTP",  description="HTTP", proto="tcp",      myip=VPC["mycidr"]),
-    Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp",   myip="HTTP"),
-    Sec_Group(port=9001, name="FlyWheel", description="FlyWheel", proto="tcp", myip=VPC["all"]),
+    Sec_Group(port=22, name="SSH", description="SSH", proto="tcp", myip=VPC["mycidr"]),
+    Sec_Group(
+        port=443, name="HTTPS", description="HTTPS", proto="tcp", myip=VPC["mycidr"]
+    ),
+    Sec_Group(
+        port=80, name="HTTP", description="HTTP", proto="tcp", myip=VPC["mycidr"]
+    ),
+    Sec_Group(port=80, name="LB2EC2", description="LB2EC2", proto="tcp", myip="HTTP"),
+    Sec_Group(
+        port=9001, name="FlyWheel", description="FlyWheel", proto="tcp", myip=VPC["all"]
+    ),
 ]
 
 
@@ -104,8 +110,8 @@ class LoadBalancer:
         self.name = "My-Web-Load-Balancer"
         self.targets = "My-Web-Targets"
         self.SslPolicy = "ELBSecurityPolicy-2016-08"
-        self.port = 80 
+        self.port = 80
         self.proto = "HTTP"
-        self.redirect_to_port = 443 
+        self.redirect_to_port = 443
         self.redirect_to_proto = "HTTPS"
-        self.redirect_status_code =  "HTTP_301"
+        self.redirect_status_code = "HTTP_301"

@@ -14,7 +14,8 @@ from prod_build_config import (
 rolename = "EC2AppRole"
 inst_prof = "AWS_EC2_INSTANCE_PROFILE_ROLE"
 
-#kill launch template.
+# kill launch template.
+
 
 def delete_items(aws_creds):
 
@@ -100,16 +101,13 @@ def delete_items(aws_creds):
         else:
             print(f"No Error Deleting Log Group {lg}")
 
-
     for lb in aws_creds.elbv2_client.describe_load_balancers()["LoadBalancers"]:
         aws_creds.elbv2_client.delete_load_balancer(
             LoadBalancerArn=lb["LoadBalancerArn"]
         )
         print("LB deleted OK")
 
-    for asg in aws_creds.as_client.describe_auto_scaling_groups()[
-        "AutoScalingGroups"
-    ]:
+    for asg in aws_creds.as_client.describe_auto_scaling_groups()["AutoScalingGroups"]:
         aws_creds.as_client.delete_auto_scaling_group(
             AutoScalingGroupName=asg["AutoScalingGroupName"], ForceDelete=True
         )
@@ -125,18 +123,21 @@ def delete_items(aws_creds):
         print("Launch Configs Deleted OK")
         time.sleep(3)
 
-    for lt in aws_creds.ec2_res.meta.client.describe_launch_templates()['LaunchTemplates']:
+    for lt in aws_creds.ec2_res.meta.client.describe_launch_templates()[
+        "LaunchTemplates"
+    ]:
         try:
-            aws_creds.ec2_res.meta.client.delete_launch_template(LaunchTemplateName=lt['LaunchTemplateName'])
+            aws_creds.ec2_res.meta.client.delete_launch_template(
+                LaunchTemplateName=lt["LaunchTemplateName"]
+            )
         except Exception as e:
             print(f"Problem Deleting {lt['LaunchTemplateName']}")
         else:
             print(f"Deleted {lt['LaunchTemplateName']}")
 
     for tg in aws_creds.elbv2_client.describe_target_groups()["TargetGroups"]:
-        aws_creds.elbv2_client.delete_target_group(
-            TargetGroupArn=tg["TargetGroupArn"]
-        )
+        aws_creds.elbv2_client.delete_target_group(TargetGroupArn=tg["TargetGroupArn"])
+
 
 if __name__ == "__main__":
 

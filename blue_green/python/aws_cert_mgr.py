@@ -14,8 +14,12 @@ Cert Data will look like this:
 
 aws_creds = AWS_CREDS(profile_name=aws_profile)
 
+
 def get_cert_arn():
-    return aws_creds.acm_client.list_certificates()['CertificateSummaryList'][0]['CertificateArn']
+    return aws_creds.acm_client.list_certificates()["CertificateSummaryList"][0][
+        "CertificateArn"
+    ]
+
 
 if __name__ == "__main__":
     print(get_cert_arn())

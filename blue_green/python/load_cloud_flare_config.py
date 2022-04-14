@@ -2,17 +2,22 @@
 
 
 import yaml
-CLOAD_FLARE_CONFIG ='cloudflare.yaml'
+
+CLOAD_FLARE_CONFIG = "cloudflare.yaml"
+
 
 def get_cf_config():
-    with open(CLOAD_FLARE_CONFIG, 'r') as file:
+    with open(CLOAD_FLARE_CONFIG, "r") as file:
         return yaml.safe_load(file)
 
+
 def get_bearer_token():
-    return get_cf_config()['BearerToken']
+    return get_cf_config()["BearerToken"]
+
 
 def get_dns_zone():
-    return get_cf_config()['DNS_ZONE']
+    return get_cf_config()["DNS_ZONE"]
+
 
 if __name__ == "__main__":
     print(get_cf_config())

@@ -18,36 +18,46 @@ from aws_cred_objects import AWS_CREDS
 def create_launch_template(user_data_file, template_name=None):
 
     aws = AWS_CREDS(aws_profile)
-    ec2_inst= EC2_instance()
+    ec2_inst = EC2_instance()
     """ These are all the groups          """
     """ Needs to be different for FlyWheel """
 
     if template_name:
-        fly_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['FlyWheel']} ])['SecurityGroups'][0]['GroupId']
-        ssh_id = aws.ec2_res.meta.client.describe_security_groups(Filters=[ { 'Name':'group-name', 'Values':['SSH']} ])['SecurityGroups'][0]['GroupId']
-        if template_name == 'FlyWheel':
-            sec_group_ids = [ fly_id, ssh_id ]
+        fly_id = aws.ec2_res.meta.client.describe_security_groups(
+            Filters=[{"Name": "group-name", "Values": ["FlyWheel"]}]
+        )["SecurityGroups"][0]["GroupId"]
+        ssh_id = aws.ec2_res.meta.client.describe_security_groups(
+            Filters=[{"Name": "group-name", "Values": ["SSH"]}]
+        )["SecurityGroups"][0]["GroupId"]
+        if template_name == "FlyWheel":
+            sec_group_ids = [fly_id, ssh_id]
         else:
-            sec_group_ids  = [ x['GroupId'] for x in aws.ec2_res.meta.client.describe_security_groups()["SecurityGroups"] if x['GroupId'] != fly_id ]
+            sec_group_ids = [
+                x["GroupId"]
+                for x in aws.ec2_res.meta.client.describe_security_groups()[
+                    "SecurityGroups"
+                ]
+                if x["GroupId"] != fly_id
+            ]
 
     try:
         user_data = open(user_data_file, "r").read().encode("utf-8")
     except OSError as e:
-        print('Try another file: ',e)
+        print("Try another file: ", e)
         sys.exit(1)
 
     encoded_user_data = base64.b64encode(user_data)
     str_encoded_user_data = encoded_user_data.decode("ascii")
 
     INSTANCE_PROFILE = inst_profiles[0]
-    AMI              = ec2_inst.ami
-    LAUNCH_TEMPLATE  = template_name or ec2_inst.lt_name
-    INSTANCE_TYPE    = ec2_inst.type
-    VPCID            = aws.ec2_res.meta.client.describe_vpcs()["Vpcs"][0]['VpcId']
-    KEYNAME          = f"{VPCID}-{aws_profile}.pem"
+    AMI = ec2_inst.ami
+    LAUNCH_TEMPLATE = template_name or ec2_inst.lt_name
+    INSTANCE_TYPE = ec2_inst.type
+    VPCID = aws.ec2_res.meta.client.describe_vpcs()["Vpcs"][0]["VpcId"]
+    KEYNAME = f"{VPCID}-{aws_profile}.pem"
 
-    return  aws.ec2_res.meta.client.create_launch_template(
-        LaunchTemplateName= LAUNCH_TEMPLATE,
+    return aws.ec2_res.meta.client.create_launch_template(
+        LaunchTemplateName=LAUNCH_TEMPLATE,
         LaunchTemplateData={
             "EbsOptimized": False,
             "IamInstanceProfile": {"Name": INSTANCE_PROFILE},
@@ -56,21 +66,21 @@ def create_launch_template(user_data_file, template_name=None):
             "KeyName": KEYNAME,
             "Monitoring": {"Enabled": True},
             "SecurityGroupIds": sec_group_ids,
-            "UserData": str_encoded_user_data
-        }
+            "UserData": str_encoded_user_data,
+        },
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
-    #template_name = "HTTP"
-    #user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
+    # template_name = "HTTP"
+    # user_data_file="../../../DockerStocksWeb/data/user_data.http.AWS.sh"
     template_name = "Crawler-flywheel"
-    user_data_file="../../../DockerStocksWeb/data/user_data.crawler.flywheel.AWS.sh"
+    user_data_file = "../../../DockerStocksWeb/data/user_data.crawler.flywheel.AWS.sh"
     print(create_launch_template(user_data_file, template_name))
     template_name = "FlyWheel"
-    user_data_file="../../../DockerStocksWeb/data/user_data.flywheel.sh"
+    user_data_file = "../../../DockerStocksWeb/data/user_data.flywheel.sh"
     print(create_launch_template(user_data_file, template_name))
     template_name = "Crawler-all-date"
-    user_data_file="../../../DockerStocksWeb/data/user_data.crawler.all.date.AWS.sh"
+    user_data_file = "../../../DockerStocksWeb/data/user_data.crawler.all.date.AWS.sh"
     print(create_launch_template(user_data_file, template_name))
