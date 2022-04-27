@@ -16,7 +16,7 @@ region_name = "us-east-1"
 VPC = {
     "vpcname": "MyVPC3",
     "vpc_cidr": "10.0.0.0/16",
-    "mycidr": "104.162.76.246/32",
+    "mycidr": "104.162.78.13/32",
     "all": "0.0.0.0/0",
 }
 
