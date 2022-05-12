@@ -511,7 +511,6 @@ LS: {self.listener}"""
             )
         except Exception as e:
             logging.exception(f"LB problem: {e}")
-            breakpoint()
         else:
             print(f"LB: Target Group {FirstTg_Group} attached to {LBName} OK")
 
