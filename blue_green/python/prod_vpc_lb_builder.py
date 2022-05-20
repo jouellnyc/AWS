@@ -541,7 +541,7 @@ if __name__ == "__main__":
     for auto_scaling_bundle in auto_scaling_bundles:
         prod_vpc.my_create_t_a_p_group(auto_scaling_bundle, subnet_bundles)
     prod_vpc.my_create_load_balancer()
-    print("LB: ", end="")
+    print("LBDNS: ", end="")
     pprint.pprint(
         update_dns_cloud_flare.update_one_dns_record(
             update_dns_cloud_flare.WWW,
