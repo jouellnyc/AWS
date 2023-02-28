@@ -31,7 +31,7 @@ import update_dns_cloud_flare
 
 
 """ Pull in the Precise userdata for each instances build """
-user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.bespoke.all.sh"
+user_data_file = "../../../DockerStocksWeb/data/user_data.http.AWS.web.app.crawler.Hosted.mongo.sh"
 try:
     user_data = open(user_data_file, "r").read().encode("utf-8")
     encoded_user_data = base64.b64encode(user_data)

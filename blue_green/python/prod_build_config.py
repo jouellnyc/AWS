@@ -8,7 +8,7 @@ from prod_build_config_defs import (
 )
 
 """ AWS Account """
-aws_profile = "stocks"
+aws_profile = "u2f"
 
 """ VPC Details """
 region_name = "us-east-1"
