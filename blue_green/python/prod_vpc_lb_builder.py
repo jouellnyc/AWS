@@ -176,17 +176,18 @@ LS: {self.listener}"""
         """ Create Keypairs """
 
         try:
+            self.key_file_name=f"{self.vpcid}-{self.profile_name}.pem"
             self.key_pair = self.ec2_res.create_key_pair(
-                KeyName=f"{self.vpcid}-{self.profile_name}.pem"
+                KeyName=self.key_file_name
             )
 
-            with open(f"{self.vpcid}-{self.profile_name}.pem", "w") as file:
+            with open(self.key_file_name, "w") as file:
                 file.write(self.key_pair.key_material)
 
         except Exception as e:
             print("KP: KeyPair Create Failed ", e)
         else:
-            print("KP: KeyPair Created and Saved OK")
+            print(f"KP: KeyPair Created and Saved OK as {self.key_file_name}")
 
     def my_create_security_groups(self, sec_group):
 
@@ -380,7 +381,7 @@ LS: {self.listener}"""
                     "IamInstanceProfile": {"Name": self.inst_prof_name},
                     "ImageId": self.ec2_inst.ami,
                     "InstanceType": self.ec2_inst.type,
-                    "KeyName": f"{self.vpcid}-{self.profile_name}.pem",
+                    "KeyName": self.key_file_name,
                     "Monitoring": {"Enabled": True},
                     "SecurityGroupIds": [x.id for x in self.sec_groups.values()],
                     "UserData": userdata,
@@ -520,7 +521,6 @@ if __name__ == "__main__":
     aws_creds = AWS_CREDS(aws_profile)
     prod_vpc = BUILD(aws_creds, VPC)
     print("Profile: ", aws_profile)
-
     print(prod_vpc.my_create_vpc(tagged=True))
     for subnet_bundle in subnet_bundles:
         prod_vpc.my_create_subnet(subnet_bundle)
