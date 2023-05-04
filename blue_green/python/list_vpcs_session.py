@@ -25,8 +25,6 @@ def main(aws_creds):
                 name = "No Name Set"
             except Exception as e:
                 print(type(e), e)
-            else:
-                pass
             finally:
                 print(vpcid, name)
 

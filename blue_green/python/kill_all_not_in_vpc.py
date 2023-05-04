@@ -50,7 +50,6 @@ def delete_items(aws_creds):
                     f"Failed to Remove {policy_arn} from Profile {role.name} - skipping ",
                     e,
                 )
-                pass
             else:
                 print(f"Removed  {policy_arn} from Profile {role.name}  OK")
 
@@ -67,7 +66,6 @@ def delete_items(aws_creds):
                     f"Failed to Remove {rolename} from Profile {inst_prof} - skipping ",
                     e,
                 )
-                pass
             else:
                 print(f"Removed Role {rolename} from Profile {inst_prof} OK")
 
@@ -77,7 +75,6 @@ def delete_items(aws_creds):
             print(f"Role {role.name} does not exist at all")
         except Exception as e:
             print(f"Failed to Delete Role {role.name} - skipping -", e)
-            pass
         else:
             print(f"Deleted Instance Role {role.name} OK")
 
