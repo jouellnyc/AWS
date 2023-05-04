@@ -14,5 +14,5 @@ if __name__ == "__main__":
     insts = [("flywheel", fresponse), ("crawler", cresponse)]
 
     for x in insts:
-        with open(x[0] + ".json", "w") as write_file:
+        with open(f"{x[0]}.json", "w") as write_file:
             json.dump(x[1], write_file, indent=4, sort_keys=True)

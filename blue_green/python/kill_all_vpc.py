@@ -64,7 +64,6 @@ def vpc_delete(vpcid, aws_creds):
                 print(
                     f"SG {sec_group['GroupName']} {sec_group['GroupId']} does not have a group dependancy"
                 )
-                pass
             else:
                 print(
                     f"SG {sec_group['GroupName']} {sec_group['GroupId']} has a "

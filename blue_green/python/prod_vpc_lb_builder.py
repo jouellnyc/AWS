@@ -99,10 +99,7 @@ LS: {self.listener}"""
         except Exception:
             raise
         else:
-            if self.tagged:
-                return self.message + "and tagged OK"
-            else:
-                return self.message + "OK"
+            return f"{self.message}and tagged OK" if self.tagged else f"{self.message}OK"
 
     def my_create_subnet(self, subnet_bundle):
         """ Create Subnets in precise Availability Zones """
@@ -268,7 +265,6 @@ LS: {self.listener}"""
             self.iam_client.create_instance_profile(InstanceProfileName=inst_prof_name)
         except self.iam_client.exceptions.EntityAlreadyExistsException:
             print(f"IP: Instance Profle {inst_prof_name} Already Exists -- skipping")
-            pass
         except Exception as e:
             print("IP: Inst prof problem ", e)
         else:
@@ -289,10 +285,8 @@ LS: {self.listener}"""
             )
         except self.iam_client.exceptions.EntityAlreadyExistsException:
             print(f"AR: App role {app_role_name} Already Exists -- skipping")
-            pass
         except Exception as e:
             print("AR: App Role problem - Still need to insert to Inst Prof", e)
-            pass
         else:
             print(f"AR: App role {app_role_name} Created OK")
 
@@ -302,7 +296,6 @@ LS: {self.listener}"""
             )
         except self.iam_client.exceptions.LimitExceededException:
             print(f"AR: {inst_prof_name} already has a Role --  Skipping")
-            pass
         except Exception as e:
             print(
                 "AR: Problem adding role {app_role_name} to instance profile {inst_prof_name} ",
@@ -330,7 +323,6 @@ LS: {self.listener}"""
 
         except self.iam_client.exceptions.EntityAlreadyExistsException:
             print(f"PL: Policy {policy_name} Already exists -- skipping")
-            pass
         except Exception as e:
             print("PL: Policy Creation problem ", e)
         else:
@@ -365,7 +357,6 @@ LS: {self.listener}"""
             self.logs_client.create_log_group(logGroupName=log_group_name)
         except self.logs_client.exceptions.ResourceAlreadyExistsException:
             print(f"LG: Log Group {log_group_name} Already Exists -- skipping")
-            pass
         except Exception as e:
             print("LG: Log Group problem ", e)
         else:
@@ -440,7 +431,6 @@ LS: {self.listener}"""
 
         except self.elbv2_client.exceptions.DuplicateTargetGroupNameException:
             print("TG: Target Group Exists Already -- skipping")
-            pass
         except Exception:
             raise
         else:
@@ -456,7 +446,7 @@ LS: {self.listener}"""
 
             if randomAS:
                 """ We randomly choose the Target / ASGroup """
-                FirstTg_Group = random.choice([x for x in self.target_groups.keys()])
+                FirstTg_Group = random.choice(list(self.target_groups.keys()))
             else:
                 FirstTg_Group = "Target-GRP-Auto-Scale-GREEN"
 
